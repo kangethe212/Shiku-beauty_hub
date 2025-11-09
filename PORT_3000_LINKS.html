@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Her Beauty Hub - All Links (Port 3000)</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #FF6B9D 0%, #FFD700 50%, #C77DFF 100%);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .header {
+            text-align: center;
+            color: white;
+            padding: 30px 0;
+        }
+        .header h1 {
+            font-size: 56px;
+            margin: 0;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: block;
+        }
+        .card:hover {
+            transform: translateY(-15px) scale(1.05);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+        }
+        .icon {
+            font-size: 50px;
+            margin-bottom: 15px;
+        }
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .url {
+            font-family: monospace;
+            color: #666;
+            font-size: 14px;
+            background: #F3F4F6;
+            padding: 8px 15px;
+            border-radius: 10px;
+            margin-top: 10px;
+        }
+        .new-badge {
+            background: #EF4444;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: bold;
+            margin-left: 8px;
+        }
+        .special {
+            background: linear-gradient(135deg, #FF6B9D, #FFB7C5);
+            color: white;
+        }
+        .special .title, .special .url {
+            color: white;
+            background: rgba(255,255,255,0.2);
+        }
+        .instructions {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 1200px;
+            margin: 20px auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .instructions h2 {
+            color: #FF6B9D;
+            margin-top: 0;
+        }
+        .step {
+            background: #FFF8F3;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 15px;
+            border-left: 5px solid #FF6B9D;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>✨ Her Beauty Hub ✨</h1>
+        <p style="font-size: 24px; margin: 10px 0;">Server Running on PORT 3000</p>
+        <div style="background: rgba(255,255,255,0.2); display: inline-block; padding: 15px 30px; border-radius: 50px; font-size: 20px; font-weight: bold; margin-top: 20px;">
+            ✅ All Dependencies Installed
+        </div>
+    </div>
+
+    <div class="grid">
+        <!-- Main Website -->
+        <a href="http://127.0.0.1:3000/" class="card special" target="_blank">
+            <div class="icon">🌐</div>
+            <div class="title">Your Website</div>
+            <p style="color: white; opacity: 0.9;">See the beautiful design!</p>
+            <div class="url">127.0.0.1:3000</div>
+        </a>
+
+        <!-- Admin Panel -->
+        <a href="http://127.0.0.1:3000/admin/" class="card special" target="_blank">
+            <div class="icon">🎛️</div>
+            <div class="title">Admin Panel</div>
+            <p style="color: white; opacity: 0.9;">Manage everything!</p>
+            <div class="url">127.0.0.1:3000/admin</div>
+        </a>
+
+        <!-- Services -->
+        <a href="http://127.0.0.1:3000/services/" class="card" target="_blank">
+            <div class="icon">💇</div>
+            <div class="title">Services</div>
+            <div class="url">127.0.0.1:3000/services</div>
+        </a>
+
+        <!-- Gallery -->
+        <a href="http://127.0.0.1:3000/gallery/" class="card" target="_blank">
+            <div class="icon">🖼️</div>
+            <div class="title">Gallery</div>
+            <div class="url">127.0.0.1:3000/gallery</div>
+        </a>
+
+        <!-- Videos -->
+        <a href="http://127.0.0.1:3000/videos/" class="card" target="_blank">
+            <div class="icon">🎬</div>
+            <div class="title">Videos <span class="new-badge">NEW</span></div>
+            <div class="url">127.0.0.1:3000/videos</div>
+        </a>
+
+        <!-- Offers -->
+        <a href="http://127.0.0.1:3000/offers/" class="card" target="_blank">
+            <div class="icon">💰</div>
+            <div class="title">Offers <span class="new-badge">HOT</span></div>
+            <div class="url">127.0.0.1:3000/offers</div>
+        </a>
+
+        <!-- Products -->
+        <a href="http://127.0.0.1:3000/products/" class="card" target="_blank">
+            <div class="icon">🛍️</div>
+            <div class="title">Products</div>
+            <div class="url">127.0.0.1:3000/products</div>
+        </a>
+
+        <!-- Booking -->
+        <a href="http://127.0.0.1:3000/booking/" class="card" target="_blank">
+            <div class="icon">📅</div>
+            <div class="title">Booking</div>
+            <div class="url">127.0.0.1:3000/booking</div>
+        </a>
+
+        <!-- Contact -->
+        <a href="http://127.0.0.1:3000/contact/" class="card" target="_blank">
+            <div class="icon">📞</div>
+            <div class="title">Contact</div>
+            <div class="url">127.0.0.1:3000/contact</div>
+        </a>
+    </div>
+
+    <div class="instructions">
+        <h2>📝 Quick Start Guide:</h2>
+        
+        <div class="step">
+            <strong>🎯 Step 1: Open Your Website</strong><br>
+            Click the "Your Website" card above or visit:<br>
+            <code>http://127.0.0.1:3000/</code>
+        </div>
+        
+        <div class="step">
+            <strong>👤 Step 2: Create Admin Account</strong><br>
+            First time only! Double-click: <code><strong>CREATE_ADMIN.bat</strong></code><br>
+            Or run in terminal: <code>python manage.py createsuperuser</code>
+        </div>
+        
+        <div class="step">
+            <strong>🎛️ Step 3: Login to Admin</strong><br>
+            Click the "Admin Panel" card above<br>
+            Login with your superuser credentials
+        </div>
+        
+        <div class="step">
+            <strong>📝 Step 4: Add Your Content</strong><br>
+            • Add 3-5 Services (Hair Styling, Makeup, etc.)<br>
+            • Upload 6-10 Gallery images<br>
+            • Add 2-3 Testimonials<br>
+            • Create 1-2 Daily Offers<br>
+            • Update Business Information<br>
+            • Add Social Media links
+        </div>
+        
+        <div class="step">
+            <strong>🎉 Step 5: Enjoy Your Beautiful Website!</strong><br>
+            Go back to homepage and see your content displayed beautifully!
+        </div>
+    </div>
+
+    <div style="text-align: center; color: white; padding: 40px; font-size: 18px;">
+        <p style="font-size: 32px; font-weight: bold; margin-bottom: 10px;">✨ Your Professional Website is Ready! ✨</p>
+        <p>Featuring: Video Gallery • Flash Sales • International Pricing • Customer Reviews</p>
+        <p style="margin-top: 20px;">Built with 💕 for Her Beauty Hub</p>
+    </div>
+</body>
+</html>
+
+

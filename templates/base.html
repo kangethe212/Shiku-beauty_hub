@@ -1,0 +1,509 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Shiku Beauty Hub - Hair, Fashion & Beauty{% endblock %}</title>
+    
+    <!-- Professional Favicon -->
+    <link rel="icon" type="image/svg+xml" href="{% static 'favicon.svg' %}">
+    <link rel="apple-touch-icon" href="{% static 'logo-icon.svg' %}">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Enhanced Professional Color Scheme */
+        :root {
+            /* Primary Brand Colors */
+            --primary-pink: #FF6B9D;
+            --primary-rose: #FE90AF;
+            --primary-blush: #FFB7C5;
+            
+            /* Secondary Colors */
+            --gold: #FFD700;
+            --gold-light: #FFE44D;
+            --purple: #C77DFF;
+            --purple-light: #E0AAFF;
+            
+            /* Neutral Colors */
+            --cream: #FFF8F3;
+            --cream-dark: #FFE8DB;
+            --gray-50: #F9FAFB;
+            --gray-100: #F3F4F6;
+            --gray-800: #1F2937;
+            --gray-900: #111827;
+            
+            /* Accent Colors */
+            --success: #10B981;
+            --warning: #F59E0B;
+            --danger: #EF4444;
+            --info: #3B82F6;
+            
+            /* Gradients */
+            --gradient-pink: linear-gradient(135deg, #FF6B9D 0%, #FFB7C5 100%);
+            --gradient-gold: linear-gradient(135deg, #FFD700 0%, #FFE44D 100%);
+            --gradient-purple: linear-gradient(135deg, #C77DFF 0%, #E0AAFF 100%);
+            --gradient-sunset: linear-gradient(135deg, #FF6B9D 0%, #FFD700 50%, #C77DFF 100%);
+            
+            /* Shadows */
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(249, 107, 157, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(249, 107, 157, 0.2);
+            --shadow-xl: 0 20px 25px -5px rgba(249, 107, 157, 0.3);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--cream);
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', serif;
+            color: var(--gray-900);
+        }
+        
+        /* Smooth animations */
+        .fade-in {
+            animation: fadeIn 1s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .slide-in-left {
+            animation: slideInLeft 0.6s ease-out;
+        }
+        
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        .hover-lift {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .hover-lift:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl);
+        }
+        
+        .hover-scale {
+            transition: transform 0.3s ease;
+        }
+        
+        .hover-scale:hover {
+            transform: scale(1.05);
+        }
+        
+        /* Mobile menu animation */
+        .mobile-menu {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        
+        .mobile-menu.active {
+            max-height: 500px;
+        }
+        
+        /* Gradient text */
+        .gradient-text {
+            background: var(--gradient-sunset);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        /* Glass effect */
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+        
+        /* Button styles */
+        .btn-primary {
+            background: var(--gradient-pink);
+            color: white;
+            padding: 12px 32px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .btn-primary:hover {
+            box-shadow: var(--shadow-xl);
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: var(--gradient-gold);
+            color: var(--gray-900);
+            padding: 12px 32px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-md);
+        }
+        
+        /* Card styles */
+        .card-hover {
+            transition: all 0.3s ease;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: var(--shadow-xl);
+        }
+        
+        /* Badge styles */
+        .badge-new {
+            background: var(--gradient-pink);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .badge-sale {
+            background: var(--danger);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+        
+        /* Loading animation */
+        .loading-spinner {
+            border: 3px solid var(--cream-dark);
+            border-top: 3px solid var(--primary-pink);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: var(--cream);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--gradient-pink);
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-pink);
+        }
+    </style>
+    
+    {% block extra_css %}{% endblock %}
+</head>
+<body class="bg-white">
+    
+    <!-- Enhanced Sticky Navbar with Gradient -->
+    <nav class="sticky top-0 z-50 glass-effect shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Professional Logo -->
+                <div class="flex-shrink-0">
+                    <a href="{% url 'index' %}" class="flex items-center logo-hover">
+                        <img src="{% static 'logo.svg' %}" alt="Shiku Beauty Hub" class="h-16 transition-transform duration-300 hover:scale-105">
+                    </a>
+                </div>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex space-x-6">
+                    <a href="{% url 'index' %}" class="text-gray-800 hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r hover:from-pink-500 hover:to-purple-500 transition duration-300 font-semibold">Home</a>
+                    <a href="{% url 'hairstyles' %}" class="text-gray-800 hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r hover:from-pink-500 hover:to-purple-500 transition duration-300 font-semibold">Hair Styles</a>
+                    <a href="{% url 'perfumes' %}" class="text-gray-800 hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r hover:from-pink-500 hover:to-purple-500 transition duration-300 font-semibold">Perfumes</a>
+                    <a href="{% url 'clothes' %}" class="text-gray-800 hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r hover:from-pink-500 hover:to-purple-500 transition duration-300 font-semibold">Fashion</a>
+                    <a href="{% url 'gallery' %}" class="text-gray-800 hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r hover:from-pink-500 hover:to-purple-500 transition duration-300 font-semibold">Gallery</a>
+                    <a href="{% url 'videos' %}" class="text-gray-800 hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r hover:from-pink-500 hover:to-purple-500 transition duration-300 font-semibold">Videos</a>
+                    <a href="{% url 'offers' %}" class="relative text-gray-800 hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r hover:from-pink-500 hover:to-purple-500 transition duration-300 font-semibold">
+                        Offers 
+                        <span class="badge-sale absolute -top-2 -right-6 text-xs">HOT</span>
+                    </a>
+                </div>
+                
+                <!-- CTA Button -->
+                <div class="hidden md:block">
+                    <a href="{% url 'booking' %}" class="btn-primary inline-flex items-center">
+                        <i class="fas fa-calendar-check mr-2"></i>
+                        Book Now
+                    </a>
+                </div>
+                
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="text-gray-800 hover:text-pink-500 focus:outline-none">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Enhanced Mobile Menu -->
+        <div id="mobile-menu" class="mobile-menu md:hidden glass-effect border-t border-pink-200">
+            <div class="px-4 pt-2 pb-4 space-y-2">
+                <a href="{% url 'index' %}" class="block py-3 px-4 rounded-lg text-gray-800 hover:bg-gradient-to-r hover:from-pink-100 hover:to-purple-100 transition duration-300 font-semibold">
+                    <i class="fas fa-home mr-2"></i>Home
+                </a>
+                <a href="{% url 'hairstyles' %}" class="block py-3 px-4 rounded-lg text-gray-800 hover:bg-gradient-to-r hover:from-pink-100 hover:to-purple-100 transition duration-300 font-semibold">
+                    <i class="fas fa-cut mr-2"></i>Hair Styles
+                </a>
+                <a href="{% url 'perfumes' %}" class="block py-3 px-4 rounded-lg text-gray-800 hover:bg-gradient-to-r hover:from-pink-100 hover:to-purple-100 transition duration-300 font-semibold">
+                    <i class="fas fa-spray-can mr-2"></i>Perfumes
+                </a>
+                <a href="{% url 'clothes' %}" class="block py-3 px-4 rounded-lg text-gray-800 hover:bg-gradient-to-r hover:from-pink-100 hover:to-purple-100 transition duration-300 font-semibold">
+                    <i class="fas fa-tshirt mr-2"></i>Fashion
+                </a>
+                <a href="{% url 'gallery' %}" class="block py-3 px-4 rounded-lg text-gray-800 hover:bg-gradient-to-r hover:from-pink-100 hover:to-purple-100 transition duration-300 font-semibold">
+                    <i class="fas fa-images mr-2"></i>Gallery
+                </a>
+                <a href="{% url 'videos' %}" class="block py-3 px-4 rounded-lg text-gray-800 hover:bg-gradient-to-r hover:from-pink-100 hover:to-purple-100 transition duration-300 font-semibold">
+                    <i class="fas fa-video mr-2"></i>Videos
+                </a>
+                <a href="{% url 'offers' %}" class="block py-3 px-4 rounded-lg text-gray-800 hover:bg-gradient-to-r hover:from-pink-100 hover:to-purple-100 transition duration-300 font-semibold">
+                    <i class="fas fa-fire mr-2"></i>Hot Offers 🔥
+                </a>
+                <a href="{% url 'booking' %}" class="block py-3 px-4 rounded-lg bg-gradient-to-r from-pink-500 to-purple-500 text-white text-center font-bold mt-2">
+                    <i class="fas fa-calendar-check mr-2"></i>Book Appointment
+                </a>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Main Content -->
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+    
+    <!-- Footer -->
+    <footer class="bg-gradient-to-r from-pink-100 to-amber-50 mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- About Section -->
+                <div>
+                    <h3 class="text-2xl font-bold mb-4" style="color: #f9c5d1;">Shiku Beauty Hub</h3>
+                    <p class="text-gray-600 mb-4">
+                        Empowering women through beauty, style, and confidence. Your one-stop destination for hair, fashion, and fragrance.
+                    </p>
+                </div>
+                
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="text-lg font-semibold mb-4 text-gray-800">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="{% url 'index' %}" class="text-gray-600 hover:text-pink-400 transition duration-300">Home</a></li>
+                        <li><a href="{% url 'about' %}" class="text-gray-600 hover:text-pink-400 transition duration-300">About Us</a></li>
+                        <li><a href="{% url 'services' %}" class="text-gray-600 hover:text-pink-400 transition duration-300">Our Services</a></li>
+                        <li><a href="{% url 'gallery' %}" class="text-gray-600 hover:text-pink-400 transition duration-300">Gallery</a></li>
+                        <li><a href="{% url 'contact' %}" class="text-gray-600 hover:text-pink-400 transition duration-300">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Social Media -->
+                <div>
+                    <h4 class="text-lg font-semibold mb-4 text-gray-800">Connect With Us</h4>
+                    <div class="flex space-x-4">
+                        <a href="https://instagram.com" target="_blank" class="w-10 h-10 rounded-full flex items-center justify-center text-white hover:scale-110 transition duration-300" style="background: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://tiktok.com" target="_blank" class="w-10 h-10 bg-black rounded-full flex items-center justify-center text-white hover:scale-110 transition duration-300">
+                            <i class="fab fa-tiktok"></i>
+                        </a>
+                        <a href="https://youtube.com" target="_blank" class="w-10 h-10 bg-red-600 rounded-full flex items-center justify-center text-white hover:scale-110 transition duration-300">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                        <a href="https://wa.me/254796465104" target="_blank" class="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center text-white hover:scale-110 transition duration-300">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                    </div>
+                    <p class="text-gray-600 mt-4">
+                        <i class="fas fa-phone mr-2" style="color: #f9c5d1;"></i>
+                        0796 465 104
+                    </p>
+                    <p class="text-gray-600 mt-2">
+                        <i class="fas fa-envelope mr-2" style="color: #f9c5d1;"></i>
+                        hello@herbeautyhub.com
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Copyright -->
+            <div class="border-t border-pink-200 mt-8 pt-8 text-center">
+                <p class="text-gray-600">
+                    &copy; 2025 Shiku Beauty Hub. All rights reserved. Designed with 💕 for you.
+                </p>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Cute WhatsApp Floating Button -->
+    <a href="https://wa.me/254796465104?text=Hi%20Her%20Beauty%20Hub!%20I'm%20interested%20in%20your%20products%20%F0%9F%92%96" 
+       target="_blank" 
+       class="whatsapp-float"
+       title="Chat with us on WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+        <span class="whatsapp-text">Chat with us 💬</span>
+    </a>
+    
+    <style>
+        /* Cute WhatsApp Floating Button */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            box-shadow: 0 8px 20px rgba(37, 211, 102, 0.4);
+            z-index: 1000;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            animation: whatsapp-pulse 2s infinite;
+        }
+        
+        .whatsapp-float:hover {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 12px 30px rgba(37, 211, 102, 0.6);
+            width: auto;
+            border-radius: 30px;
+            padding: 0 20px;
+            gap: 10px;
+        }
+        
+        .whatsapp-float:hover .whatsapp-text {
+            display: inline;
+            animation: slideIn 0.3s ease;
+        }
+        
+        .whatsapp-text {
+            display: none;
+            font-size: 16px;
+            font-weight: 600;
+            white-space: nowrap;
+            margin-left: 8px;
+        }
+        
+        @keyframes whatsapp-pulse {
+            0%, 100% {
+                box-shadow: 0 8px 20px rgba(37, 211, 102, 0.4);
+            }
+            50% {
+                box-shadow: 0 8px 30px rgba(37, 211, 102, 0.7), 0 0 0 15px rgba(37, 211, 102, 0.1);
+            }
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        /* Mobile adjustments */
+        @media (max-width: 768px) {
+            .whatsapp-float {
+                bottom: 20px;
+                right: 20px;
+                width: 55px;
+                height: 55px;
+                font-size: 28px;
+            }
+        }
+        
+        /* Add pink notification badge */
+        .whatsapp-float::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(135deg, #FF6B9D, #FFB7C5);
+            border-radius: 50%;
+            border: 3px solid white;
+            animation: badge-bounce 1s infinite;
+        }
+        
+        @keyframes badge-bounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+    </style>
+    
+    <!-- Mobile Menu Toggle Script -->
+    <script>
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('active');
+            const icon = mobileMenuButton.querySelector('i');
+            if (mobileMenu.classList.contains('active')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        });
+    </script>
+    
+    {% block extra_js %}{% endblock %}
+</body>
+</html>
+

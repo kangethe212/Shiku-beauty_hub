@@ -1,0 +1,891 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Gallery - Shiku Beauty Hub{% endblock %}
+
+{% block content %}
+
+<!-- Cute Animated Hero Banner -->
+<section class="gallery-hero relative overflow-hidden py-24">
+    <div class="hero-background-pattern"></div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+        <div class="animate-float">
+            <h1 class="text-5xl md:text-7xl font-bold mb-4">
+                <span class="gradient-text-animated">Our Work Speaks Beauty</span> 💕
+            </h1>
+            <p class="text-xl md:text-2xl text-gray-700 mb-6">
+                ✨ Real transformations • Real students • Real results ✨
+            </p>
+            <div class="flex justify-center gap-4 flex-wrap">
+                <span class="cute-badge pink-badge">📸 10+ Stunning Photos</span>
+                <span class="cute-badge purple-badge">💇 Expert Hairstyling</span>
+                <span class="cute-badge gold-badge">⭐ Award-Winning Work</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Floating hearts decoration -->
+    <div class="floating-hearts">
+        <div class="heart">💖</div>
+        <div class="heart">✨</div>
+        <div class="heart">💕</div>
+        <div class="heart">🌸</div>
+        <div class="heart">⭐</div>
+        <div class="heart">💎</div>
+    </div>
+</section>
+
+<!-- Category Filters (Cute Pills) -->
+<section class="py-8 bg-white sticky top-20 z-40 shadow-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-center gap-3 flex-wrap">
+            <button onclick="filterGallery('all')" class="filter-pill active" data-filter="all">
+                <i class="fas fa-th mr-2"></i>All Work
+            </button>
+            <button onclick="filterGallery('hairstyles')" class="filter-pill" data-filter="hairstyles">
+                <i class="fas fa-cut mr-2"></i>Hairstyles
+            </button>
+            <button onclick="filterGallery('products')" class="filter-pill" data-filter="products">
+                <i class="fas fa-spray-can mr-2"></i>Perfumes
+            </button>
+            <button onclick="filterGallery('fashion')" class="filter-pill" data-filter="fashion">
+                <i class="fas fa-tshirt mr-2"></i>Fashion
+            </button>
+        </div>
+    </div>
+</section>
+
+<!-- Beautiful Gallery Grid with Cute Animations -->
+<section class="py-16" style="background: linear-gradient(135deg, #FFF8F3 0%, #FFE8DB 50%, #FFF8F3 100%);">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        {% if gallery_items %}
+        <div class="gallery-grid">
+            {% for item in gallery_items %}
+            <!-- Gallery Item {{ forloop.counter }} -->
+            <div class="gallery-item {% if item.featured %}featured{% endif %}" 
+                 data-category="{{ item.category }}"
+                 onclick="openLightbox({{ forloop.counter }}, '{{ item.image.url }}', '{{ item.title|escapejs }}')">
+                
+                <div class="gallery-image-wrapper">
+                    <img src="{{ item.image.url }}" alt="{{ item.title }}" class="gallery-image">
+                    
+                    <!-- Cute overlay with hearts -->
+                    <div class="gallery-overlay">
+                        <div class="overlay-content">
+                            <div class="heart-burst">
+                                <span>💖</span>
+                                <span>✨</span>
+                                <span>💕</span>
+                            </div>
+                            <p class="overlay-title">{{ item.title }}</p>
+                            <div class="overlay-icons">
+                                <i class="fas fa-search-plus"></i>
+                                <span class="mx-2">•</span>
+                                <i class="fas fa-heart"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Category badge -->
+                    {% if item.category == 'hairstyles' %}
+                    <div class="category-badge pink-badge">
+                        <i class="fas fa-cut mr-1"></i>Hair
+                    </div>
+                    {% elif item.category == 'products' %}
+                    <div class="category-badge purple-badge">
+                        <i class="fas fa-spray-can mr-1"></i>Perfume
+                    </div>
+                    {% elif item.category == 'fashion' %}
+                    <div class="category-badge gold-badge">
+                        <i class="fas fa-tshirt mr-1"></i>Fashion
+                    </div>
+                    {% endif %}
+                    
+                    <!-- Featured star -->
+                    {% if item.featured %}
+                    <div class="featured-star">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    {% endif %}
+                </div>
+                
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <!-- Cute empty state -->
+        <div class="text-center py-20">
+            <div class="animate-bounce-cute mb-6">
+                <i class="fas fa-camera text-9xl text-pink-300"></i>
+            </div>
+            <h3 class="text-3xl font-bold text-gray-800 mb-4">Gallery Coming Soon! 📸</h3>
+            <p class="text-xl text-gray-600 mb-8">We're uploading our beautiful transformations!</p>
+            <a href="{% url 'hairstyles' %}" class="inline-flex items-center px-8 py-4 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-full font-bold hover:scale-105 transition duration-300">
+                <i class="fas fa-cut mr-2"></i>
+                Browse Hairstyles Instead
+            </a>
+        </div>
+        {% endif %}
+        
+    </div>
+</section>
+
+<!-- Social Media Section with Cute Animation -->
+<section class="py-20 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div class="animate-on-scroll">
+            <div class="text-6xl mb-6 animate-bounce-cute">
+                📱✨💕
+            </div>
+            <h2 class="text-4xl md:text-5xl font-bold mb-4">
+                <span class="gradient-text">Follow Us on Social Media</span>
+            </h2>
+            <p class="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
+                Stay updated with our latest looks, exclusive student offers, and beauty tips! 
+                Tag us <strong>#ShikuBeautyHub</strong> for a chance to be featured! 🌟
+            </p>
+            
+            <!-- Social Icons with Cute Hover -->
+            <div class="flex justify-center gap-6 mb-8">
+                <a href="https://instagram.com" target="_blank" class="social-icon instagram-gradient">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="https://tiktok.com" target="_blank" class="social-icon tiktok-gradient">
+                    <i class="fab fa-tiktok"></i>
+                </a>
+                <a href="https://youtube.com" target="_blank" class="social-icon youtube-gradient">
+                    <i class="fab fa-youtube"></i>
+                </a>
+                <a href="https://wa.me/254796465104" target="_blank" class="social-icon whatsapp-gradient">
+                    <i class="fab fa-whatsapp"></i>
+                </a>
+            </div>
+            
+            <div class="inline-block bg-gradient-to-r from-pink-100 via-purple-100 to-yellow-100 rounded-2xl px-8 py-4">
+                <p class="font-bold text-gray-800 text-lg">
+                    #ShikuBeautyHub • #GlowStyleConfidence
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Cute CTA Section -->
+<section class="py-20 bg-gradient-to-br from-pink-100 via-purple-100 to-yellow-100">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="bg-white rounded-3xl p-10 md:p-16 text-center shadow-2xl animate-on-scroll">
+            <div class="text-6xl mb-6 animate-wiggle">
+                💖
+            </div>
+            <h2 class="text-4xl md:text-5xl font-bold mb-6 text-gray-800">
+                Ready to Look <span class="gradient-text">Amazing</span>?
+            </h2>
+            <p class="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
+                Book your appointment today and join 500+ happy students who trust Shiku Beauty Hub! ✨
+            </p>
+            <div class="flex justify-center gap-4 flex-wrap">
+                <a href="{% url 'booking' %}" class="cta-cute pink-cta">
+                    <i class="fas fa-calendar-check mr-2"></i>
+                    Book Appointment
+                </a>
+                <a href="https://wa.me/254796465104?text=Hi%20Shiku!%20I%20want%20to%20book%20a%20service%20💖" target="_blank" class="cta-cute green-cta">
+                    <i class="fab fa-whatsapp mr-2"></i>
+                    WhatsApp Us
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Lightbox Modal (Cute Design) -->
+<div id="lightbox" class="lightbox" onclick="closeLightbox()">
+    <div class="lightbox-close" onclick="closeLightbox()">
+        <i class="fas fa-times"></i>
+    </div>
+    <div class="lightbox-content-wrapper" id="lightbox-content">
+        <!-- Dynamic content -->
+    </div>
+    <div class="lightbox-nav">
+        <button onclick="previousImage(event)" class="nav-button">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        <button onclick="nextImage(event)" class="nav-button">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+    </div>
+</div>
+
+<style>
+/* ========================================
+   CUTE GALLERY STYLES
+======================================== */
+
+/* Hero Background Pattern */
+.gallery-hero {
+    background: linear-gradient(135deg, #FFB7C5 0%, #E0AAFF 50%, #FFE44D 100%);
+    position: relative;
+}
+
+.hero-background-pattern {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 40% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+    animation: pattern-float 20s ease-in-out infinite;
+}
+
+@keyframes pattern-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+}
+
+/* Floating Hearts */
+.floating-hearts {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.floating-hearts .heart {
+    position: absolute;
+    font-size: 2rem;
+    opacity: 0;
+    animation: float-up 8s ease-in infinite;
+}
+
+.heart:nth-child(1) { left: 10%; animation-delay: 0s; }
+.heart:nth-child(2) { left: 30%; animation-delay: 2s; }
+.heart:nth-child(3) { left: 50%; animation-delay: 4s; }
+.heart:nth-child(4) { left: 70%; animation-delay: 1s; }
+.heart:nth-child(5) { left: 85%; animation-delay: 3s; }
+.heart:nth-child(6) { left: 20%; animation-delay: 5s; }
+
+@keyframes float-up {
+    0% {
+        bottom: -10%;
+        opacity: 0;
+        transform: translateX(0) rotate(0deg);
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        bottom: 110%;
+        opacity: 0;
+        transform: translateX(50px) rotate(360deg);
+    }
+}
+
+/* Cute Badges */
+.cute-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.75rem 1.5rem;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: white;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    animation: badge-float 3s ease-in-out infinite;
+}
+
+.pink-badge { background: linear-gradient(135deg, #FF6B9D, #FFB7C5); }
+.purple-badge { background: linear-gradient(135deg, #C77DFF, #E0AAFF); }
+.gold-badge { background: linear-gradient(135deg, #FFD700, #FFE44D); }
+
+@keyframes badge-float {
+    0%, 100% { transform: translateY(0) rotate(-2deg); }
+    50% { transform: translateY(-8px) rotate(2deg); }
+}
+
+/* Animated gradient text */
+.gradient-text-animated {
+    background: linear-gradient(90deg, #FF6B9D, #C77DFF, #FFD700, #FF6B9D);
+    background-size: 300% 100%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradient-flow 4s ease infinite;
+}
+
+@keyframes gradient-flow {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+/* Float animation for hero */
+@keyframes animate-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+.animate-float {
+    animation: animate-float 3s ease-in-out infinite;
+}
+
+/* Filter Pills */
+.filter-pill {
+    padding: 0.75rem 1.5rem;
+    border-radius: 50px;
+    border: 2px solid #E5E7EB;
+    background: white;
+    color: #6B7280;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.filter-pill:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(255, 107, 157, 0.2);
+    border-color: #FF6B9D;
+}
+
+.filter-pill.active {
+    background: linear-gradient(135deg, #FF6B9D, #C77DFF);
+    color: white;
+    border-color: transparent;
+    box-shadow: 0 8px 20px rgba(255, 107, 157, 0.4);
+}
+
+/* Gallery Grid (Masonry-style) */
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    animation: fadeIn 1s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Gallery Items */
+.gallery-item {
+    position: relative;
+    border-radius: 24px;
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: popIn 0.6s ease-out backwards;
+}
+
+.gallery-item:nth-child(1) { animation-delay: 0.1s; }
+.gallery-item:nth-child(2) { animation-delay: 0.2s; }
+.gallery-item:nth-child(3) { animation-delay: 0.3s; }
+.gallery-item:nth-child(4) { animation-delay: 0.4s; }
+.gallery-item:nth-child(5) { animation-delay: 0.5s; }
+.gallery-item:nth-child(6) { animation-delay: 0.6s; }
+.gallery-item:nth-child(n+7) { animation-delay: 0.7s; }
+
+@keyframes popIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.8) rotate(-5deg);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) rotate(0);
+    }
+}
+
+.gallery-item:hover {
+    transform: translateY(-10px) scale(1.03) rotate(1deg);
+    box-shadow: 0 25px 50px rgba(255, 107, 157, 0.3);
+    z-index: 10;
+}
+
+.gallery-item.featured {
+    box-shadow: 0 8px 30px rgba(199, 125, 255, 0.4);
+}
+
+/* Gallery Image Wrapper */
+.gallery-image-wrapper {
+    position: relative;
+    aspect-ratio: 1;
+    overflow: hidden;
+}
+
+.gallery-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+}
+
+.gallery-item:hover .gallery-image {
+    transform: scale(1.15);
+}
+
+/* Cute Overlay */
+.gallery-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to top, rgba(255, 107, 157, 0.95), rgba(199, 125, 255, 0.8));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.gallery-item:hover .gallery-overlay {
+    opacity: 1;
+}
+
+.overlay-content {
+    text-align: center;
+    color: white;
+    transform: translateY(20px);
+    transition: transform 0.4s ease;
+}
+
+.gallery-item:hover .overlay-content {
+    transform: translateY(0);
+}
+
+/* Heart burst animation */
+.heart-burst {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.heart-burst span {
+    display: inline-block;
+    animation: heart-pop 0.6s ease-out backwards;
+}
+
+.heart-burst span:nth-child(1) { animation-delay: 0.1s; }
+.heart-burst span:nth-child(2) { animation-delay: 0.2s; }
+.heart-burst span:nth-child(3) { animation-delay: 0.3s; }
+
+@keyframes heart-pop {
+    0% {
+        transform: scale(0) rotate(-180deg);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.2) rotate(10deg);
+    }
+    100% {
+        transform: scale(1) rotate(0);
+        opacity: 1;
+    }
+}
+
+.overlay-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.overlay-icons {
+    font-size: 1.5rem;
+}
+
+/* Category & Featured Badges */
+.category-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(5px);
+}
+
+.featured-star {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, #FFD700, #FFE44D);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.25rem;
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.5);
+    animation: star-rotate 4s linear infinite;
+}
+
+@keyframes star-rotate {
+    0%, 100% { transform: rotate(0deg) scale(1); }
+    50% { transform: rotate(180deg) scale(1.1); }
+}
+
+/* Social Icons */
+.social-icon {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 2rem;
+    text-decoration: none;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+    animation: icon-bounce 2s ease-in-out infinite;
+}
+
+.social-icon:hover {
+    transform: translateY(-10px) rotate(10deg) scale(1.1);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+}
+
+.instagram-gradient {
+    background: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);
+}
+
+.tiktok-gradient {
+    background: linear-gradient(135deg, #000000, #EE1D52);
+}
+
+.youtube-gradient {
+    background: linear-gradient(135deg, #FF0000, #CC0000);
+}
+
+.whatsapp-gradient {
+    background: linear-gradient(135deg, #25D366, #128C7E);
+}
+
+@keyframes icon-bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
+.social-icon:nth-child(1) { animation-delay: 0s; }
+.social-icon:nth-child(2) { animation-delay: 0.2s; }
+.social-icon:nth-child(3) { animation-delay: 0.4s; }
+.social-icon:nth-child(4) { animation-delay: 0.6s; }
+
+/* Cute CTA Buttons */
+.cta-cute {
+    display: inline-flex;
+    align-items: center;
+    padding: 1.25rem 2.5rem;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 1.125rem;
+    color: white;
+    text-decoration: none;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.cta-cute::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.cta-cute:hover::before {
+    width: 400px;
+    height: 400px;
+}
+
+.cta-cute:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+}
+
+.pink-cta {
+    background: linear-gradient(135deg, #FF6B9D, #FFB7C5);
+}
+
+.green-cta {
+    background: linear-gradient(135deg, #25D366, #128C7E);
+}
+
+/* Wiggle animation */
+@keyframes animate-wiggle {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(-10deg); }
+    75% { transform: rotate(10deg); }
+}
+
+.animate-wiggle {
+    animation: animate-wiggle 2s ease-in-out infinite;
+}
+
+/* Cute bounce */
+@keyframes animate-bounce-cute {
+    0%, 100% {
+        transform: translateY(0) scale(1);
+    }
+    50% {
+        transform: translateY(-20px) scale(1.05);
+    }
+}
+
+.animate-bounce-cute {
+    animation: animate-bounce-cute 2s ease-in-out infinite;
+}
+
+/* Lightbox Styles */
+.lightbox {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.95);
+    z-index: 99999;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(10px);
+}
+
+.lightbox.active {
+    display: flex;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.lightbox-close {
+    position: absolute;
+    top: 30px;
+    right: 40px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.lightbox-close:hover {
+    background: rgba(255, 107, 157, 0.9);
+    transform: rotate(90deg) scale(1.1);
+}
+
+.lightbox-content-wrapper {
+    max-width: 90%;
+    max-height: 90%;
+    animation: zoomIn 0.4s ease-out;
+}
+
+@keyframes zoomIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.lightbox-content-wrapper img {
+    max-width: 100%;
+    max-height: 85vh;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(255, 107, 157, 0.4);
+}
+
+/* Navigation buttons */
+.lightbox-nav {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 1rem;
+    z-index: 10;
+}
+
+.nav-button {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    font-size: 1.25rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.nav-button:hover {
+    background: rgba(255, 107, 157, 0.8);
+    transform: scale(1.1);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .gallery-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 1rem;
+    }
+    
+    .cute-badge {
+        font-size: 0.75rem;
+        padding: 0.5rem 1rem;
+    }
+    
+    .social-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 1.5rem;
+    }
+}
+</style>
+
+<script>
+// Gallery filter functionality
+let currentFilter = 'all';
+
+function filterGallery(category) {
+    currentFilter = category;
+    const items = document.querySelectorAll('.gallery-item');
+    const pills = document.querySelectorAll('.filter-pill');
+    
+    // Update active pill
+    pills.forEach(pill => pill.classList.remove('active'));
+    document.querySelector(`[data-filter="${category}"]`).classList.add('active');
+    
+    // Filter items with cute animation
+    items.forEach((item, index) => {
+        const itemCategory = item.getAttribute('data-category');
+        
+        if (category === 'all' || itemCategory === category) {
+            item.style.display = 'block';
+            item.style.animation = `popIn 0.6s ease-out ${index * 0.1}s backwards`;
+        } else {
+            item.style.display = 'none';
+        }
+    });
+}
+
+// Lightbox functionality
+let currentImageIndex = 0;
+let galleryImages = [];
+
+function openLightbox(index, imageUrl, title) {
+    const lightbox = document.getElementById('lightbox');
+    const content = document.getElementById('lightbox-content');
+    
+    currentImageIndex = index - 1;
+    
+    // Build gallery images array
+    galleryImages = Array.from(document.querySelectorAll('.gallery-item')).map(item => ({
+        url: item.querySelector('img').src,
+        title: item.querySelector('.overlay-title')?.textContent || 'Beautiful Work'
+    }));
+    
+    updateLightboxContent();
+    lightbox.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+    const lightbox = document.getElementById('lightbox');
+    lightbox.classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+function previousImage(event) {
+    event.stopPropagation();
+    currentImageIndex = (currentImageIndex - 1 + galleryImages.length) % galleryImages.length;
+    updateLightboxContent();
+}
+
+function nextImage(event) {
+    event.stopPropagation();
+    currentImageIndex = (currentImageIndex + 1) % galleryImages.length;
+    updateLightboxContent();
+}
+
+function updateLightboxContent() {
+    const content = document.getElementById('lightbox-content');
+    const image = galleryImages[currentImageIndex];
+    
+    content.innerHTML = `
+        <div class="text-center">
+            <img src="${image.url}" alt="${image.title}" class="rounded-2xl">
+            <p class="text-white text-xl font-bold mt-4">${image.title}</p>
+            <p class="text-white/70 text-sm mt-2">${currentImageIndex + 1} of ${galleryImages.length}</p>
+        </div>
+    `;
+}
+
+// Keyboard navigation
+document.addEventListener('keydown', function(event) {
+    const lightbox = document.getElementById('lightbox');
+    if (lightbox.classList.contains('active')) {
+        if (event.key === 'Escape') {
+            closeLightbox();
+        } else if (event.key === 'ArrowLeft') {
+            previousImage(event);
+        } else if (event.key === 'ArrowRight') {
+            nextImage(event);
+        }
+    }
+});
+
+// Scroll animations
+document.addEventListener('DOMContentLoaded', function() {
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, observerOptions);
+    
+    document.querySelectorAll('.animate-on-scroll').forEach(el => {
+        observer.observe(el);
+    });
+});
+</script>
+
+{% endblock %}

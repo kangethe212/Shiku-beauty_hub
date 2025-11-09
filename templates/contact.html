@@ -1,0 +1,322 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Contact Us - Shiku Beauty Hub{% endblock %}
+
+{% block content %}
+
+<!-- Hero Banner -->
+<section class="py-16" style="background: linear-gradient(135deg, #f9c5d1 0%, #fdf5e6 100%);">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h1 class="text-5xl md:text-6xl font-bold text-gray-800 mb-4 fade-in">
+            Get in Touch
+        </h1>
+        <p class="text-xl text-gray-700 fade-in">
+            We'd love to hear from you. Book an appointment or just say hello!
+        </p>
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            
+            <!-- Contact Form -->
+            <div class="fade-in">
+                <h2 class="text-4xl font-bold mb-6 text-gray-800">Send Us a Message</h2>
+                <p class="text-gray-600 mb-8">
+                    Fill out the form below and we'll get back to you as soon as possible. We're excited to help you look and feel amazing!
+                </p>
+                
+                <!-- Django Messages -->
+                {% if messages %}
+                    {% for message in messages %}
+                    <div class="mb-6 p-4 rounded-xl {% if message.tags == 'success' %}bg-green-100 text-green-800{% elif message.tags == 'error' %}bg-red-100 text-red-800{% else %}bg-blue-100 text-blue-800{% endif %}">
+                        <i class="fas {% if message.tags == 'success' %}fa-check-circle{% elif message.tags == 'error' %}fa-exclamation-circle{% else %}fa-info-circle{% endif %} mr-2"></i>
+                        {{ message }}
+                    </div>
+                    {% endfor %}
+                {% endif %}
+                
+                <form method="POST" action="{% url 'contact' %}" class="space-y-6">
+                    {% csrf_token %}
+                    
+                    {% for field in form %}
+                    <div>
+                        <label for="{{ field.id_for_label }}" class="block text-gray-700 font-semibold mb-2">
+                            {{ field.label }}
+                        </label>
+                        {{ field }}
+                        {% if field.errors %}
+                            <p class="mt-1 text-sm text-red-600">{{ field.errors.0 }}</p>
+                        {% endif %}
+                        {% if field.help_text %}
+                            <p class="mt-1 text-sm text-gray-500">{{ field.help_text }}</p>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                    
+                    <!-- Submit Button -->
+                    <button 
+                        type="submit" 
+                        class="w-full px-8 py-4 rounded-full text-white font-semibold text-lg shadow-lg hover:shadow-xl transition duration-300 hover:scale-105"
+                        style="background-color: #f9c5d1;"
+                    >
+                        <i class="fas fa-paper-plane mr-2"></i>
+                        Send Message
+                    </button>
+                </form>
+            </div>
+            
+            <!-- Contact Information -->
+            <div class="fade-in">
+                <h2 class="text-4xl font-bold mb-6 text-gray-800">Contact Information</h2>
+                
+                <!-- Contact Cards -->
+                <div class="space-y-6 mb-8">
+                    
+                    <!-- Phone -->
+                    <div class="flex items-start space-x-4 p-6 bg-pink-50 rounded-2xl hover-lift">
+                        <div class="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0" style="background-color: #f9c5d1;">
+                            <i class="fas fa-phone text-white"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gray-800 mb-1">Phone</h4>
+                            <p class="text-gray-600">0796 465 104</p>
+                            <p class="text-sm text-gray-500 mt-1">Mon-Sat, 9AM - 7PM</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Email -->
+                    <div class="flex items-start space-x-4 p-6 bg-purple-50 rounded-2xl hover-lift">
+                        <div class="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0" style="background-color: #c084fc;">
+                            <i class="fas fa-envelope text-white"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gray-800 mb-1">Email</h4>
+                            <p class="text-gray-600">hello@herbeautyhub.com</p>
+                            <p class="text-sm text-gray-500 mt-1">We reply within 24 hours</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Location -->
+                    <div class="flex items-start space-x-4 p-6 bg-yellow-50 rounded-2xl hover-lift">
+                        <div class="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0" style="background-color: #ffd700;">
+                            <i class="fas fa-map-marker-alt text-white"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gray-800 mb-1">Location</h4>
+                            <p class="text-gray-600">123 Beauty Lane, Fashion District</p>
+                            <p class="text-sm text-gray-500 mt-1">City Center, Near Campus</p>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+                <!-- Social Media Links -->
+                <div class="bg-gradient-to-r from-pink-100 to-purple-100 rounded-2xl p-8">
+                    <h3 class="text-2xl font-bold mb-4 text-gray-800">Connect With Us</h3>
+                    <p class="text-gray-600 mb-6">
+                        Follow us on social media for daily inspiration, tips, and exclusive offers!
+                    </p>
+                    
+                    <div class="grid grid-cols-2 gap-4">
+                        <!-- Instagram -->
+                        <a href="https://instagram.com" target="_blank" class="flex items-center justify-center space-x-2 py-3 px-4 bg-white rounded-xl hover:scale-105 transition duration-300 shadow-md">
+                            <i class="fab fa-instagram text-2xl" style="color: #E1306C;"></i>
+                            <span class="font-semibold text-gray-700">Instagram</span>
+                        </a>
+                        
+                        <!-- TikTok -->
+                        <a href="https://tiktok.com" target="_blank" class="flex items-center justify-center space-x-2 py-3 px-4 bg-white rounded-xl hover:scale-105 transition duration-300 shadow-md">
+                            <i class="fab fa-tiktok text-2xl text-black"></i>
+                            <span class="font-semibold text-gray-700">TikTok</span>
+                        </a>
+                        
+                        <!-- YouTube -->
+                        <a href="https://youtube.com" target="_blank" class="flex items-center justify-center space-x-2 py-3 px-4 bg-white rounded-xl hover:scale-105 transition duration-300 shadow-md">
+                            <i class="fab fa-youtube text-2xl text-red-600"></i>
+                            <span class="font-semibold text-gray-700">YouTube</span>
+                        </a>
+                        
+                        <!-- WhatsApp -->
+                        <a href="https://wa.me/254796465104" target="_blank" class="flex items-center justify-center space-x-2 py-3 px-4 bg-white rounded-xl hover:scale-105 transition duration-300 shadow-md">
+                            <i class="fab fa-whatsapp text-2xl text-green-500"></i>
+                            <span class="font-semibold text-gray-700">WhatsApp</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</section>
+
+<!-- Map Section -->
+<section class="py-16 bg-gray-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-10">
+            <h2 class="text-4xl font-bold mb-4 text-gray-800">Visit Our Location</h2>
+            <p class="text-lg text-gray-600">
+                Find us easily in the heart of the city. We can't wait to see you!
+            </p>
+        </div>
+        
+        <!-- Google Map Embed (Sample) -->
+        <div class="rounded-3xl overflow-hidden shadow-2xl">
+            <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.086977865598!2d-122.41941708468164!3d37.77492977975901!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8085809c6c8f4459%3A0xb10ed6d9b5050fa5!2sTwitter%20HQ!5e0!3m2!1sen!2sus!4v1619645855192!5m2!1sen!2sus" 
+                width="100%" 
+                height="450" 
+                style="border:0;" 
+                allowfullscreen="" 
+                loading="lazy"
+                class="w-full"
+            ></iframe>
+        </div>
+    </div>
+</section>
+
+<!-- Quick Contact Buttons -->
+<section class="py-16 bg-white">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-10">
+            <h2 class="text-4xl font-bold mb-4 text-gray-800">Need Quick Help?</h2>
+            <p class="text-lg text-gray-600">
+                Choose your preferred way to reach us instantly
+            </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            
+            <!-- Call Us -->
+            <a href="tel:+254796465104" class="bg-gradient-to-br from-pink-100 to-pink-50 rounded-2xl p-8 text-center hover-lift shadow-md">
+                <div class="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4" style="background-color: #f9c5d1;">
+                    <i class="fas fa-phone-alt text-2xl text-white"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 mb-2">Call Us</h3>
+                <p class="text-gray-600 mb-2">Speak with us directly</p>
+                <span class="text-sm font-semibold" style="color: #f9c5d1;">0796 465 104</span>
+            </a>
+            
+            <!-- WhatsApp -->
+            <a href="https://wa.me/254796465104" target="_blank" class="bg-gradient-to-br from-green-100 to-green-50 rounded-2xl p-8 text-center hover-lift shadow-md">
+                <div class="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fab fa-whatsapp text-2xl text-white"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 mb-2">WhatsApp</h3>
+                <p class="text-gray-600 mb-2">Chat with us instantly</p>
+                <span class="text-sm font-semibold text-green-600">Message Now</span>
+            </a>
+            
+            <!-- Email -->
+            <a href="mailto:hello@herbeautyhub.com" class="bg-gradient-to-br from-purple-100 to-purple-50 rounded-2xl p-8 text-center hover-lift shadow-md">
+                <div class="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4" style="background-color: #c084fc;">
+                    <i class="fas fa-envelope text-2xl text-white"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 mb-2">Email Us</h3>
+                <p class="text-gray-600 mb-2">Send us a detailed message</p>
+                <span class="text-sm font-semibold" style="color: #c084fc;">hello@herbeautyhub.com</span>
+            </a>
+            
+        </div>
+    </div>
+</section>
+
+<!-- Business Hours -->
+<section class="py-16" style="background-color: #fdf5e6;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-8">
+            <h2 class="text-4xl font-bold mb-4 text-gray-800">Business Hours</h2>
+            <p class="text-lg text-gray-600">We're here when you need us</p>
+        </div>
+        
+        <div class="bg-white rounded-3xl p-10 shadow-lg">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="flex justify-between items-center py-3 border-b border-gray-200">
+                    <span class="font-semibold text-gray-700">Monday</span>
+                    <span class="text-gray-600">9:00 AM - 7:00 PM</span>
+                </div>
+                <div class="flex justify-between items-center py-3 border-b border-gray-200">
+                    <span class="font-semibold text-gray-700">Tuesday</span>
+                    <span class="text-gray-600">9:00 AM - 7:00 PM</span>
+                </div>
+                <div class="flex justify-between items-center py-3 border-b border-gray-200">
+                    <span class="font-semibold text-gray-700">Wednesday</span>
+                    <span class="text-gray-600">9:00 AM - 7:00 PM</span>
+                </div>
+                <div class="flex justify-between items-center py-3 border-b border-gray-200">
+                    <span class="font-semibold text-gray-700">Thursday</span>
+                    <span class="text-gray-600">9:00 AM - 7:00 PM</span>
+                </div>
+                <div class="flex justify-between items-center py-3 border-b border-gray-200">
+                    <span class="font-semibold text-gray-700">Friday</span>
+                    <span class="text-gray-600">9:00 AM - 7:00 PM</span>
+                </div>
+                <div class="flex justify-between items-center py-3 border-b border-gray-200">
+                    <span class="font-semibold text-gray-700">Saturday</span>
+                    <span class="text-gray-600">10:00 AM - 8:00 PM</span>
+                </div>
+                <div class="flex justify-between items-center py-3 md:col-span-2">
+                    <span class="font-semibold text-gray-700">Sunday</span>
+                    <span class="text-gray-600">12:00 PM - 6:00 PM</span>
+                </div>
+            </div>
+            
+            <div class="mt-6 p-4 bg-pink-50 rounded-xl text-center">
+                <p class="text-gray-700">
+                    <i class="fas fa-info-circle mr-2" style="color: #f9c5d1;"></i>
+                    <span class="font-semibold">Walk-ins welcome!</span> But appointments are recommended for faster service.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ Section -->
+<section class="py-20 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h2 class="text-4xl font-bold mb-4 text-gray-800">Frequently Asked Questions</h2>
+        </div>
+        
+        <div class="space-y-4">
+            <!-- FAQ 1 -->
+            <div class="bg-pink-50 rounded-2xl p-6 hover-lift">
+                <h4 class="font-bold text-lg text-gray-800 mb-2">
+                    <i class="fas fa-question-circle mr-2" style="color: #f9c5d1;"></i>
+                    Do I need an appointment?
+                </h4>
+                <p class="text-gray-600 pl-8">
+                    While walk-ins are welcome, we recommend booking an appointment to ensure availability and minimize wait times.
+                </p>
+            </div>
+            
+            <!-- FAQ 2 -->
+            <div class="bg-purple-50 rounded-2xl p-6 hover-lift">
+                <h4 class="font-bold text-lg text-gray-800 mb-2">
+                    <i class="fas fa-question-circle mr-2" style="color: #c084fc;"></i>
+                    What payment methods do you accept?
+                </h4>
+                <p class="text-gray-600 pl-8">
+                    We accept cash, mobile money, bank transfers, and all major credit/debit cards.
+                </p>
+            </div>
+            
+            <!-- FAQ 3 -->
+            <div class="bg-yellow-50 rounded-2xl p-6 hover-lift">
+                <h4 class="font-bold text-lg text-gray-800 mb-2">
+                    <i class="fas fa-question-circle mr-2" style="color: #ffd700;"></i>
+                    Do you offer package deals?
+                </h4>
+                <p class="text-gray-600 pl-8">
+                    Yes! We have special package deals for combined services. Contact us for details on our current offers.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+

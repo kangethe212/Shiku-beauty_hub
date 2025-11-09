@@ -1,0 +1,84 @@
+═══════════════════════════════════════
+  🌟 HER BEAUTY HUB - 3 SIMPLE STEPS
+═══════════════════════════════════════
+
+STEP 1: OPEN TERMINAL IN CORRECT FOLDER
+────────────────────────────────────────
+
+Method A (Easiest):
+   1. Open File Explorer
+   2. Go to: c:\shiku salon\
+   3. Click in the address bar
+   4. Type: cmd
+   5. Press Enter
+   
+   ✅ Terminal opens in correct folder!
+
+Method B (Quick):
+   1. Open PowerShell
+   2. Copy this and paste:
+      cd "c:\shiku salon"
+   3. Press Enter
+
+═══════════════════════════════════════
+
+STEP 2: START THE SERVER
+────────────────────────────────────────
+
+In the terminal, type:
+
+python manage.py runserver
+
+Press Enter
+
+You'll see:
+   Starting development server at 
+   http://127.0.0.1:8000/
+
+✅ Server is running!
+
+═══════════════════════════════════════
+
+STEP 3: OPEN YOUR BROWSER
+────────────────────────────────────────
+
+Visit this link:
+
+👉 http://127.0.0.1:8000/
+
+✨ YOU'LL SEE YOUR BEAUTIFUL WEBSITE! ✨
+
+═══════════════════════════════════════
+
+🎯 OR USE THE EASY WAY:
+
+Just double-click: START_SERVER.bat
+
+Done! ✅
+
+═══════════════════════════════════════
+
+📝 CREATE ADMIN ACCOUNT:
+
+After server is running:
+1. Open NEW terminal
+2. cd "c:\shiku salon"
+3. python manage.py createsuperuser
+
+OR double-click: CREATE_ADMIN.bat
+
+═══════════════════════════════════════
+
+🌐 YOUR LINKS:
+
+Website: http://127.0.0.1:8000/
+Admin:   http://127.0.0.1:8000/admin/
+
+═══════════════════════════════════════
+
+✨ THAT'S IT! ✨
+
+Your professional beauty website is ready!
+
+💕 ENJOY! 💕
+

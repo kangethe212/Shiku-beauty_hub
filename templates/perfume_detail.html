@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ perfume.name }} - Shiku Beauty Hub{% endblock %}
+
+{% block content %}
+
+<!-- Product Detail Section -->
+<section class="py-12" style="background-color: #FFF8F3;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            
+            <!-- Image Section -->
+            <div class="fade-in">
+                <div class="sticky top-24">
+                    <div class="bg-gradient-to-br from-purple-100 to-pink-100 rounded-3xl shadow-2xl p-12 flex items-center justify-center" style="min-height: 500px;">
+                        {% if perfume.image %}
+                        <img src="{{ perfume.image.url }}" alt="{{ perfume.name }}" class="max-w-full max-h-96 object-contain">
+                        {% else %}
+                        <i class="fas fa-spray-can text-9xl text-purple-300 opacity-60"></i>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Details & Order Form -->
+            <div class="fade-in">
+                <div class="bg-white rounded-3xl shadow-xl p-8 md:p-12">
+                    <a href="{% url 'perfumes' %}" class="inline-flex items-center text-gray-600 hover:text-purple-500 mb-6">
+                        <i class="fas fa-arrow-left mr-2"></i>
+                        Back to Perfumes
+                    </a>
+                    
+                    <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-2">{{ perfume.name }}</h1>
+                    <p class="text-xl text-gray-600 mb-6">by {{ perfume.brand }}</p>
+                    
+                    <!-- Price in KSH -->
+                    <div class="flex items-center gap-4 mb-6 flex-wrap">
+                        <div>
+                            <p class="text-sm text-gray-500 mb-1">Price</p>
+                            <span class="text-5xl font-bold" style="color: #C77DFF;">KSH {{ perfume.price_ksh|floatformat:0 }}</span>
+                            {% if perfume.price_usd %}
+                            <p class="text-lg text-gray-500 mt-1">≈ ${{ perfume.price_usd }}</p>
+                            {% endif %}
+                        </div>
+                        {% if perfume.stock_quantity <= 5 and perfume.stock_quantity > 0 %}
+                        <span class="badge-sale text-base px-4 py-2">⚠ Only {{ perfume.stock_quantity }} Left!</span>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="bg-gradient-to-r from-purple-100 to-pink-100 rounded-2xl p-6 mb-6">
+                        <div class="grid grid-cols-3 gap-4 text-center">
+                            <div>
+                                <i class="fas fa-flask text-3xl mb-2" style="color: #C77DFF;"></i>
+                                <p class="text-sm text-gray-700 font-semibold">{{ perfume.volume }}</p>
+                            </div>
+                            <div>
+                                <i class="fas fa-leaf text-3xl mb-2" style="color: #10B981;"></i>
+                                <p class="text-sm text-gray-700 font-semibold">{{ perfume.get_scent_type_display }}</p>
+                            </div>
+                            <div>
+                                <i class="fas fa-box text-3xl mb-2" style="color: #F59E0B;"></i>
+                                <p class="text-sm text-gray-700 font-semibold">{{ perfume.stock_quantity }} in stock</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-8">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-4">About This Fragrance</h3>
+                        <p class="text-gray-600 leading-relaxed">{{ perfume.description }}</p>
+                    </div>
+                    
+                    <!-- Quick WhatsApp Order -->
+                    <div class="border-t border-gray-200 pt-6 pb-6">
+                        <a href="https://wa.me/254796465104?text=Hi!%20I%20want%20to%20order%20*{{ perfume.name }}*%20by%20{{ perfume.brand }}%20(KSH%20{{ perfume.price_ksh|floatformat:0 }})%20🌸%0A%0AIs%20it%20available?%20💖" 
+                           target="_blank"
+                           class="block w-full py-4 px-6 rounded-2xl text-white font-bold text-center text-lg transition duration-300 hover:scale-105"
+                           style="background: linear-gradient(135deg, #25D366, #128C7E); box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);">
+                            <i class="fab fa-whatsapp mr-3 text-2xl"></i>
+                            Order Now on WhatsApp 💬
+                            <div class="text-sm font-normal mt-1 opacity-90">
+                                Fast & Easy! ⚡
+                            </div>
+                        </a>
+                    </div>
+                    
+                    <!-- Order Form -->
+                    <div class="border-t border-gray-200 pt-8">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-2">Or Fill Order Form</h3>
+                        <p class="text-gray-600 text-sm mb-6">We'll process your order quickly</p>
+                        
+                        {% if messages %}
+                            {% for message in messages %}
+                            <div class="mb-4 p-4 rounded-xl bg-green-100 text-green-800">
+                                <i class="fas fa-check-circle mr-2"></i>{{ message }}
+                            </div>
+                            {% endfor %}
+                        {% endif %}
+                        
+                        <form method="POST" class="space-y-4">
+                            {% csrf_token %}
+                            {% for field in form %}
+                            <div>
+                                <label class="block text-gray-700 font-semibold mb-2">{{ field.label }}</label>
+                                {{ field }}
+                                {% if field.errors %}
+                                    <p class="mt-1 text-sm text-red-600">{{ field.errors.0 }}</p>
+                                {% endif %}
+                            </div>
+                            {% endfor %}
+                            
+                            <button type="submit" class="w-full btn-primary py-4 text-lg" style="background: linear-gradient(135deg, #C77DFF, #E0AAFF);">
+                                <i class="fas fa-shopping-cart mr-2"></i>
+                                Place Order
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+

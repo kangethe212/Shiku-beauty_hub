@@ -1,0 +1,136 @@
+═══════════════════════════════════════════════════════════════
+   🚨 FIX "CONNECTION REFUSED" ERROR 🚨
+═══════════════════════════════════════════════════════════════
+
+❌ ERROR: "This site can't be reached - ERR_CONNECTION_REFUSED"
+
+✅ REASON: Server is not running OR wrong directory
+
+═══════════════════════════════════════════════════════════════
+
+🔧 SOLUTION - FOLLOW THESE EXACT STEPS:
+
+STEP 1: OPEN FILE EXPLORER
+   - Press Windows Key + E
+   - Navigate to: c:\shiku salon\
+
+STEP 2: OPEN TERMINAL IN CORRECT FOLDER
+   Method A (Easiest):
+   - In File Explorer address bar, type: cmd
+   - Press Enter
+   - Terminal opens in correct folder!
+   
+   Method B:
+   - In File Explorer, Shift + Right-click empty space
+   - Select "Open PowerShell window here"
+
+STEP 3: CHECK YOU'RE IN RIGHT PLACE
+   Type: dir manage.py
+   
+   ✅ If you see "manage.py" → You're in right place!
+   ❌ If you see "File Not Found" → Wrong folder!
+
+STEP 4: START THE SERVER
+   Type: python manage.py runserver
+   Press Enter
+
+STEP 5: WAIT FOR SUCCESS MESSAGE
+   You should see:
+   "Starting development server at http://127.0.0.1:8000/"
+
+STEP 6: OPEN BROWSER
+   Visit: http://127.0.0.1:8000/
+
+═══════════════════════════════════════════════════════════════
+
+🎯 EVEN EASIER WAY:
+
+1. Go to your project folder: c:\shiku salon\
+2. Find file: START_SERVER.bat
+3. Double-click it
+4. Server starts automatically!
+5. Open browser: http://127.0.0.1:8000/
+
+═══════════════════════════════════════════════════════════════
+
+⚠️ COMMON MISTAKES:
+
+WRONG:
+   C:\Users\Benson> python manage.py runserver
+   ❌ This won't work! Wrong folder!
+
+RIGHT:
+   c:\shiku salon> python manage.py runserver
+   ✅ This works! Correct folder!
+
+═══════════════════════════════════════════════════════════════
+
+📋 CHECKLIST:
+
+Before running server, make sure:
+   [ ] You're in folder: c:\shiku salon\
+   [ ] You can see: manage.py file
+   [ ] Python is installed
+   [ ] Django is installed (pip install Django)
+   [ ] Migrations ran (python manage.py migrate)
+
+═══════════════════════════════════════════════════════════════
+
+🎬 VIDEO TUTORIAL STEPS:
+
+Imagine this video:
+
+1. 📂 Open File Explorer
+2. 📍 Go to c:\shiku salon\
+3. 🖱️ Click address bar
+4. ⌨️ Type: cmd
+5. ⏎ Press Enter
+6. 💻 Terminal opens in correct folder!
+7. ⌨️ Type: python manage.py runserver
+8. ⏎ Press Enter
+9. ⏰ Wait 5 seconds
+10. 🌐 Open browser: http://127.0.0.1:8000/
+11. 🎉 See beautiful website!
+
+═══════════════════════════════════════════════════════════════
+
+🔧 TROUBLESHOOTING:
+
+Problem: "python is not recognized"
+Fix: Install Python from python.org
+
+Problem: "No module named Django"
+Fix: pip install Django Pillow
+
+Problem: "can't open file manage.py"
+Fix: You're in wrong folder! Go to c:\shiku salon\
+
+Problem: "Port already in use"
+Fix: python manage.py runserver 8080
+      Then visit: http://127.0.0.1:8080/
+
+═══════════════════════════════════════════════════════════════
+
+✅ SUCCESS LOOKS LIKE THIS:
+
+Terminal shows:
+   Watching for file changes...
+   Starting development server at http://127.0.0.1:8000/
+   Quit the server with CTRL-BREAK.
+
+Browser shows:
+   Beautiful website with pink, gold, purple gradients!
+   Glass effect navbar!
+   All pages working!
+
+═══════════════════════════════════════════════════════════════
+
+🎉 YOU'RE ALMOST THERE!
+
+Just follow the steps above and you'll see your
+BEAUTIFUL website in seconds!
+
+✨💕 HER BEAUTY HUB AWAITS! 💕✨
+
+═══════════════════════════════════════════════════════════════
+

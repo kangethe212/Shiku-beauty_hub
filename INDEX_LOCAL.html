@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="refresh" content="0; url=http://127.0.0.1:8000/">
+    <title>Her Beauty Hub - Redirecting...</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #FF6B9D 0%, #FFD700 50%, #C77DFF 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            color: white;
+            text-align: center;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 50px;
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 600px;
+        }
+        h1 {
+            color: #FF6B9D;
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+        .message {
+            color: #333;
+            font-size: 18px;
+            margin: 20px 0;
+        }
+        .loading {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #FFE8DB;
+            border-top: 5px solid #FF6B9D;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 30px auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .link {
+            background: #FF6B9D;
+            color: white;
+            padding: 15px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            display: inline-block;
+            margin: 20px 10px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        .link:hover {
+            background: #FF8AB0;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(255,107,157,0.4);
+        }
+        .warning {
+            background: #FFF3CD;
+            border: 2px solid #FFD700;
+            color: #856404;
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>✨ Her Beauty Hub ✨</h1>
+        <p class="message">Redirecting to your beautiful website...</p>
+        <div class="loading"></div>
+        
+        <p class="message">If not redirected automatically, click below:</p>
+        
+        <a href="http://127.0.0.1:8000/" class="link">
+            🌐 Open Website
+        </a>
+        
+        <a href="http://127.0.0.1:8000/admin/" class="link" style="background: linear-gradient(135deg, #FFD700, #FFE44D); color: #333;">
+            🎛️ Admin Panel
+        </a>
+        
+        <div class="warning">
+            <strong>⚠️ Connection Refused?</strong><br><br>
+            The server needs to be running first!<br><br>
+            <strong>How to start server:</strong><br>
+            1. Go to folder: c:\shiku salon\<br>
+            2. Double-click: <strong>START_SERVER.bat</strong><br>
+            3. Wait for "Starting development server..."<br>
+            4. Then come back and click links above!
+        </div>
+    </div>
+</body>
+</html>
+

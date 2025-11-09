@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Videos - Shiku Beauty Hub{% endblock %}
+
+{% block content %}
+
+<!-- Hero Banner -->
+<section class="py-20" style="background: linear-gradient(135deg, #FF6B9D 0%, #FFD700 50%, #C77DFF 100%);">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h1 class="text-5xl md:text-7xl font-bold text-white mb-6 fade-in drop-shadow-lg">
+            🎬 Transformation Videos
+        </h1>
+        <p class="text-2xl md:text-3xl text-white fade-in drop-shadow">
+            Watch Our Amazing Hair & Beauty Transformations
+        </p>
+    </div>
+</section>
+
+<!-- Video Gallery -->
+<section class="py-20" style="background-color: #FFF8F3;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        {% if videos %}
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for video in videos %}
+            <!-- Video Card -->
+            <div class="card-hover bg-white shadow-xl rounded-3xl overflow-hidden">
+                <a href="{% url 'video_detail' video.id %}">
+                    <div class="relative">
+                        <img src="{{ video.thumbnail.url }}" alt="{{ video.title }}" class="w-full h-64 object-cover">
+                        <div class="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center">
+                            <div class="w-20 h-20 bg-white bg-opacity-90 rounded-full flex items-center justify-center">
+                                <i class="fas fa-play text-4xl" style="color: #FF6B9D; margin-left: 5px;"></i>
+                            </div>
+                        </div>
+                        {% if video.duration %}
+                        <div class="absolute bottom-3 right-3 bg-black bg-opacity-75 text-white px-3 py-1 rounded-lg text-sm font-semibold">
+                            {{ video.duration }}
+                        </div>
+                        {% endif %}
+                    </div>
+                </a>
+                <div class="p-6">
+                    <span class="badge-new">{{ video.get_category_display }}</span>
+                    <h3 class="text-2xl font-bold mt-3 mb-2 text-gray-800">{{ video.title }}</h3>
+                    <p class="text-gray-600 mb-4">{{ video.description|truncatewords:15 }}</p>
+                    <div class="flex items-center justify-between text-sm text-gray-500">
+                        <span><i class="fas fa-eye mr-2"></i>{{ video.views }} views</span>
+                        <a href="{% url 'video_detail' video.id %}" class="font-semibold hover:underline" style="color: #FF6B9D;">
+                            Watch Now <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="text-center py-20">
+            <i class="fas fa-video text-9xl mb-6" style="color: #FFB7C5;"></i>
+            <h3 class="text-3xl font-bold text-gray-800 mb-4">Videos Coming Soon!</h3>
+            <p class="text-xl text-gray-600">We're uploading amazing transformation videos. Check back soon!</p>
+        </div>
+        {% endif %}
+        
+    </div>
+</section>
+
+{% endblock %}
+
