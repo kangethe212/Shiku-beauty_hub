@@ -5,7 +5,15 @@ from django.urls import path
 from . import views
 from . import views_loyalty
 
+from django.http import HttpResponse
+
+def health_check(request):
+    return HttpResponse("OK", status=200)
+
 urlpatterns = [
+    # Health check for Railway
+    path('health/', health_check, name='health'),
+    
     # Main pages
     path('', views.index, name='index'),
     path('about/', views.about, name='about'),

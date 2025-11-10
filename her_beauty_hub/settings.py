@@ -10,10 +10,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-change-this-in-production-xyz123abc456def789'
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-change-this-in-production-xyz123abc456def789')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
 ALLOWED_HOSTS = [
     '127.0.0.1', 
@@ -27,7 +27,7 @@ ALLOWED_HOSTS = [
 # Application definition
 
 INSTALLED_APPS = [
-    'jazzmin',  # Beautiful modern admin interface (MUST BE BEFORE django.contrib.admin)
+    # 'jazzmin',  # Temporarily disabled for Railway deployment
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -84,30 +84,45 @@ WSGI_APPLICATION = 'her_beauty_hub.wsgi.application'
 #     }
 # }
 
-# PostgreSQL - LOCAL (for development)
-LOCAL_DB = {
-    'ENGINE': 'django.db.backends.postgresql',
-    'NAME': 'shiku_db',
-    'USER': 'postgres',
-    'PASSWORD': '7457@Benson',
-    'HOST': 'localhost',
-    'PORT': '5432',
-}
+# Database configuration with Railway support
+import dj_database_url
 
-# PostgreSQL - RAILWAY (for production hosting)
-RAILWAY_DB = {
-    'ENGINE': 'django.db.backends.postgresql',
-    'NAME': 'railway',
-    'USER': 'postgres',
-    'PASSWORD': 'UExYLWxaerRFXJtjSNScCTrQRgJQBQZJ',
-    'HOST': 'yamanote.proxy.rlwy.net',
-    'PORT': '27057',
-}
-
-# Active database (switch as needed)
-DATABASES = {
-    'default': RAILWAY_DB  # 🚀 NOW USING RAILWAY!
-}
+# Check if running on Railway (it sets DATABASE_URL env variable)
+if 'DATABASE_URL' in os.environ:
+    # Use Railway's DATABASE_URL with SSL and optimized settings
+    DATABASES = {
+        'default': dj_database_url.config(
+            default=os.environ.get('DATABASE_URL'),
+            conn_max_age=60,  # Reduced from 600 to prevent stale connections
+            conn_health_checks=True,
+            ssl_require=True,
+        )
+    }
+    # Add SSL and connection options for Railway PostgreSQL
+    DATABASES['default']['OPTIONS'] = {
+        'sslmode': 'require',
+        'connect_timeout': 10,
+        'options': '-c statement_timeout=30000'  # 30 second timeout
+    }
+    DATABASES['default']['CONN_MAX_AGE'] = 60
+else:
+    # Use Railway database directly (fallback)
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'railway',
+            'USER': 'postgres',
+            'PASSWORD': 'UExYLWxaerRFXJtjSNScCTrQRgJQBQZJ',
+            'HOST': 'yamanote.proxy.rlwy.net',
+            'PORT': '27057',
+            'CONN_MAX_AGE': 60,
+            'OPTIONS': {
+                'sslmode': 'require',
+                'connect_timeout': 10,
+                'options': '-c statement_timeout=30000'
+            }
+        }
+    }
 
 
 # Password validation
@@ -150,6 +165,9 @@ STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
 
+# WhiteNoise configuration for Railway
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 # Media files (User uploaded content)
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
@@ -161,20 +179,20 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 # Email Configuration (for contact form notifications)
-# Using Gmail SMTP for instant email notifications
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# Using console backend for Railway (no SMTP password needed)
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'bennymaish01@gmail.com'
-EMAIL_HOST_PASSWORD = ''  # ⚠️ ADD YOUR GMAIL APP PASSWORD HERE (see GMAIL_SETUP.md)
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASSWORD', '')  # Safe fallback
 DEFAULT_FROM_EMAIL = 'Shiku Beauty Hub <bennymaish01@gmail.com>'
-
-# For development/testing, use console:
-# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # Admin email for notifications
 ADMIN_EMAIL = 'bennymaish01@gmail.com'
+
+# Site URL for notifications
+SITE_URL = os.environ.get('SITE_URL', 'http://localhost:3000')
 
 # ============================================================
 # INSTANT NOTIFICATION SETTINGS
@@ -186,150 +204,48 @@ OWNER_EMAIL = 'bennymaish01@gmail.com'  # Owner's email for notifications
 
 # Telegram Bot (RECOMMENDED - Free & Instant!)
 # Setup: Chat with @BotFather on Telegram to create bot
-TELEGRAM_BOT_TOKEN = ''  # Get from @BotFather
-TELEGRAM_CHAT_ID = ''    # Get from bot after first message
+TELEGRAM_BOT_TOKEN = os.environ.get('TELEGRAM_BOT_TOKEN', '')
+TELEGRAM_CHAT_ID = os.environ.get('TELEGRAM_CHAT_ID', '')
 
 # WhatsApp Business API (Optional - Requires paid service)
 # Option 1: Twilio (https://twilio.com/)
-TWILIO_ACCOUNT_SID = ''
-TWILIO_AUTH_TOKEN = ''
+TWILIO_ACCOUNT_SID = os.environ.get('TWILIO_ACCOUNT_SID', '')
+TWILIO_AUTH_TOKEN = os.environ.get('TWILIO_AUTH_TOKEN', '')
 TWILIO_WHATSAPP_NUMBER = 'whatsapp:+14155238886'
 
 # Option 2: Africa's Talking (Popular in Kenya)
-AFRICASTALKING_USERNAME = ''  # Your username
-AFRICASTALKING_API_KEY = ''   # Your API key
+AFRICASTALKING_USERNAME = os.environ.get('AFRICASTALKING_USERNAME', '')
+AFRICASTALKING_API_KEY = os.environ.get('AFRICASTALKING_API_KEY', '')
 
 # Discord Webhook (Optional - Free!)
-DISCORD_WEBHOOK_URL = ''  # Create webhook in Discord server
+DISCORD_WEBHOOK_URL = os.environ.get('DISCORD_WEBHOOK_URL', '')
 
 # Date input format for booking
 DATE_INPUT_FORMATS = ['%Y-%m-%d', '%d/%m/%Y', '%d-%m-%Y']
 
 
 # ============================================================
-# JAZZMIN ADMIN THEME CONFIGURATION
+# JAZZMIN ADMIN THEME CONFIGURATION (Temporarily Disabled for Railway)
 # ============================================================
+# Note: Jazzmin is disabled to fix Railway deployment
+# Standard Django admin will work perfectly
+# You can re-enable Jazzmin later once deployment is stable
 
-JAZZMIN_SETTINGS = {
-    # Title & Logo
-    "site_title": "Shiku Beauty Hub",
-    "site_header": "Shiku Beauty Hub 💎",
-    "site_brand": "Shiku Beauty Hub",
-    "site_logo": "logo-icon.svg",  # Use our custom logo
-    "login_logo": "logo.svg",
-    "login_logo_dark": None,
-    "site_logo_classes": "img-circle",
-    "site_icon": "favicon.svg",
-    
-    # Welcome Message
-    "welcome_sign": "Welcome to Shiku Beauty Hub Control Center",
-    
-    # Copyright
-    "copyright": "Shiku Beauty Hub © 2025",
-    
-    # Search in sidebar
-    "search_model": ["auth.User", "beautyhub.HairStyle", "beautyhub.Perfume", "beautyhub.ClothingItem", "beautyhub.OrderMessage"],
-    
-    # User Menu
-    "user_avatar": None,
-    
-    # Top Menu
-    "topmenu_links": [
-        {"name": "Home", "url": "admin:index", "permissions": ["auth.view_user"]},
-        {"name": "View Website", "url": "/", "new_window": True},
-        {"model": "beautyhub.OrderMessage"},
-        {"app": "beautyhub"},
-    ],
-    
-    # User menu on the right side
-    "usermenu_links": [
-        {"name": "View Website", "url": "/", "icon": "fas fa-globe", "new_window": True},
-        {"model": "auth.user"},
-    ],
-    
-    # Side Menu Items
-    "show_sidebar": True,
-    "navigation_expanded": True,
-    "hide_apps": [],
-    "hide_models": [],
-    
-    # Custom Icons
-    "icons": {
-        "auth": "fas fa-users-cog",
-        "auth.user": "fas fa-user",
-        "auth.Group": "fas fa-users",
-        "beautyhub.HairStyle": "fas fa-cut",
-        "beautyhub.Perfume": "fas fa-spray-can",
-        "beautyhub.ClothingItem": "fas fa-tshirt",
-        "beautyhub.OrderMessage": "fas fa-shopping-cart",
-        "beautyhub.Booking": "fas fa-calendar-check",
-        "beautyhub.Video": "fas fa-video",
-        "beautyhub.GalleryItem": "fas fa-images",
-        "beautyhub.DailyOffer": "fas fa-fire",
-        "beautyhub.ContactMessage": "fas fa-envelope",
-        "beautyhub.Service": "fas fa-concierge-bell",
-        "beautyhub.Product": "fas fa-box",
-    },
-    
-    # Default icon for models
-    "default_icon_parents": "fas fa-chevron-circle-right",
-    "default_icon_children": "fas fa-circle",
-    
-    # Related modal
-    "related_modal_active": True,
-    
-    # Custom CSS
-    "custom_css": None,
-    "custom_js": None,
-    
-    # Show language chooser
-    "show_ui_builder": False,
-    
-    # Change user form button
-    "changeform_format": "horizontal_tabs",
-    "changeform_format_overrides": {
-        "auth.user": "collapsible",
-        "auth.group": "vertical_tabs"
-    },
-    
-    # Override settings per language
-    "language_chooser": False,
-}
+# JAZZMIN_SETTINGS = {
+#     # Title & Logo
+#     "site_title": "Shiku Beauty Hub",
+#     "site_header": "Shiku Beauty Hub 💎",
+#     "site_brand": "Shiku Beauty Hub",
+#     "site_logo": "logo-icon.svg",
+#     "login_logo": "logo.svg",
+#     "login_logo_dark": None,
+#     "site_logo_classes": "img-circle",
+#     "site_icon": "favicon.svg",
+#     # ... (all other settings)
+# }
 
-# Jazzmin UI Tweaks
-JAZZMIN_UI_TWEAKS = {
-    "navbar_small_text": False,
-    "footer_small_text": False,
-    "body_small_text": False,
-    "brand_small_text": False,
-    "brand_colour": "navbar-pink",
-    "accent": "accent-pink",
-    "navbar": "navbar-white navbar-light",
-    "no_navbar_border": False,
-    "navbar_fixed": True,
-    "layout_boxed": False,
-    "footer_fixed": False,
-    "sidebar_fixed": True,
-    "sidebar": "sidebar-light-pink",
-    "sidebar_nav_small_text": False,
-    "sidebar_disable_expand": False,
-    "sidebar_nav_child_indent": True,
-    "sidebar_nav_compact_style": False,
-    "sidebar_nav_legacy_style": False,
-    "sidebar_nav_flat_style": False,
-    "theme": "flatly",
-    "dark_mode_theme": None,
-    "button_classes": {
-        "primary": "btn-primary",
-        "secondary": "btn-secondary",
-        "info": "btn-info",
-        "warning": "btn-warning",
-        "danger": "btn-danger",
-        "success": "btn-success"
-    },
-    "actions_sticky_top": True,
-}
-
-# Custom CSS for Jazzmin (Shiku Beauty Hub colors)
-JAZZMIN_SETTINGS["custom_css"] = "admin/custom_admin.css"
+# JAZZMIN_UI_TWEAKS = {
+#     "navbar_small_text": False,
+#     # ... (all other settings)
+# }
 

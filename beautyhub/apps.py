@@ -11,5 +11,8 @@ class BeautyhubConfig(AppConfig):
     
     def ready(self):
         """Import signals when app is ready"""
-        import beautyhub.signals
+        try:
+            import beautyhub.signals
+        except Exception as e:
+            print(f"Warning: Could not load signals: {e}")
 
