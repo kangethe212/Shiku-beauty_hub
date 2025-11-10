@@ -9,7 +9,8 @@ from django.db.models import Q
 from .models import (
     Service, Product, GalleryItem, Testimonial,
     Video, DailyOffer, Currency, BusinessInfo,
-    HairStyle, Perfume, ClothingItem, OrderMessage
+    HairStyle, Perfume, ClothingItem, OrderMessage,
+    GalleryLike, GalleryComment
 )
 from .forms import ContactMessageForm, BookingForm, OrderMessageForm
 
@@ -408,4 +409,137 @@ def order_receipt(request, order_id):
     }
     
     return render(request, 'order_receipt.html', context)
+
+
+# ============================================================
+# GALLERY ENGAGEMENT - LIKES & COMMENTS
+# ============================================================
+
+def gallery_like(request, gallery_id):
+    """
+    Like/unlike a gallery item (AJAX)
+    """
+    from django.http import JsonResponse
+    
+    if request.method == 'POST':
+        gallery_item = get_object_or_404(GalleryItem, pk=gallery_id)
+        
+        # Get or create session ID for guests
+        if not request.session.session_key:
+            request.session.create()
+        session_id = request.session.session_key
+        
+        # Check if user or guest already liked
+        if request.user.is_authenticated:
+            existing_like = GalleryLike.objects.filter(
+                gallery_item=gallery_item,
+                user=request.user
+            ).first()
+        else:
+            existing_like = GalleryLike.objects.filter(
+                gallery_item=gallery_item,
+                session_id=session_id
+            ).first()
+        
+        if existing_like:
+            # Unlike
+            existing_like.delete()
+            liked = False
+            message = "Like removed"
+        else:
+            # Like
+            if request.user.is_authenticated:
+                GalleryLike.objects.create(
+                    gallery_item=gallery_item,
+                    user=request.user
+                )
+            else:
+                GalleryLike.objects.create(
+                    gallery_item=gallery_item,
+                    session_id=session_id
+                )
+            liked = True
+            message = "Liked! ❤️"
+        
+        return JsonResponse({
+            'success': True,
+            'liked': liked,
+            'like_count': gallery_item.like_count(),
+            'message': message
+        })
+    
+    return JsonResponse({'success': False, 'error': 'Invalid request'}, status=400)
+
+
+def gallery_comment(request, gallery_id):
+    """
+    Add a comment to a gallery item
+    """
+    if request.method == 'POST':
+        gallery_item = get_object_or_404(GalleryItem, pk=gallery_id)
+        comment_text = request.POST.get('comment', '').strip()
+        
+        if not comment_text:
+            messages.error(request, 'Please write a comment!')
+            return redirect('gallery')
+        
+        # Create comment
+        if request.user.is_authenticated:
+            GalleryComment.objects.create(
+                gallery_item=gallery_item,
+                user=request.user,
+                comment=comment_text,
+                approved=True  # Auto-approve for logged-in users
+            )
+            messages.success(request, 'Comment added! 💬')
+        else:
+            # For guests, require name and email
+            name = request.POST.get('name', '').strip()
+            email = request.POST.get('email', '').strip()
+            
+            if not name or not email:
+                messages.error(request, 'Please provide your name and email!')
+                return redirect('gallery')
+            
+            GalleryComment.objects.create(
+                gallery_item=gallery_item,
+                name=name,
+                email=email,
+                comment=comment_text,
+                approved=False  # Require approval for guest comments
+            )
+            messages.success(request, 'Comment submitted! It will appear after approval. 💬')
+        
+        return redirect('gallery')
+    
+    return redirect('gallery')
+
+
+def check_gallery_like_status(request, gallery_id):
+    """
+    Check if user/guest has liked an item (AJAX)
+    """
+    from django.http import JsonResponse
+    
+    gallery_item = get_object_or_404(GalleryItem, pk=gallery_id)
+    
+    if request.user.is_authenticated:
+        liked = GalleryLike.objects.filter(
+            gallery_item=gallery_item,
+            user=request.user
+        ).exists()
+    else:
+        session_id = request.session.session_key
+        if session_id:
+            liked = GalleryLike.objects.filter(
+                gallery_item=gallery_item,
+                session_id=session_id
+            ).exists()
+        else:
+            liked = False
+    
+    return JsonResponse({
+        'liked': liked,
+        'like_count': gallery_item.like_count()
+    })
 

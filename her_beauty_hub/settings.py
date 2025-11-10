@@ -69,25 +69,25 @@ WSGI_APPLICATION = 'her_beauty_hub.wsgi.application'
 # DATABASE CONFIGURATION
 # ============================================================
 
-# SQLite (Current - Development)
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-
-# PostgreSQL (Production - Uncomment when ready)
+# SQLite (Backup - Deactivated)
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'shiku_beauty_db',           # Database name
-#         'USER': 'postgres',                  # Your PostgreSQL username
-#         'PASSWORD': 'your_password_here',    # Your PostgreSQL password
-#         'HOST': 'localhost',                 # Database host (localhost for local)
-#         'PORT': '5432',                      # PostgreSQL default port
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
+
+# PostgreSQL (Production - ACTIVE NOW!)
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'shiku_db',                  # Your database name
+        'USER': 'postgres',                  # Your PostgreSQL username
+        'PASSWORD': '7457@Benson',           # Your PostgreSQL password
+        'HOST': 'localhost',                 # Database host (localhost for local)
+        'PORT': '5432',                      # PostgreSQL default port
+    }
+}
 
 
 # Password validation

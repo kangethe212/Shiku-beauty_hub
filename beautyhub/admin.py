@@ -11,7 +11,9 @@ from .models import (
     Service, Product, GalleryItem, Booking, ContactMessage, Testimonial,
     Video, DailyOffer, Currency, ProductReview, SocialMediaLink, BusinessInfo,
     HairStyle, Perfume, ClothingItem, OrderMessage,
-    HairStyleImage, PerfumeImage, ClothingImage
+    HairStyleImage, PerfumeImage, ClothingImage,
+    UserProfile, Wishlist, Referral, Order,
+    GalleryLike, GalleryComment
 )
 
 # Customize Admin Site Header
@@ -193,14 +195,14 @@ class ProductAdmin(admin.ModelAdmin):
 @admin.register(GalleryItem)
 class GalleryItemAdmin(admin.ModelAdmin):
     """
-    Admin interface for Gallery Items
+    Admin interface for Gallery Items - With Likes & Comments
     """
-    list_display = ['title', 'category', 'featured', 'image_thumbnail', 'uploaded_at']
+    list_display = ['title', 'category', 'featured', 'image_thumbnail', 'engagement_stats', 'uploaded_at']
     list_filter = ['category', 'featured', 'uploaded_at']
     search_fields = ['title', 'description', 'category']
     list_editable = ['featured']
     ordering = ['-uploaded_at']
-    readonly_fields = ['uploaded_at', 'image_preview']
+    readonly_fields = ['uploaded_at', 'image_preview', 'engagement_display']
     
     fieldsets = (
         ('Gallery Item', {
@@ -208,6 +210,10 @@ class GalleryItemAdmin(admin.ModelAdmin):
         }),
         ('Image', {
             'fields': ('image', 'image_preview')
+        }),
+        ('Engagement', {
+            'fields': ('engagement_display',),
+            'description': 'Likes and comments from customers'
         }),
         ('Settings', {
             'fields': ('featured', 'uploaded_at')
@@ -233,6 +239,116 @@ class GalleryItemAdmin(admin.ModelAdmin):
             )
         return "No image"
     image_preview.short_description = "Image Preview"
+    
+    def engagement_stats(self, obj):
+        """Display likes and comments in list"""
+        likes = obj.like_count()
+        comments = obj.comment_count()
+        return format_html(
+            '<span style="color: #FF6B9D;">❤️ {}</span> &nbsp; <span style="color: #C77DFF;">💬 {}</span>',
+            likes, comments
+        )
+    engagement_stats.short_description = "Engagement"
+    
+    def engagement_display(self, obj):
+        """Display detailed engagement stats"""
+        likes = obj.like_count()
+        comments = obj.comment_count()
+        return format_html(
+            '<div style="background: #FFF8F3; padding: 15px; border-radius: 10px; border-left: 4px solid #FF6B9D;">'
+            '<div style="display: flex; gap: 30px; font-size: 16px;">'
+            '<div><strong style="color: #FF6B9D; font-size: 24px;">❤️ {}</strong><br/><small style="color: #666;">Total Likes</small></div>'
+            '<div><strong style="color: #C77DFF; font-size: 24px;">💬 {}</strong><br/><small style="color: #666;">Comments</small></div>'
+            '</div></div>',
+            likes, comments
+        )
+    engagement_display.short_description = "Customer Engagement"
+
+
+@admin.register(GalleryLike)
+class GalleryLikeAdmin(admin.ModelAdmin):
+    """
+    Admin interface for Gallery Likes
+    """
+    list_display = ['gallery_item', 'user_display', 'created_at']
+    list_filter = ['created_at']
+    search_fields = ['gallery_item__title', 'user__username']
+    readonly_fields = ['created_at']
+    ordering = ['-created_at']
+    
+    def user_display(self, obj):
+        """Display user or guest"""
+        if obj.user:
+            return format_html(
+                '<strong>{}</strong><br/><small style="color: #6B7280;">{}</small>',
+                obj.user.get_full_name() or obj.user.username,
+                obj.user.email
+            )
+        return format_html('<span style="color: #9CA3AF;">Guest</span>')
+    user_display.short_description = "Liked By"
+
+
+@admin.register(GalleryComment)
+class GalleryCommentAdmin(admin.ModelAdmin):
+    """
+    Admin interface for Gallery Comments
+    """
+    list_display = ['gallery_item', 'author_display', 'comment_preview', 'approved', 'created_at']
+    list_filter = ['approved', 'created_at']
+    search_fields = ['gallery_item__title', 'user__username', 'name', 'comment']
+    list_editable = ['approved']
+    readonly_fields = ['created_at']
+    ordering = ['-created_at']
+    
+    fieldsets = (
+        ('Comment Details', {
+            'fields': ('gallery_item', 'comment')
+        }),
+        ('Author', {
+            'fields': ('user', 'name', 'email')
+        }),
+        ('Moderation', {
+            'fields': ('approved', 'created_at')
+        }),
+    )
+    
+    actions = ['approve_comments', 'disapprove_comments']
+    
+    def author_display(self, obj):
+        """Display comment author"""
+        if obj.user:
+            return format_html(
+                '<strong>{}</strong><br/><small style="color: #6B7280;">{}</small>',
+                obj.get_author_name(),
+                obj.user.email
+            )
+        return format_html(
+            '<strong>{}</strong><br/><small style="color: #6B7280;">{}</small>',
+            obj.name or "Anonymous",
+            obj.email or "No email"
+        )
+    author_display.short_description = "Author"
+    
+    def comment_preview(self, obj):
+        """Display comment preview"""
+        preview = obj.comment[:100] + "..." if len(obj.comment) > 100 else obj.comment
+        return format_html(
+            '<div style="max-width: 400px;">{}</div>',
+            preview
+        )
+    comment_preview.short_description = "Comment"
+    
+    def approve_comments(self, request, queryset):
+        """Bulk approve comments"""
+        updated = queryset.update(approved=True)
+        self.message_user(request, f"✅ {updated} comment(s) approved!")
+    approve_comments.short_description = "✅ Approve selected comments"
+    
+    def disapprove_comments(self, request, queryset):
+        """Bulk disapprove comments"""
+        updated = queryset.update(approved=False)
+        self.message_user(request, f"❌ {updated} comment(s) hidden from public view.")
+    disapprove_comments.short_description = "❌ Hide selected comments"
 
 
 @admin.register(Booking)
@@ -1051,4 +1167,459 @@ class OrderMessageAdmin(admin.ModelAdmin):
         count = queryset.count()
         self.message_user(request, f"📊 {count} orders selected | Total: KSH {int(total)}")
     export_orders.short_description = "📊 Calculate total sales"
+
+
+# ============================================================
+# LOYALTY & CUSTOMER ACCOUNT SYSTEM ADMIN
+# ============================================================
+
+@admin.register(UserProfile)
+class UserProfileAdmin(admin.ModelAdmin):
+    """👤 Customer Profiles - Complete Loyalty Program Management"""
+    list_display = ['user_display', 'points_display', 'student_status', 'referral_display', 'vip_badge', 'total_spent_display', 'created_at']
+    list_filter = ['is_student', 'vip_status', 'created_at', 'student_verified_date']
+    search_fields = ['user__username', 'user__email', 'user__first_name', 'user__last_name', 'phone', 'referral_code', 'university']
+    readonly_fields = ['referral_code', 'total_points_earned', 'total_spent', 'created_at', 'updated_at', 'discount_info']
+    ordering = ['-loyalty_points', '-created_at']
+    list_per_page = 25
+    
+    fieldsets = (
+        ('👤 User Account', {
+            'fields': ('user', 'phone')
+        }),
+        ('🎓 Student Information', {
+            'fields': ('is_student', 'student_id', 'university', 'student_verified_date'),
+            'description': 'Verify student status for 10% discount'
+        }),
+        ('🎂 Birthday & Discounts', {
+            'fields': ('birthday', 'discount_info'),
+            'description': 'Birthday month customers get extra 5% off!'
+        }),
+        ('💰 Loyalty Points', {
+            'fields': ('loyalty_points', 'total_points_earned', 'total_spent'),
+            'description': 'Earn 10 points per KSH 100 spent. 100 points = KSH 100 discount'
+        }),
+        ('🔗 Referral Program', {
+            'fields': ('referral_code', 'referred_by', 'referral_count'),
+            'description': 'Refer 3 friends = Free service!'
+        }),
+        ('⭐ VIP Status', {
+            'fields': ('vip_status',),
+            'description': 'Auto-enabled at 1000+ points or KSH 5000+ spent'
+        }),
+        ('📅 Account Info', {
+            'fields': ('created_at', 'updated_at'),
+            'classes': ('collapse',)
+        }),
+    )
+    
+    actions = ['verify_student', 'award_bonus_points', 'make_vip', 'reset_points']
+    
+    def user_display(self, obj):
+        """Display user with avatar placeholder"""
+        name = obj.user.get_full_name() or obj.user.username
+        email = obj.user.email
+        return format_html(
+            '<div style="display: flex; align-items: center; gap: 10px;">'
+            '<div style="width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, #FF6B9D, #C77DFF); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 16px;">{}</div>'
+            '<div><strong>{}</strong><br/><small style="color: #6B7280;">{}</small></div>'
+            '</div>',
+            name[0].upper(), name, email
+        )
+    user_display.short_description = "👤 Customer"
+    
+    def points_display(self, obj):
+        """Display loyalty points with visual indicator"""
+        points = obj.loyalty_points
+        ksh_value = obj.points_to_currency()
+        
+        if points >= 1000:
+            color = '#10B981'  # Green
+            icon = '💎'
+        elif points >= 500:
+            color = '#FFD700'  # Gold
+            icon = '⭐'
+        elif points >= 100:
+            color = '#FF6B9D'  # Pink
+            icon = '✨'
+        else:
+            color = '#6B7280'  # Gray
+            icon = '○'
+        
+        return format_html(
+            '<div style="text-align: center;"><span style="font-size: 24px;">{}</span><br/>'
+            '<strong style="color: {}; font-size: 18px;">{} pts</strong><br/>'
+            '<small style="color: #6B7280;">= KSH {}</small></div>',
+            icon, color, points, int(ksh_value)
+        )
+    points_display.short_description = "💰 Points"
+    points_display.admin_order_field = 'loyalty_points'
+    
+    def student_status(self, obj):
+        """Display student verification status"""
+        if obj.is_student:
+            return format_html(
+                '<span style="background: #10B981; color: white; padding: 4px 8px; border-radius: 8px; font-weight: bold; font-size: 11px;">✅ VERIFIED</span><br/>'
+                '<small style="color: #6B7280;">{}</small>',
+                obj.university or "No university set"
+            )
+        return format_html(
+            '<span style="background: #6B7280; color: white; padding: 4px 8px; border-radius: 8px; font-size: 11px;">Not Verified</span>'
+        )
+    student_status.short_description = "🎓 Student"
+    
+    def referral_display(self, obj):
+        """Display referral code and count"""
+        return format_html(
+            '<div style="text-align: center;"><code style="background: #FFF8F3; padding: 4px 8px; border-radius: 5px; font-weight: bold; color: #FF6B9D;">{}</code><br/>'
+            '<small style="color: #6B7280;">{} friend{} referred</small></div>',
+            obj.referral_code,
+            obj.referral_count,
+            's' if obj.referral_count != 1 else ''
+        )
+    referral_display.short_description = "🔗 Referral"
+    
+    def vip_badge(self, obj):
+        """Display VIP status badge"""
+        if obj.vip_status:
+            return format_html(
+                '<span style="background: linear-gradient(135deg, #FFD700, #FFE44D); color: #1F2937; padding: 6px 12px; border-radius: 12px; font-weight: bold; font-size: 12px; box-shadow: 0 2px 4px rgba(255,215,0,0.3);">👑 VIP</span>'
+            )
+        return format_html(
+            '<span style="color: #9CA3AF; font-size: 11px;">Regular</span>'
+        )
+    vip_badge.short_description = "Status"
+    
+    def total_spent_display(self, obj):
+        """Display total amount spent"""
+        return format_html(
+            '<strong style="color: #10B981;">KSH {}</strong>',
+            int(obj.total_spent)
+        )
+    total_spent_display.short_description = "💵 Total Spent"
+    total_spent_display.admin_order_field = 'total_spent'
+    
+    def discount_info(self, obj):
+        """Show all available discounts"""
+        discount = obj.get_discount_percentage()
+        discounts_list = []
+        
+        if obj.is_student:
+            discounts_list.append("🎓 Student: 10%")
+        if obj.is_birthday_month():
+            discounts_list.append("🎂 Birthday Month: +5%")
+        if obj.vip_status:
+            discounts_list.append("👑 VIP: +5%")
+        
+        if discounts_list:
+            return format_html(
+                '<div style="background: #FFF8F3; padding: 10px; border-radius: 8px; border-left: 4px solid #FF6B9D;">'
+                '<strong style="color: #FF6B9D; font-size: 16px;">Total Discount: {}%</strong><br/><br/>'
+                '{}</div>',
+                discount,
+                '<br/>'.join(discounts_list)
+            )
+        return format_html('<span style="color: #6B7280;">No active discounts</span>')
+    discount_info.short_description = "🏷️ Available Discounts"
+    
+    def verify_student(self, request, queryset):
+        """Bulk verify student status"""
+        from django.utils import timezone
+        updated = queryset.update(is_student=True, student_verified_date=timezone.now())
+        # Award bonus points for verification
+        for profile in queryset:
+            profile.loyalty_points += 50
+            profile.save()
+        self.message_user(request, f"✅ {updated} student(s) verified! Each received 50 bonus points!")
+    verify_student.short_description = "🎓 Verify as Student (+10% discount)"
+    
+    def award_bonus_points(self, request, queryset):
+        """Award 100 bonus points"""
+        for profile in queryset:
+            profile.loyalty_points += 100
+            profile.total_points_earned += 100
+            profile.save()
+        count = queryset.count()
+        self.message_user(request, f"🎁 Awarded 100 bonus points to {count} customer(s)!")
+    award_bonus_points.short_description = "🎁 Award 100 Bonus Points"
+    
+    def make_vip(self, request, queryset):
+        """Grant VIP status"""
+        updated = queryset.update(vip_status=True)
+        self.message_user(request, f"👑 {updated} customer(s) upgraded to VIP status!")
+    make_vip.short_description = "👑 Make VIP"
+    
+    def reset_points(self, request, queryset):
+        """Reset loyalty points (use carefully!)"""
+        updated = queryset.update(loyalty_points=0)
+        self.message_user(request, f"⚠️ Reset loyalty points for {updated} customer(s)", level='WARNING')
+    reset_points.short_description = "⚠️ Reset Points (Careful!)"
+
+
+@admin.register(Wishlist)
+class WishlistAdmin(admin.ModelAdmin):
+    """💖 Customer Wishlists"""
+    list_display = ['user', 'product_display', 'product_type_badge', 'added_date']
+    list_filter = ['added_at']
+    search_fields = ['user__username', 'user__email', 'hairstyle__name', 'perfume__name', 'clothing__name']
+    readonly_fields = ['added_at']
+    ordering = ['-added_at']
+    
+    def product_display(self, obj):
+        """Display product with image"""
+        product = obj.get_product()
+        if product and hasattr(product, 'image') and product.image:
+            return format_html(
+                '<div style="display: flex; align-items: center; gap: 10px;">'
+                '<img src="{}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 8px;" />'
+                '<strong>{}</strong></div>',
+                product.image.url, product.name
+            )
+        return format_html('<strong>{}</strong>', product.name if product else "Unknown")
+    product_display.short_description = "Product"
+    
+    def product_type_badge(self, obj):
+        """Display product type as badge"""
+        type_config = {
+            'Hairstyle': ('#FF6B9D', '💇'),
+            'Perfume': ('#C77DFF', '🌸'),
+            'Clothing': ('#FFD700', '👗')
+        }
+        ptype = obj.get_product_type()
+        color, icon = type_config.get(ptype, ('#6B7280', '📦'))
+        
+        return format_html(
+            '<span style="background: {}; color: white; padding: 4px 10px; border-radius: 8px; font-weight: bold; font-size: 11px;">{} {}</span>',
+            color, icon, ptype
+        )
+    product_type_badge.short_description = "Type"
+    
+    def added_date(self, obj):
+        """Display when added"""
+        return obj.added_at.strftime("%b %d, %Y")
+    added_date.short_description = "Added"
+    added_date.admin_order_field = 'added_at'
+
+
+@admin.register(Referral)
+class ReferralAdmin(admin.ModelAdmin):
+    """🔗 Referral Tracking"""
+    list_display = ['referrer_display', 'referred_display', 'code_badge', 'purchase_status', 'reward_badge', 'created_at']
+    list_filter = ['reward_claimed', 'referred_user_made_purchase', 'created_at']
+    search_fields = ['referrer__username', 'referred_user__username', 'referral_code_used']
+    readonly_fields = ['created_at']
+    ordering = ['-created_at']
+    
+    fieldsets = (
+        ('🔗 Referral Info', {
+            'fields': ('referrer', 'referred_user', 'referral_code_used')
+        }),
+        ('🎁 Rewards', {
+            'fields': ('reward_claimed', 'reward_type', 'referred_user_made_purchase')
+        }),
+        ('📅 Date', {
+            'fields': ('created_at',)
+        }),
+    )
+    
+    actions = ['mark_purchase_made', 'claim_rewards']
+    
+    def referrer_display(self, obj):
+        """Display referrer"""
+        return format_html(
+            '<strong>{}</strong><br/><small style="color: #6B7280;">{} referrals</small>',
+            obj.referrer.username,
+            obj.referrer.profile.referral_count
+        )
+    referrer_display.short_description = "👤 Referrer"
+    
+    def referred_display(self, obj):
+        """Display referred user"""
+        return format_html(
+            '<strong>{}</strong><br/><small style="color: #6B7280;">{}</small>',
+            obj.referred_user.username,
+            obj.referred_user.email
+        )
+    referred_display.short_description = "🎯 Referred"
+    
+    def code_badge(self, obj):
+        """Display referral code used"""
+        return format_html(
+            '<code style="background: #FFF8F3; padding: 4px 8px; border-radius: 5px; font-weight: bold; color: #FF6B9D;">{}</code>',
+            obj.referral_code_used
+        )
+    code_badge.short_description = "Code"
+    
+    def purchase_status(self, obj):
+        """Display if referred user made purchase"""
+        if obj.referred_user_made_purchase:
+            return format_html('<span style="color: #10B981; font-weight: bold;">✅ Purchased</span>')
+        return format_html('<span style="color: #EF4444; font-weight: bold;">⏳ Pending</span>')
+    purchase_status.short_description = "Purchase"
+    
+    def reward_badge(self, obj):
+        """Display reward status"""
+        if obj.reward_claimed:
+            return format_html(
+                '<span style="background: #10B981; color: white; padding: 4px 8px; border-radius: 8px; font-size: 11px;">✅ Claimed</span><br/>'
+                '<small>{}</small>',
+                obj.reward_type or "Reward given"
+            )
+        return format_html('<span style="background: #6B7280; color: white; padding: 4px 8px; border-radius: 8px; font-size: 11px;">⏳ Unclaimed</span>')
+    reward_badge.short_description = "🎁 Reward"
+    
+    def mark_purchase_made(self, request, queryset):
+        """Mark that referred users made purchases"""
+        updated = queryset.update(referred_user_made_purchase=True)
+        self.message_user(request, f"✅ {updated} referral(s) marked as purchased!")
+    mark_purchase_made.short_description = "✅ Mark as Purchased"
+    
+    def claim_rewards(self, request, queryset):
+        """Mark rewards as claimed"""
+        updated = queryset.update(reward_claimed=True)
+        self.message_user(request, f"🎁 {updated} reward(s) marked as claimed!")
+    claim_rewards.short_description = "🎁 Claim Rewards"
+
+
+@admin.register(Order)
+class OrderAdmin(admin.ModelAdmin):
+    """📦 Order Management - With Loyalty Integration"""
+    list_display = ['order_badge', 'customer_display', 'product_info', 'pricing_display', 'points_display', 'status_display', 'date_display']
+    list_filter = ['status', 'product_type', 'created_at']
+    search_fields = ['order_number', 'customer_name', 'customer_email', 'product_name']
+    readonly_fields = ['order_number', 'discount_amount_ksh', 'final_amount_ksh', 'points_earned', 'created_at']
+    ordering = ['-created_at']
+    date_hierarchy = 'created_at'
+    list_per_page = 25
+    
+    fieldsets = (
+        ('📋 Order Details', {
+            'fields': ('order_number', 'user', 'status')
+        }),
+        ('👤 Customer', {
+            'fields': ('customer_name', 'customer_email', 'customer_phone')
+        }),
+        ('🛍️ Product', {
+            'fields': ('product_type', 'product_name', 'quantity')
+        }),
+        ('💰 Pricing', {
+            'fields': ('original_price_ksh', 'discount_percentage', 'discount_amount_ksh', 'points_redeemed', 'final_amount_ksh')
+        }),
+        ('⭐ Loyalty', {
+            'fields': ('points_earned',),
+            'description': 'Points are auto-awarded when order is completed'
+        }),
+        ('📅 Timestamps', {
+            'fields': ('created_at', 'completed_at'),
+            'classes': ('collapse',)
+        }),
+    )
+    
+    actions = ['mark_as_confirmed', 'mark_as_completed', 'mark_as_cancelled']
+    
+    def order_badge(self, obj):
+        """Display order number as badge"""
+        colors = {
+            'pending': '#FFA500',
+            'confirmed': '#3B82F6',
+            'completed': '#10B981',
+            'cancelled': '#EF4444'
+        }
+        color = colors.get(obj.status, '#6B7280')
+        return format_html(
+            '<span style="background: {}; color: white; padding: 6px 12px; border-radius: 8px; font-weight: bold; font-size: 12px;">{}</span>',
+            color, obj.order_number
+        )
+    order_badge.short_description = "Order #"
+    
+    def customer_display(self, obj):
+        """Display customer info"""
+        if obj.user:
+            points = obj.user.profile.loyalty_points
+            discount = obj.user.profile.get_discount_percentage()
+            return format_html(
+                '<div><strong>{}</strong><br/>'
+                '<small style="color: #6B7280;">{}</small><br/>'
+                '<span style="background: #FFF8F3; padding: 2px 6px; border-radius: 4px; font-size: 10px; color: #FF6B9D;">{} pts • {}% off</span></div>',
+                obj.customer_name, obj.customer_email, points, discount
+            )
+        return format_html('<div><strong>{}</strong><br/><small style="color: #6B7280;">{}</small><br/><span style="font-size: 10px; color: #9CA3AF;">Guest</span></div>',
+                          obj.customer_name, obj.customer_email)
+    customer_display.short_description = "👤 Customer"
+    
+    def product_info(self, obj):
+        """Display product details"""
+        type_icons = {'Hairstyle': '💇', 'Perfume': '🌸', 'Clothing': '👗'}
+        icon = type_icons.get(obj.product_type, '📦')
+        return format_html(
+            '<div><strong>{} {}</strong><br/><small style="color: #6B7280;">Qty: {}</small></div>',
+            icon, obj.product_name, obj.quantity
+        )
+    product_info.short_description = "🛍️ Product"
+    
+    def pricing_display(self, obj):
+        """Display pricing breakdown"""
+        return format_html(
+            '<div style="text-align: right;">'
+            '<small style="color: #9CA3AF; text-decoration: line-through;">KSH {}</small><br/>'
+            '<span style="color: #EF4444; font-size: 11px;">-{}%</span><br/>'
+            '<strong style="color: #10B981; font-size: 16px;">KSH {}</strong></div>',
+            int(obj.original_price_ksh * obj.quantity),
+            obj.discount_percentage,
+            int(obj.final_amount_ksh)
+        )
+    pricing_display.short_description = "💰 Price"
+    
+    def points_display(self, obj):
+        """Display loyalty points"""
+        if obj.points_redeemed > 0:
+            redeemed_text = format_html('<small style="color: #EF4444;">-{} pts used</small><br/>', obj.points_redeemed)
+        else:
+            redeemed_text = ''
+        
+        if obj.points_earned > 0:
+            earned_text = format_html('<strong style="color: #10B981;">+{} pts earned</strong>', obj.points_earned)
+        else:
+            earned_text = format_html('<small style="color: #9CA3AF;">Pending completion</small>')
+        
+        return format_html('<div style="text-align: center;">{}{}</div>', redeemed_text, earned_text)
+    points_display.short_description = "⭐ Points"
+    
+    def status_display(self, obj):
+        """Display status with icon"""
+        status_config = {
+            'pending': ('⏳', 'Pending', '#FFA500'),
+            'confirmed': ('✅', 'Confirmed', '#3B82F6'),
+            'completed': ('🎉', 'Completed', '#10B981'),
+            'cancelled': ('❌', 'Cancelled', '#EF4444')
+        }
+        icon, text, color = status_config.get(obj.status, ('•', obj.status, '#6B7280'))
+        return format_html(
+            '<span style="color: {}; font-weight: bold;">{} {}</span>',
+            color, icon, text
+        )
+    status_display.short_description = "Status"
+    
+    def date_display(self, obj):
+        """Display date"""
+        return obj.created_at.strftime("%b %d, %Y")
+    date_display.short_description = "📅 Date"
+    date_display.admin_order_field = 'created_at'
+    
+    def mark_as_confirmed(self, request, queryset):
+        updated = queryset.update(status='confirmed')
+        self.message_user(request, f"✅ {updated} order(s) confirmed!")
+    mark_as_confirmed.short_description = "✅ Confirm Orders"
+    
+    def mark_as_completed(self, request, queryset):
+        from django.utils import timezone
+        queryset.update(status='completed', completed_at=timezone.now())
+        # Points will be auto-awarded by the model's save method
+        self.message_user(request, f"🎉 Orders completed! Loyalty points awarded to registered customers!")
+    mark_as_completed.short_description = "🎉 Complete Orders (Award Points)"
+    
+    def mark_as_cancelled(self, request, queryset):
+        updated = queryset.update(status='cancelled')
+        self.message_user(request, f"❌ {updated} order(s) cancelled.")
+    mark_as_cancelled.short_description = "❌ Cancel Orders"
 

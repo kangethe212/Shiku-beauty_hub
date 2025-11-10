@@ -2,9 +2,12 @@
 Models for Her Beauty Hub - Enhanced Professional Version
 """
 from django.db import models
+from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator, FileExtensionValidator
 from django.utils import timezone
 from datetime import date, timedelta
+import random
+import string
 
 
 class Service(models.Model):
@@ -206,6 +209,101 @@ class GalleryItem(models.Model):
 
     def __str__(self):
         return self.title
+    
+    def like_count(self):
+        """Return total number of likes"""
+        return self.likes.count()
+    
+    def comment_count(self):
+        """Return total number of approved comments"""
+        return self.comments.filter(approved=True).count()
+
+
+class GalleryLike(models.Model):
+    """
+    Track likes on gallery items
+    """
+    gallery_item = models.ForeignKey(
+        GalleryItem,
+        on_delete=models.CASCADE,
+        related_name='likes'
+    )
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='gallery_likes',
+        null=True,
+        blank=True,
+        help_text="User who liked (if logged in)"
+    )
+    # For guests (not logged in)
+    session_id = models.CharField(
+        max_length=100,
+        blank=True,
+        help_text="Session ID for guest likes"
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        verbose_name = "Gallery Like"
+        verbose_name_plural = "Gallery Likes"
+        unique_together = [['gallery_item', 'user'], ['gallery_item', 'session_id']]
+    
+    def __str__(self):
+        if self.user:
+            return f"{self.user.username} likes {self.gallery_item.title}"
+        return f"Guest likes {self.gallery_item.title}"
+
+
+class GalleryComment(models.Model):
+    """
+    Comments on gallery items
+    """
+    gallery_item = models.ForeignKey(
+        GalleryItem,
+        on_delete=models.CASCADE,
+        related_name='comments'
+    )
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='gallery_comments',
+        null=True,
+        blank=True,
+        help_text="User who commented (if logged in)"
+    )
+    # For guests (not logged in)
+    name = models.CharField(
+        max_length=100,
+        blank=True,
+        help_text="Name for guest comments"
+    )
+    email = models.EmailField(
+        blank=True,
+        help_text="Email for guest comments"
+    )
+    comment = models.TextField(help_text="Comment text")
+    approved = models.BooleanField(
+        default=True,
+        help_text="Approve before showing publicly"
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        verbose_name = "Gallery Comment"
+        verbose_name_plural = "Gallery Comments"
+        ordering = ['-created_at']
+    
+    def __str__(self):
+        if self.user:
+            return f"Comment by {self.user.username} on {self.gallery_item.title}"
+        return f"Comment by {self.name or 'Guest'} on {self.gallery_item.title}"
+    
+    def get_author_name(self):
+        """Get comment author name"""
+        if self.user:
+            return self.user.get_full_name() or self.user.username
+        return self.name or "Anonymous"
 
 
 class Booking(models.Model):
@@ -946,4 +1044,422 @@ class ClothingImage(models.Model):
     
     def __str__(self):
         return f"Image for {self.clothing.name}"
+
+
+# ============================================================
+# LOYALTY & CUSTOMER ACCOUNT SYSTEM
+# ============================================================
+
+class UserProfile(models.Model):
+    """
+    Extended user profile with loyalty program features
+    """
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        related_name='profile'
+    )
+    
+    # Personal Information
+    phone = models.CharField(
+        max_length=20,
+        blank=True,
+        help_text="Contact phone number"
+    )
+    birthday = models.DateField(
+        null=True,
+        blank=True,
+        help_text="Birthday for special month discounts!"
+    )
+    
+    # Student Verification
+    is_student = models.BooleanField(
+        default=False,
+        help_text="Verified student status"
+    )
+    student_id = models.CharField(
+        max_length=50,
+        blank=True,
+        help_text="Student ID number for verification"
+    )
+    university = models.CharField(
+        max_length=200,
+        blank=True,
+        help_text="University/College name"
+    )
+    student_verified_date = models.DateTimeField(
+        null=True,
+        blank=True,
+        help_text="When student status was verified"
+    )
+    
+    # Loyalty Points System
+    loyalty_points = models.IntegerField(
+        default=0,
+        help_text="Earn 10 points per KSH 100 spent!"
+    )
+    total_points_earned = models.IntegerField(
+        default=0,
+        help_text="Lifetime points earned"
+    )
+    total_spent = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        default=0,
+        help_text="Total amount spent (KSH)"
+    )
+    
+    # Referral System
+    referral_code = models.CharField(
+        max_length=10,
+        unique=True,
+        blank=True,
+        help_text="Unique referral code (auto-generated)"
+    )
+    referred_by = models.ForeignKey(
+        'self',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='referrals',
+        help_text="Who referred this user"
+    )
+    referral_count = models.IntegerField(
+        default=0,
+        help_text="Number of friends referred"
+    )
+    
+    # Account Status
+    vip_status = models.BooleanField(
+        default=False,
+        help_text="VIP customer (5+ orders or 1000+ points)"
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        verbose_name = "Customer Profile"
+        verbose_name_plural = "Customer Profiles"
+    
+    def __str__(self):
+        return f"{self.user.get_full_name() or self.user.username} - {self.loyalty_points} pts"
+    
+    def save(self, *args, **kwargs):
+        """Auto-generate referral code if not exists"""
+        if not self.referral_code:
+            self.referral_code = self.generate_referral_code()
+        
+        # Check VIP status
+        if self.loyalty_points >= 1000 or self.total_spent >= 5000:
+            self.vip_status = True
+        
+        super().save(*args, **kwargs)
+    
+    def generate_referral_code(self):
+        """Generate unique 6-character referral code"""
+        while True:
+            code = 'SBH' + ''.join(random.choices(string.ascii_uppercase + string.digits, k=6))
+            if not UserProfile.objects.filter(referral_code=code).exists():
+                return code
+    
+    def is_birthday_month(self):
+        """Check if current month is user's birthday month"""
+        if not self.birthday:
+            return False
+        today = date.today()
+        return today.month == self.birthday.month
+    
+    def get_discount_percentage(self):
+        """Calculate available discount percentage"""
+        discount = 0
+        
+        # Student discount: 10%
+        if self.is_student:
+            discount += 10
+        
+        # Birthday month: Extra 5%
+        if self.is_birthday_month():
+            discount += 5
+        
+        # VIP discount: Extra 5%
+        if self.vip_status:
+            discount += 5
+        
+        return min(discount, 25)  # Max 25% total discount
+    
+    def add_loyalty_points(self, amount_spent):
+        """Add loyalty points based on amount spent (10 points per KSH 100)"""
+        points_earned = int(amount_spent / 100) * 10
+        self.loyalty_points += points_earned
+        self.total_points_earned += points_earned
+        self.total_spent += amount_spent
+        self.save()
+        return points_earned
+    
+    def redeem_points(self, points):
+        """Redeem loyalty points (100 points = KSH 100 discount)"""
+        if self.loyalty_points >= points:
+            self.loyalty_points -= points
+            self.save()
+            return True
+        return False
+    
+    def points_to_currency(self):
+        """Convert loyalty points to KSH value (100 points = KSH 100)"""
+        return self.loyalty_points
+
+
+class Wishlist(models.Model):
+    """
+    User's saved favorite products
+    """
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='wishlist_items'
+    )
+    
+    # Product references (nullable to support all product types)
+    hairstyle = models.ForeignKey(
+        HairStyle,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True
+    )
+    perfume = models.ForeignKey(
+        Perfume,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True
+    )
+    clothing = models.ForeignKey(
+        ClothingItem,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True
+    )
+    
+    added_at = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        verbose_name = "Wishlist Item"
+        verbose_name_plural = "Wishlist Items"
+        unique_together = [
+            ['user', 'hairstyle'],
+            ['user', 'perfume'],
+            ['user', 'clothing']
+        ]
+    
+    def __str__(self):
+        product_name = "Unknown"
+        if self.hairstyle:
+            product_name = self.hairstyle.name
+        elif self.perfume:
+            product_name = self.perfume.name
+        elif self.clothing:
+            product_name = self.clothing.name
+        return f"{self.user.username} - {product_name}"
+    
+    def get_product(self):
+        """Return the actual product object"""
+        if self.hairstyle:
+            return self.hairstyle
+        elif self.perfume:
+            return self.perfume
+        elif self.clothing:
+            return self.clothing
+        return None
+    
+    def get_product_type(self):
+        """Return product type as string"""
+        if self.hairstyle:
+            return "Hairstyle"
+        elif self.perfume:
+            return "Perfume"
+        elif self.clothing:
+            return "Clothing"
+        return "Unknown"
+
+
+class Referral(models.Model):
+    """
+    Track referrals and rewards
+    """
+    referrer = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='referrals_made',
+        help_text="User who referred"
+    )
+    referred_user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        related_name='referred_by_relation',
+        help_text="User who was referred"
+    )
+    referral_code_used = models.CharField(
+        max_length=10,
+        help_text="Referral code that was used"
+    )
+    
+    # Rewards tracking
+    reward_claimed = models.BooleanField(
+        default=False,
+        help_text="Has referrer claimed reward?"
+    )
+    reward_type = models.CharField(
+        max_length=50,
+        blank=True,
+        help_text="Type of reward (e.g., '100 points', 'Free service')"
+    )
+    
+    # Milestones
+    referred_user_made_purchase = models.BooleanField(
+        default=False,
+        help_text="Has referred user made their first purchase?"
+    )
+    
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        verbose_name = "Referral"
+        verbose_name_plural = "Referrals"
+    
+    def __str__(self):
+        return f"{self.referrer.username} referred {self.referred_user.username}"
+    
+    def check_milestone_reward(self):
+        """Check if referrer should get milestone rewards"""
+        referrer_profile = self.referrer.profile
+        total_referrals = referrer_profile.referral_count
+        
+        # Milestone rewards
+        if total_referrals == 3:
+            # 3 referrals = Free service
+            self.reward_type = "Free service (up to KSH 800)"
+            self.save()
+        elif total_referrals == 5:
+            # 5 referrals = 500 bonus points
+            referrer_profile.loyalty_points += 500
+            referrer_profile.save()
+            self.reward_type = "500 bonus points"
+            self.save()
+        elif total_referrals == 10:
+            # 10 referrals = VIP status
+            referrer_profile.vip_status = True
+            referrer_profile.save()
+            self.reward_type = "VIP Status Unlocked!"
+            self.save()
+
+
+class Order(models.Model):
+    """
+    Enhanced order tracking for loyalty system
+    """
+    STATUS_CHOICES = [
+        ('pending', 'Pending'),
+        ('confirmed', 'Confirmed'),
+        ('completed', 'Completed'),
+        ('cancelled', 'Cancelled'),
+    ]
+    
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='orders',
+        null=True,
+        blank=True,
+        help_text="Registered user (if applicable)"
+    )
+    order_number = models.CharField(
+        max_length=50,
+        unique=True,
+        help_text="Unique order number"
+    )
+    
+    # Customer info (for guest orders)
+    customer_name = models.CharField(max_length=200)
+    customer_email = models.EmailField()
+    customer_phone = models.CharField(max_length=20, blank=True)
+    
+    # Product details
+    product_type = models.CharField(max_length=50)
+    product_name = models.CharField(max_length=200)
+    quantity = models.IntegerField(default=1)
+    
+    # Pricing
+    original_price_ksh = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        help_text="Original price before discounts"
+    )
+    discount_percentage = models.IntegerField(
+        default=0,
+        help_text="Total discount applied (%)"
+    )
+    discount_amount_ksh = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        default=0,
+        help_text="Discount amount in KSH"
+    )
+    final_amount_ksh = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        help_text="Final amount paid"
+    )
+    
+    # Loyalty points
+    points_earned = models.IntegerField(
+        default=0,
+        help_text="Loyalty points earned from this order"
+    )
+    points_redeemed = models.IntegerField(
+        default=0,
+        help_text="Loyalty points used for discount"
+    )
+    
+    # Status
+    status = models.CharField(
+        max_length=20,
+        choices=STATUS_CHOICES,
+        default='pending'
+    )
+    
+    # Timestamps
+    created_at = models.DateTimeField(auto_now_add=True)
+    completed_at = models.DateTimeField(null=True, blank=True)
+    
+    class Meta:
+        verbose_name = "Order"
+        verbose_name_plural = "Orders"
+        ordering = ['-created_at']
+    
+    def __str__(self):
+        return f"Order #{self.order_number} - {self.customer_name}"
+    
+    def save(self, *args, **kwargs):
+        """Auto-generate order number and calculate final amount"""
+        if not self.order_number:
+            self.order_number = 'SBH' + ''.join(random.choices(string.digits, k=8))
+        
+        # Calculate discount amount
+        self.discount_amount_ksh = (self.original_price_ksh * self.quantity) * (self.discount_percentage / 100)
+        
+        # Calculate final amount
+        subtotal = self.original_price_ksh * self.quantity
+        self.final_amount_ksh = subtotal - self.discount_amount_ksh
+        
+        # Deduct points redeemed (100 points = KSH 100)
+        if self.points_redeemed > 0:
+            points_value = self.points_redeemed  # 1:1 ratio
+            self.final_amount_ksh = max(0, self.final_amount_ksh - points_value)
+        
+        super().save(*args, **kwargs)
+        
+        # Award loyalty points when order is completed
+        if self.status == 'completed' and self.user and self.points_earned == 0:
+            points = self.user.profile.add_loyalty_points(float(self.final_amount_ksh))
+            self.points_earned = points
+            super().save(*args, **kwargs)  # Save again to update points_earned
 

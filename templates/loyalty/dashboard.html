@@ -1,0 +1,324 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}My Dashboard - Shiku Beauty Hub{% endblock %}
+
+{% block content %}
+<div class="min-h-screen py-12" style="background: linear-gradient(135deg, #FFF8F3 0%, #FFE8DB 100%);">
+    <div class="max-w-7xl mx-auto px-4">
+        
+        <!-- Welcome Header -->
+        <div class="mb-8 text-center">
+            <h1 class="text-5xl font-bold gradient-text mb-2">
+                Welcome Back, {{ user.first_name|default:user.username }}! 💎
+            </h1>
+            <p class="text-gray-600 text-lg">Your beauty journey dashboard</p>
+        </div>
+
+        <!-- Points & Discounts Overview -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <!-- Loyalty Points -->
+            <div class="bg-white rounded-2xl p-6 shadow-lg hover-lift">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-gray-600 font-semibold">Loyalty Points</h3>
+                    <span class="text-4xl">💎</span>
+                </div>
+                <p class="text-4xl font-bold gradient-text">{{ profile.loyalty_points }}</p>
+                <p class="text-sm text-gray-500 mt-2">= KSH {{ profile.loyalty_points }}</p>
+                <div class="mt-4 bg-gradient-to-r from-pink-100 to-purple-100 rounded-lg p-3">
+                    <p class="text-xs text-gray-700 font-semibold">Earn 10 pts per KSH 100 💰</p>
+                </div>
+            </div>
+
+            <!-- Total Discount -->
+            <div class="bg-white rounded-2xl p-6 shadow-lg hover-lift">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-gray-600 font-semibold">Your Discount</h3>
+                    <span class="text-4xl">🏷️</span>
+                </div>
+                <p class="text-4xl font-bold" style="color: #10B981;">{{ discount_percentage }}%</p>
+                <p class="text-sm text-gray-500 mt-2">OFF your next order!</p>
+                {% if discounts %}
+                    <div class="mt-4 space-y-1">
+                        {% for discount in discounts %}
+                            <div class="flex items-center text-xs">
+                                <span class="mr-2">{{ discount.icon }}</span>
+                                <span class="text-gray-700">{{ discount.type }}: {{ discount.percentage }}%</span>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Total Orders -->
+            <div class="bg-white rounded-2xl p-6 shadow-lg hover-lift">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-gray-600 font-semibold">Total Orders</h3>
+                    <span class="text-4xl">📦</span>
+                </div>
+                <p class="text-4xl font-bold gradient-text">{{ total_orders }}</p>
+                <p class="text-sm text-gray-500 mt-2">Completed</p>
+                <div class="mt-4 bg-gradient-to-r from-pink-100 to-purple-100 rounded-lg p-3">
+                    <p class="text-xs text-gray-700 font-semibold">Total Spent: KSH {{ total_spent|floatformat:0 }}</p>
+                </div>
+            </div>
+
+            <!-- VIP Status -->
+            <div class="bg-white rounded-2xl p-6 shadow-lg hover-lift">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-gray-600 font-semibold">Status</h3>
+                    <span class="text-4xl">{% if profile.vip_status %}👑{% else %}⭐{% endif %}</span>
+                </div>
+                {% if profile.vip_status %}
+                    <p class="text-3xl font-bold" style="color: #FFD700;">VIP Member</p>
+                    <p class="text-sm text-gray-500 mt-2">You're special! ✨</p>
+                {% else %}
+                    <p class="text-2xl font-bold text-gray-700">Regular</p>
+                    <p class="text-sm text-gray-500 mt-2">{{ points_to_next_vip }} pts to VIP</p>
+                    <div class="mt-3 bg-gray-200 rounded-full h-3 overflow-hidden">
+                        <div class="bg-gradient-to-r from-pink-500 to-purple-500 h-full rounded-full transition-all duration-500" style="width: {{ profile.loyalty_points|floatformat:0|default:0 }}%;"></div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+            <a href="{% url 'hairstyles' %}" class="bg-white rounded-xl p-6 text-center shadow-lg hover-lift transition duration-300">
+                <div class="text-5xl mb-2">💇</div>
+                <p class="font-bold text-gray-800">Book Hair</p>
+            </a>
+            <a href="{% url 'perfumes' %}" class="bg-white rounded-xl p-6 text-center shadow-lg hover-lift transition duration-300">
+                <div class="text-5xl mb-2">🌸</div>
+                <p class="font-bold text-gray-800">Buy Perfume</p>
+            </a>
+            <a href="{% url 'wishlist' %}" class="bg-white rounded-xl p-6 text-center shadow-lg hover-lift transition duration-300">
+                <div class="text-5xl mb-2">💖</div>
+                <p class="font-bold text-gray-800">My Wishlist</p>
+                {% if wishlist_items %}
+                    <span class="inline-block mt-1 bg-pink-500 text-white text-xs px-2 py-1 rounded-full">{{ wishlist_items|length }}</span>
+                {% endif %}
+            </a>
+            <a href="{% url 'referrals' %}" class="bg-white rounded-xl p-6 text-center shadow-lg hover-lift transition duration-300">
+                <div class="text-5xl mb-2">🔗</div>
+                <p class="font-bold text-gray-800">Refer Friends</p>
+            </a>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Left Column: Recent Orders & Wishlist -->
+            <div class="lg:col-span-2 space-y-6">
+                
+                <!-- Recent Orders -->
+                <div class="bg-white rounded-2xl p-6 shadow-lg">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-2xl font-bold text-gray-800">
+                            <i class="fas fa-shopping-bag mr-2 text-pink-500"></i>Recent Orders
+                        </h2>
+                        <a href="{% url 'order_history' %}" class="text-pink-500 hover:text-purple-500 font-semibold text-sm transition duration-300">
+                            View All →
+                        </a>
+                    </div>
+
+                    {% if recent_orders %}
+                        <div class="space-y-4">
+                            {% for order in recent_orders %}
+                                <div class="border-2 border-pink-100 rounded-xl p-4 hover:border-pink-300 transition duration-300">
+                                    <div class="flex justify-between items-start mb-2">
+                                        <div>
+                                            <h3 class="font-bold text-gray-800">{{ order.product_name }}</h3>
+                                            <p class="text-sm text-gray-500">Order #{{ order.order_number }}</p>
+                                        </div>
+                                        <span class="px-3 py-1 rounded-full text-xs font-semibold
+                                            {% if order.status == 'completed' %}bg-green-100 text-green-800
+                                            {% elif order.status == 'confirmed' %}bg-blue-100 text-blue-800
+                                            {% elif order.status == 'cancelled' %}bg-red-100 text-red-800
+                                            {% else %}bg-yellow-100 text-yellow-800{% endif %}">
+                                            {{ order.get_status_display }}
+                                        </span>
+                                    </div>
+                                    <div class="flex justify-between items-center">
+                                        <div>
+                                            <p class="text-sm text-gray-600">{{ order.created_at|date:"M d, Y" }}</p>
+                                            {% if order.points_earned > 0 %}
+                                                <p class="text-sm text-green-600 font-semibold">
+                                                    +{{ order.points_earned }} points earned 💎
+                                                </p>
+                                            {% endif %}
+                                        </div>
+                                        <p class="text-lg font-bold gradient-text">KSH {{ order.final_amount_ksh|floatformat:0 }}</p>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="text-center py-12">
+                            <div class="text-6xl mb-4">🛍️</div>
+                            <p class="text-gray-600 mb-4">No orders yet!</p>
+                            <a href="{% url 'hairstyles' %}" class="btn-primary inline-block">
+                                Start Shopping
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Wishlist Preview -->
+                <div class="bg-white rounded-2xl p-6 shadow-lg">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-2xl font-bold text-gray-800">
+                            <i class="fas fa-heart mr-2 text-pink-500"></i>My Wishlist
+                        </h2>
+                        <a href="{% url 'wishlist' %}" class="text-pink-500 hover:text-purple-500 font-semibold text-sm transition duration-300">
+                            View All →
+                        </a>
+                    </div>
+
+                    {% if wishlist_items %}
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                            {% for item in wishlist_items %}
+                                {% with product=item.get_product %}
+                                    <div class="border-2 border-pink-100 rounded-xl overflow-hidden hover:border-pink-300 transition duration-300">
+                                        {% if product.image %}
+                                            <img src="{{ product.image.url }}" alt="{{ product.name }}" class="w-full h-32 object-cover">
+                                        {% else %}
+                                            <div class="w-full h-32 bg-gradient-to-br from-pink-200 to-purple-200 flex items-center justify-center">
+                                                <span class="text-4xl">💎</span>
+                                            </div>
+                                        {% endif %}
+                                        <div class="p-2">
+                                            <p class="text-xs font-semibold text-gray-800 truncate">{{ product.name }}</p>
+                                            <p class="text-sm font-bold gradient-text">KSH {{ product.price_ksh|floatformat:0 }}</p>
+                                        </div>
+                                    </div>
+                                {% endwith %}
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="text-center py-8">
+                            <div class="text-5xl mb-3">💖</div>
+                            <p class="text-gray-600 text-sm">Your wishlist is empty</p>
+                            <p class="text-gray-500 text-xs mt-2">Click the ❤️ on products you love!</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Right Column: Profile & Referrals -->
+            <div class="space-y-6">
+                
+                <!-- Profile Card -->
+                <div class="bg-gradient-to-br from-pink-500 to-purple-500 rounded-2xl p-6 text-white shadow-lg">
+                    <div class="text-center mb-4">
+                        <div class="w-24 h-24 rounded-full bg-white mx-auto mb-4 flex items-center justify-center">
+                            <span class="text-5xl">{{ user.first_name.0|default:user.username.0|upper }}</span>
+                        </div>
+                        <h2 class="text-2xl font-bold">{{ user.get_full_name|default:user.username }}</h2>
+                        <p class="text-sm opacity-90">{{ user.email }}</p>
+                    </div>
+
+                    <div class="space-y-3 mt-6">
+                        {% if profile.is_student %}
+                            <div class="bg-white bg-opacity-20 rounded-lg p-3 text-center">
+                                <p class="text-sm font-semibold">🎓 Verified Student</p>
+                                <p class="text-xs opacity-90 mt-1">{{ profile.university }}</p>
+                            </div>
+                        {% endif %}
+
+                        {% if profile.is_birthday_month %}
+                            <div class="bg-white bg-opacity-20 rounded-lg p-3 text-center">
+                                <p class="text-sm font-semibold">🎂 Birthday Month!</p>
+                                <p class="text-xs opacity-90 mt-1">Extra 5% off this month!</p>
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <a href="{% url 'profile_settings' %}" class="block w-full mt-6 py-3 bg-white text-pink-500 rounded-xl font-semibold text-center hover:bg-opacity-90 transition duration-300">
+                        <i class="fas fa-cog mr-2"></i>Edit Profile
+                    </a>
+                </div>
+
+                <!-- Referral Card -->
+                <div class="bg-white rounded-2xl p-6 shadow-lg">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">
+                        <i class="fas fa-users mr-2 text-purple-500"></i>Refer & Earn
+                    </h3>
+
+                    <div class="bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl p-4 mb-4">
+                        <p class="text-xs text-gray-600 mb-2">Your Referral Code:</p>
+                        <div class="flex items-center justify-between bg-white rounded-lg p-3">
+                            <code class="text-lg font-bold gradient-text">{{ profile.referral_code }}</code>
+                            <button onclick="copyReferralCode()" class="text-pink-500 hover:text-purple-500 transition duration-300">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="space-y-2 text-sm mb-4">
+                        <div class="flex items-center text-gray-700">
+                            <span class="mr-2">👥</span>
+                            <span>{{ referrals_count }} friends referred</span>
+                        </div>
+                        <div class="flex items-center text-gray-700">
+                            <span class="mr-2">✅</span>
+                            <span>{{ successful_referrals }} made purchases</span>
+                        </div>
+                    </div>
+
+                    <a href="{% url 'referrals' %}" class="block w-full py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-xl font-semibold text-center hover:shadow-lg transition duration-300">
+                        View Referral Program
+                    </a>
+                </div>
+
+                <!-- Rewards Progress -->
+                <div class="bg-white rounded-2xl p-6 shadow-lg">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">
+                        <i class="fas fa-trophy mr-2 text-yellow-500"></i>Rewards Progress
+                    </h3>
+
+                    <div class="space-y-4">
+                        <div>
+                            <div class="flex justify-between text-sm mb-2">
+                                <span class="text-gray-600">3 Referrals</span>
+                                <span class="font-semibold text-pink-500">Free Service!</span>
+                            </div>
+                            <div class="bg-gray-200 rounded-full h-3 overflow-hidden">
+                                <div class="bg-gradient-to-r from-pink-500 to-purple-500 h-full rounded-full transition-all duration-500" style="width: {% widthratio referrals_count 3 100 %}%;"></div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between text-sm mb-2">
+                                <span class="text-gray-600">5 Referrals</span>
+                                <span class="font-semibold text-purple-500">500 Points!</span>
+                            </div>
+                            <div class="bg-gray-200 rounded-full h-3 overflow-hidden">
+                                <div class="bg-gradient-to-r from-purple-500 to-pink-500 h-full rounded-full transition-all duration-500" style="width: {% widthratio referrals_count 5 100 %}%;"></div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between text-sm mb-2">
+                                <span class="text-gray-600">10 Referrals</span>
+                                <span class="font-semibold text-yellow-500">VIP Status! 👑</span>
+                            </div>
+                            <div class="bg-gray-200 rounded-full h-3 overflow-hidden">
+                                <div class="bg-gradient-to-r from-yellow-400 to-orange-500 h-full rounded-full transition-all duration-500" style="width: {% widthratio referrals_count 10 100 %}%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function copyReferralCode() {
+    const code = "{{ profile.referral_code }}";
+    navigator.clipboard.writeText(code).then(function() {
+        alert('✅ Referral code copied: ' + code);
+    });
+}
+</script>
+{% endblock %}
+

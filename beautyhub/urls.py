@@ -3,6 +3,7 @@ URL configuration for beautyhub app - Enhanced Professional Version
 """
 from django.urls import path
 from . import views
+from . import views_loyalty
 
 urlpatterns = [
     # Main pages
@@ -38,5 +39,37 @@ urlpatterns = [
     
     # Order Receipt
     path('receipt/<int:order_id>/', views.order_receipt, name='order_receipt'),
+    
+    # ============================================================
+    # LOYALTY & CUSTOMER ACCOUNT SYSTEM
+    # ============================================================
+    
+    # Authentication
+    path('signup/', views_loyalty.signup_view, name='signup'),
+    path('login/', views_loyalty.login_view, name='login'),
+    path('logout/', views_loyalty.logout_view, name='logout'),
+    
+    # User Dashboard
+    path('dashboard/', views_loyalty.dashboard_view, name='dashboard'),
+    path('profile/settings/', views_loyalty.profile_settings_view, name='profile_settings'),
+    
+    # Wishlist
+    path('wishlist/', views_loyalty.wishlist_view, name='wishlist'),
+    path('wishlist/add/<str:product_type>/<int:product_id>/', views_loyalty.add_to_wishlist, name='add_to_wishlist'),
+    path('wishlist/remove/<int:wishlist_id>/', views_loyalty.remove_from_wishlist, name='remove_from_wishlist'),
+    path('wishlist/check/<str:product_type>/<int:product_id>/', views_loyalty.check_wishlist_status, name='check_wishlist_status'),
+    
+    # Orders & History
+    path('orders/', views_loyalty.order_history_view, name='order_history'),
+    
+    # Referrals
+    path('referrals/', views_loyalty.referrals_view, name='referrals'),
+    
+    # ============================================================
+    # GALLERY ENGAGEMENT - LIKES & COMMENTS
+    # ============================================================
+    path('gallery/like/<int:gallery_id>/', views.gallery_like, name='gallery_like'),
+    path('gallery/comment/<int:gallery_id>/', views.gallery_comment, name='gallery_comment'),
+    path('gallery/check-like/<int:gallery_id>/', views.check_gallery_like_status, name='check_gallery_like'),
 ]
 

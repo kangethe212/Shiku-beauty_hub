@@ -1,0 +1,1548 @@
+[
+{
+    "model": "auth.user",
+    "fields": {
+        "password": "pbkdf2_sha256$600000$fN0DMRfvDxXt4oGGoBZgM1$+zKDejUOHvqZgSFi3gOCUWeFqcBixIwnPiNIXQG6ycI=",
+        "last_login": "2025-11-08T15:35:05.618Z",
+        "is_superuser": true,
+        "username": "admin",
+        "first_name": "",
+        "last_name": "",
+        "email": "admin@herbeautyhub.com",
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2025-11-08T15:30:32.511Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "au4zmtcci438krods7kxsxkh2y7iei7q",
+    "fields": {
+        "session_data": ".eJxVjMsOwiAUBf-FtSFQuRRcuvcbyH1QqRqalHZl_HfbpAvdnpk5b5VwXUpaW57TKOqirDr9boT8zHUH8sB6nzRPdZlH0ruiD9r0bZL8uh7u30HBVrYaECK5QM6yAGcX0Is7exqMB7IG0UQGg5CtmG7TqOstsRMYogTus_p8AeuiOE8:1vHky1:ir6QXxtHzG0uMX7dQdOnObG9RPrPzXxqxaNYUcWuTQo",
+        "expire_date": "2025-11-22T15:35:05.628Z"
+    }
+},
+{
+    "model": "beautyhub.galleryitem",
+    "pk": 1,
+    "fields": {
+        "title": "Knotless Box Braids Perfection",
+        "description": "Beautiful work from Shiku Beauty Hub",
+        "image": "gallery/knotles_braids_.jpg",
+        "category": "hairstyles",
+        "featured": true,
+        "uploaded_at": "2025-11-09T11:45:36.748Z"
+    }
+},
+{
+    "model": "beautyhub.galleryitem",
+    "pk": 2,
+    "fields": {
+        "title": "Bohemian Braids Style",
+        "description": "Beautiful work from Shiku Beauty Hub",
+        "image": "gallery/BOHO_BARIDS_.jpg",
+        "category": "hairstyles",
+        "featured": true,
+        "uploaded_at": "2025-11-09T11:45:36.793Z"
+    }
+},
+{
+    "model": "beautyhub.galleryitem",
+    "pk": 3,
+    "fields": {
+        "title": "Beaded Braids Elegance",
+        "description": "Beautiful work from Shiku Beauty Hub",
+        "image": "gallery/BEADED_KNOTLESS.jpg",
+        "category": "hairstyles",
+        "featured": true,
+        "uploaded_at": "2025-11-09T11:45:36.843Z"
+    }
+},
+{
+    "model": "beautyhub.galleryitem",
+    "pk": 4,
+    "fields": {
+        "title": "Natural Twist Beauty",
+        "description": "Beautiful work from Shiku Beauty Hub",
+        "image": "gallery/natural_twist.jpg",
+        "category": "hairstyles",
+        "featured": true,
+        "uploaded_at": "2025-11-09T11:45:36.877Z"
+    }
+},
+{
+    "model": "beautyhub.galleryitem",
+    "pk": 5,
+    "fields": {
+        "title": "Mermaid Braids Magic",
+        "description": "Beautiful work from Shiku Beauty Hub",
+        "image": "gallery/MERMAID_BRAIDS.jpg",
+        "category": "hairstyles",
+        "featured": true,
+        "uploaded_at": "2025-11-09T11:45:36.902Z"
+    }
+},
+{
+    "model": "beautyhub.galleryitem",
+    "pk": 6,
+    "fields": {
+        "title": "Havana Crochet Curls",
+        "description": "Beautiful work from Shiku Beauty Hub",
+        "image": "gallery/CROCHETING_HAVANA_CURL.jpg",
+        "category": "hairstyles",
+        "featured": true,
+        "uploaded_at": "2025-11-09T11:45:36.935Z"
+    }
+},
+{
+    "model": "beautyhub.galleryitem",
+    "pk": 7,
+    "fields": {
+        "title": "Faux Locs Perfection",
+        "description": "Beautiful work from Shiku Beauty Hub",
+        "image": "gallery/retouched_locs.jpg",
+        "category": "hairstyles",
+        "featured": false,
+        "uploaded_at": "2025-11-09T11:45:36.981Z"
+    }
+},
+{
+    "model": "beautyhub.galleryitem",
+    "pk": 8,
+    "fields": {
+        "title": "Micro Braids Detail",
+        "description": "Beautiful work from Shiku Beauty Hub",
+        "image": "gallery/simple_mini_braids.jpg",
+        "category": "hairstyles",
+        "featured": false,
+        "uploaded_at": "2025-11-09T11:45:37.015Z"
+    }
+},
+{
+    "model": "beautyhub.galleryitem",
+    "pk": 9,
+    "fields": {
+        "title": "Artistic Bantu Knots",
+        "description": "Beautiful work from Shiku Beauty Hub",
+        "image": "gallery/Bantu_knots_.jpg",
+        "category": "hairstyles",
+        "featured": false,
+        "uploaded_at": "2025-11-09T11:45:37.063Z"
+    }
+},
+{
+    "model": "beautyhub.galleryitem",
+    "pk": 10,
+    "fields": {
+        "title": "Perfect Cornrows",
+        "description": "Beautiful work from Shiku Beauty Hub",
+        "image": "gallery/CORNROWS.jpg",
+        "category": "hairstyles",
+        "featured": false,
+        "uploaded_at": "2025-11-09T11:45:37.100Z"
+    }
+},
+{
+    "model": "beautyhub.video",
+    "pk": 1,
+    "fields": {
+        "title": "TOP CLASSS BRAIDS",
+        "description": "ssss",
+        "video_file": "videos/WhatsApp_Video_2025-11-01_at_11.49.01_6421b065.mp4",
+        "thumbnail": "video_thumbnails/CROCHETING_HAVANA_CURL.jpg",
+        "category": "behind_scenes",
+        "duration": "4-5 hours",
+        "views": 2,
+        "featured": true,
+        "active": true,
+        "uploaded_at": "2025-11-09T09:47:13.024Z"
+    }
+},
+{
+    "model": "beautyhub.video",
+    "pk": 2,
+    "fields": {
+        "title": "Box Braids Transformation",
+        "description": "Watch the complete process of creating beautiful box braids! From start to finish, see how we transform hair into stunning protective styles.",
+        "video_file": "videos/video 1.mp4",
+        "thumbnail": "video_thumbnails/BRAIDS_.jpg",
+        "category": "tutorial",
+        "duration": "2:30",
+        "views": 2,
+        "featured": true,
+        "active": true,
+        "uploaded_at": "2025-11-09T10:52:40.734Z"
+    }
+},
+{
+    "model": "beautyhub.video",
+    "pk": 3,
+    "fields": {
+        "title": "Cornrows Before & After",
+        "description": "Amazing cornrows transformation! See the incredible before and after results. Perfect for inspiration!",
+        "video_file": "videos/video 3.mp4",
+        "thumbnail": "video_thumbnails/CORNROWS.jpg",
+        "category": "before_after",
+        "duration": "1:45",
+        "views": 1,
+        "featured": true,
+        "active": true,
+        "uploaded_at": "2025-11-09T10:52:40.781Z"
+    }
+},
+{
+    "model": "beautyhub.video",
+    "pk": 4,
+    "fields": {
+        "title": "Twist Braids Process",
+        "description": "Beautiful twist braids being created. Watch the magic happen! Perfect style for any occasion.",
+        "video_file": "videos/video 4.mp4",
+        "thumbnail": "video_thumbnails/natural_twist.jpg",
+        "category": "tutorial",
+        "duration": "2:50",
+        "views": 1,
+        "featured": true,
+        "active": true,
+        "uploaded_at": "2025-11-09T10:52:40.919Z"
+    }
+},
+{
+    "model": "beautyhub.video",
+    "pk": 5,
+    "fields": {
+        "title": "Hairstyle Tips & Tricks",
+        "description": "Professional tips for maintaining your braids and making them last longer. Expert advice you need!",
+        "video_file": "videos/video 6.mp4",
+        "thumbnail": "video_thumbnails/simple_mini_braids.jpg",
+        "category": "tips",
+        "duration": "1:30",
+        "views": 2,
+        "featured": false,
+        "active": true,
+        "uploaded_at": "2025-11-09T10:52:40.955Z"
+    }
+},
+{
+    "model": "beautyhub.video",
+    "pk": 6,
+    "fields": {
+        "title": "Latest Style Showcase",
+        "description": "Check out our latest hairstyle creation! Fresh from the salon. Book yours today!",
+        "video_file": "videos/WhatsApp Video 2025-11-09 at 03.27.06_e04762f5.mp4",
+        "thumbnail": "video_thumbnails/BOHO_BARIDS_.jpg",
+        "category": "showcase",
+        "duration": "0:45",
+        "views": 1,
+        "featured": false,
+        "active": true,
+        "uploaded_at": "2025-11-09T10:52:41.017Z"
+    }
+},
+{
+    "model": "beautyhub.video",
+    "pk": 7,
+    "fields": {
+        "title": "Crochet Braids Tutorial",
+        "description": "See how we create gorgeous crochet braids! Fast installation, beautiful results. Perfect for busy students.",
+        "video_file": "videos/WhatsApp_Video_2025-11-01_at_11.49.01_6421b065.mp4",
+        "thumbnail": "video_thumbnails/CROCHETING_HAVANA_CURL.jpg",
+        "category": "tutorial",
+        "duration": "2:00",
+        "views": 0,
+        "featured": false,
+        "active": true,
+        "uploaded_at": "2025-11-09T10:52:41.098Z"
+    }
+},
+{
+    "model": "beautyhub.video",
+    "pk": 8,
+    "fields": {
+        "title": "Hair Styling Process",
+        "description": "Behind the scenes of a complete hair styling session. See the professional process from start to finish!",
+        "video_file": "services/WhatsApp Video 2025-11-01 at 11.49.01_6421b065.mp4",
+        "thumbnail": "video_thumbnails/BEADED_KNOTLESS.jpg",
+        "category": "behind_scenes",
+        "duration": "2:10",
+        "views": 0,
+        "featured": false,
+        "active": true,
+        "uploaded_at": "2025-11-09T10:52:41.134Z"
+    }
+},
+{
+    "model": "beautyhub.video",
+    "pk": 9,
+    "fields": {
+        "title": "Braiding Technique Demo",
+        "description": "Watch our expert braiding technique! Learn how we create neat, long-lasting styles that students love.",
+        "video_file": "services/WhatsApp Video 2025-11-06 at 12.53.36_c6d51f68.mp4",
+        "thumbnail": "video_thumbnails/Natural_mini_braids_.jpg",
+        "category": "tutorial",
+        "duration": "1:55",
+        "views": 3,
+        "featured": false,
+        "active": true,
+        "uploaded_at": "2025-11-09T10:52:41.159Z"
+    }
+},
+{
+    "model": "beautyhub.businessinfo",
+    "pk": 1,
+    "fields": {
+        "business_name": "Her Beauty Hub",
+        "tagline": "Glow. Style. Confidence.",
+        "phone": "",
+        "email": "",
+        "address": "",
+        "whatsapp_number": "",
+        "weekday_hours": "9:00 AM - 7:00 PM",
+        "saturday_hours": "10:00 AM - 8:00 PM",
+        "sunday_hours": "12:00 PM - 6:00 PM",
+        "about_text": "",
+        "mission": "",
+        "vision": "",
+        "logo": "",
+        "hero_image": "",
+        "updated_at": "2025-11-08T14:23:01.073Z"
+    }
+},
+{
+    "model": "beautyhub.hairstyle",
+    "pk": 2,
+    "fields": {
+        "name": "Reddish-Brown Faux Locs",
+        "description": "Beautiful faux locs with neat square parts. Medium to long length, low maintenance protective style. Natural looking and lightweight. Includes hair extensions.",
+        "image": "hairstyles/retouched_locs.jpg",
+        "price_ksh": "1100.00",
+        "price_usd": "8.00",
+        "price": "8.00",
+        "duration_minutes": 270,
+        "duration": "4-5 hours",
+        "difficulty": "complex",
+        "available": true,
+        "featured": true,
+        "created_at": "2025-11-08T15:10:22.142Z"
+    }
+},
+{
+    "model": "beautyhub.hairstyle",
+    "pk": 7,
+    "fields": {
+        "name": "Geometric Bantu Knots",
+        "description": "Stunning Bantu knots with precise geometric and heart-shaped parts. Trendy protective style perfect for 1-2 weeks. Artistic and unique design.",
+        "image": "hairstyles/Bantu_knots_.jpg",
+        "price_ksh": "600.00",
+        "price_usd": "5.00",
+        "price": "5.00",
+        "duration_minutes": 150,
+        "duration": "2-3 hours",
+        "difficulty": "medium",
+        "available": true,
+        "featured": false,
+        "created_at": "2025-11-08T15:10:22.231Z"
+    }
+},
+{
+    "model": "beautyhub.hairstyle",
+    "pk": 11,
+    "fields": {
+        "name": "Classic Two-Strand Twists",
+        "description": "Medium-length two-strand twists with neat square parts. Natural looking protective style. Can be styled into bun or ponytail. Lasts 3-4 weeks.",
+        "image": "hairstyles/natural_twist.jpg",
+        "price_ksh": "700.00",
+        "price_usd": "5.00",
+        "price": "5.00",
+        "duration_minutes": 180,
+        "duration": "3-4 hours",
+        "difficulty": "medium",
+        "available": true,
+        "featured": false,
+        "created_at": "2025-11-08T15:10:22.491Z"
+    }
+},
+{
+    "model": "beautyhub.hairstyle",
+    "pk": 18,
+    "fields": {
+        "name": "Curly Crochet Braids",
+        "description": "Voluminous curly crochet braids with neat cornrow base. Big, bouncy curls. Perfect for those wanting fullness and volume. Lasts 3-4 weeks.",
+        "image": "hairstyles/CROCHETING_HAVANA_CURL.jpg",
+        "price_ksh": "850.00",
+        "price_usd": "7.00",
+        "price": "7.00",
+        "duration_minutes": 180,
+        "duration": "3-4 hours",
+        "difficulty": "medium",
+        "available": true,
+        "featured": false,
+        "created_at": "2025-11-08T15:10:23.156Z"
+    }
+},
+{
+    "model": "beautyhub.hairstyle",
+    "pk": 19,
+    "fields": {
+        "name": "Small Box Braids Extra Long",
+        "description": "Tiny box braids in light brown/caramel color. Ultra-long reaching to waist with curly ends. Premium protective style lasting 8-10 weeks.",
+        "image": "hairstyles/WhatsApp_Image_2025-11-06_at_13.35.12_d8be20e7.jpg",
+        "price_ksh": "1200.00",
+        "price_usd": "9.00",
+        "price": "9.00",
+        "duration_minutes": 420,
+        "duration": "7-8 hours",
+        "difficulty": "complex",
+        "available": true,
+        "featured": true,
+        "created_at": "2025-11-08T15:10:23.190Z"
+    }
+},
+{
+    "model": "beautyhub.hairstyle",
+    "pk": 22,
+    "fields": {
+        "name": "Knotless Box Braids",
+        "description": "Trendy knotless box braids with no tension on edges. Lightweight and natural looking. Medium length, very comfortable. Lasts 5-6 weeks.",
+        "image": "hairstyles/knotles_braids_.jpg",
+        "price_ksh": "1000.00",
+        "price_usd": "8.00",
+        "price": "8.00",
+        "duration_minutes": 270,
+        "duration": "4-5 hours",
+        "difficulty": "complex",
+        "available": true,
+        "featured": true,
+        "created_at": "2025-11-08T15:10:23.277Z"
+    }
+},
+{
+    "model": "beautyhub.hairstyle",
+    "pk": 24,
+    "fields": {
+        "name": "Ghana Weaving",
+        "description": "Classic Ghana weaving with thick cornrows. Can be styled into various patterns. Protective and elegant. Lasts 2-3 weeks.",
+        "image": "hairstyles/Ghana_Weaving_CORNROWS.jpg",
+        "price_ksh": "600.00",
+        "price_usd": "5.00",
+        "price": "5.00",
+        "duration_minutes": 150,
+        "duration": "2-3 hours",
+        "difficulty": "medium",
+        "available": true,
+        "featured": false,
+        "created_at": "2025-11-08T15:10:23.444Z"
+    }
+},
+{
+    "model": "beautyhub.hairstyle",
+    "pk": 25,
+    "fields": {
+        "name": "Lemonade Braids",
+        "description": "Side-swept cornrow braids (Lemonade style). Sleek and stylish. Perfect for making a statement. Inspired by Beyoncé. Lasts 2-3 weeks.",
+        "image": "hairstyles/Lemonade_Braids_CORNROWS.jpg",
+        "price_ksh": "750.00",
+        "price_usd": "6.00",
+        "price": "6.00",
+        "duration_minutes": 180,
+        "duration": "3-4 hours",
+        "difficulty": "medium",
+        "available": true,
+        "featured": false,
+        "created_at": "2025-11-08T15:10:23.492Z"
+    }
+},
+{
+    "model": "beautyhub.hairstyle",
+    "pk": 26,
+    "fields": {
+        "name": "Senegalese Twists",
+        "description": "Smooth Senegalese twists with rope-like texture. Medium length, lightweight and elegant. Professional protective style. Lasts 6-8 weeks.",
+        "image": "hairstyles/Senegalese_Twists_natural twist.jpg",
+        "price_ksh": "900.00",
+        "price_usd": "7.00",
+        "price": "7.00",
+        "duration_minutes": 240,
+        "duration": "4-5 hours",
+        "difficulty": "medium",
+        "available": true,
+        "featured": false,
+        "created_at": "2025-11-08T15:10:23.522Z"
+    }
+},
+{
+    "model": "beautyhub.hairstyle",
+    "pk": 27,
+    "fields": {
+        "name": "Marley Twists",
+        "description": "Natural looking Marley twists with kinky texture. Perfect for afro hair look. Comfortable and stylish protective style. Lasts 4-6 weeks.",
+        "image": "hairstyles/Marley_Twists_natural twist.jpg",
+        "price_ksh": "850.00",
+        "price_usd": "7.00",
+        "price": "7.00",
+        "duration_minutes": 210,
+        "duration": "3-4 hours",
+        "difficulty": "medium",
+        "available": true,
+        "featured": false,
+        "created_at": "2025-11-08T15:10:23.540Z"
+    }
+},
+{
+    "model": "beautyhub.hairstyle",
+    "pk": 28,
+    "fields": {
+        "name": "Havana Twists",
+        "description": "Chunky Havana twists with bold look. Fast to install, comfortable to wear. Perfect for low maintenance. Lasts 4-6 weeks.",
+        "image": "hairstyles/COCO_TWISTS.jpg",
+        "price_ksh": "800.00",
+        "price_usd": "6.00",
+        "price": "6.00",
+        "duration_minutes": 180,
+        "duration": "3-4 hours",
+        "difficulty": "medium",
+        "available": true,
+        "featured": false,
+        "created_at": "2025-11-08T15:10:23.557Z"
+    }
+},
+{
+    "model": "beautyhub.hairstyle",
+    "pk": 29,
+    "fields": {
+        "name": "Spring Twists",
+        "description": "Bouncy spring twists with defined curl pattern. Fun and playful style. Lightweight and comfortable. Lasts 3-4 weeks.",
+        "image": "hairstyles/WhatsApp_Image_2025-11-06_at_12.58.35_0587cea1.jpg",
+        "price_ksh": "900.00",
+        "price_usd": "7.00",
+        "price": "7.00",
+        "duration_minutes": 210,
+        "duration": "3-4 hours",
+        "difficulty": "medium",
+        "available": true,
+        "featured": false,
+        "created_at": "2025-11-08T15:10:23.573Z"
+    }
+},
+{
+    "model": "beautyhub.hairstyle",
+    "pk": 30,
+    "fields": {
+        "name": "Stitch Braids",
+        "description": "Trendy stitch braids with visible horizontal stitching. Modern and unique look. Medium thickness, very neat. Lasts 2-3 weeks.",
+        "image": "hairstyles/Stitch_Braids_BRAIDS .jpg",
+        "price_ksh": "700.00",
+        "price_usd": "5.00",
+        "price": "5.00",
+        "duration_minutes": 180,
+        "duration": "3-4 hours",
+        "difficulty": "medium",
+        "available": true,
+        "featured": false,
+        "created_at": "2025-11-08T15:10:23.606Z"
+    }
+},
+{
+    "model": "beautyhub.hairstyle",
+    "pk": 31,
+    "fields": {
+        "name": "Bohemian Box Braids",
+        "description": "Box braids with loose curly ends for boho look. Wavy texture throughout. Stylish and free-spirited. Lasts 6-8 weeks.",
+        "image": "hairstyles/BOHO_BARIDS_.jpg",
+        "price_ksh": "1050.00",
+        "price_usd": "8.00",
+        "price": "8.00",
+        "duration_minutes": 300,
+        "duration": "5-6 hours",
+        "difficulty": "complex",
+        "available": true,
+        "featured": true,
+        "created_at": "2025-11-08T15:10:23.623Z"
+    }
+},
+{
+    "model": "beautyhub.hairstyle",
+    "pk": 32,
+    "fields": {
+        "name": "Micro Box Braids",
+        "description": "Tiny micro box braids for intricate look. Time-intensive but lasts longest (8-12 weeks). Perfect for those who want minimal maintenance.",
+        "image": "hairstyles/simple_mini_braids.jpg",
+        "price_ksh": "1200.00",
+        "price_usd": "9.00",
+        "price": "9.00",
+        "duration_minutes": 480,
+        "duration": "8-10 hours",
+        "difficulty": "complex",
+        "available": true,
+        "featured": false,
+        "created_at": "2025-11-08T15:10:23.641Z"
+    }
+},
+{
+    "model": "beautyhub.hairstyle",
+    "pk": 33,
+    "fields": {
+        "name": "Crochet Braids Straight",
+        "description": "Sleek straight crochet braids with cornrow base. Gives appearance of natural flowing hair. Easy to maintain. Lasts 4-6 weeks.",
+        "image": "hairstyles/Crochet_Braids_Straight_BRAIDS .jpg",
+        "price_ksh": "750.00",
+        "price_usd": "6.00",
+        "price": "6.00",
+        "duration_minutes": 180,
+        "duration": "3-4 hours",
+        "difficulty": "medium",
+        "available": true,
+        "featured": false,
+        "created_at": "2025-11-08T15:10:23.657Z"
+    }
+},
+{
+    "model": "beautyhub.hairstyle",
+    "pk": 34,
+    "fields": {
+        "name": "Box Braids Medium Length",
+        "description": "Standard box braids to shoulder length. Classic protective style. Versatile and easy to manage. Lasts 6-8 weeks.",
+        "image": "hairstyles/BRAIDS_.jpg",
+        "price_ksh": "850.00",
+        "price_usd": "7.00",
+        "price": "7.00",
+        "duration_minutes": 240,
+        "duration": "4-5 hours",
+        "difficulty": "medium",
+        "available": true,
+        "featured": true,
+        "created_at": "2025-11-08T15:10:23.675Z"
+    }
+},
+{
+    "model": "beautyhub.hairstyle",
+    "pk": 35,
+    "fields": {
+        "name": "Tribal Braids Mohawk",
+        "description": "Bold tribal braids styled into mohawk shape. Shaved sides with braids on top. Edgy and fashionable. Lasts 2-3 weeks.",
+        "image": "hairstyles/Tribal_Braids_Mohawk_BRAIDS .jpg",
+        "price_ksh": "850.00",
+        "price_usd": "7.00",
+        "price": "7.00",
+        "duration_minutes": 210,
+        "duration": "3-4 hours",
+        "difficulty": "complex",
+        "available": true,
+        "featured": false,
+        "created_at": "2025-11-08T15:10:23.693Z"
+    }
+},
+{
+    "model": "beautyhub.hairstyle",
+    "pk": 36,
+    "fields": {
+        "name": "Feed-In Cornrows Straight Back",
+        "description": "Classic feed-in cornrows braided straight back. Natural looking hairline, gradual thickness. Professional and neat. Lasts 2-3 weeks.",
+        "image": "hairstyles/CORNROWS.jpg",
+        "price_ksh": "600.00",
+        "price_usd": "5.00",
+        "price": "5.00",
+        "duration_minutes": 150,
+        "duration": "2-3 hours",
+        "difficulty": "medium",
+        "available": true,
+        "featured": false,
+        "created_at": "2025-11-08T15:10:23.719Z"
+    }
+},
+{
+    "model": "beautyhub.hairstyle",
+    "pk": 37,
+    "fields": {
+        "name": "Crochet Faux Locs",
+        "description": "Quick-install crochet faux locs. Natural loc appearance without the commitment. Medium length, comfortable. Lasts 4-6 weeks.",
+        "image": "hairstyles/Crochet_Faux_Locs_CORNROWS.jpg",
+        "price_ksh": "900.00",
+        "price_usd": "7.00",
+        "price": "7.00",
+        "duration_minutes": 180,
+        "duration": "3-4 hours",
+        "difficulty": "medium",
+        "available": true,
+        "featured": false,
+        "created_at": "2025-11-08T15:10:23.743Z"
+    }
+},
+{
+    "model": "beautyhub.hairstyle",
+    "pk": 38,
+    "fields": {
+        "name": "Yarn Braids",
+        "description": "Colorful yarn braids using soft acrylic yarn. Lightweight, comfortable, affordable. Custom colors available. Lasts 2-3 weeks.",
+        "image": "hairstyles/Brazillian_wool.jpg",
+        "price_ksh": "500.00",
+        "price_usd": "4.00",
+        "price": "4.00",
+        "duration_minutes": 180,
+        "duration": "3-4 hours",
+        "difficulty": "medium",
+        "available": true,
+        "featured": false,
+        "created_at": "2025-11-08T15:10:23.765Z"
+    }
+},
+{
+    "model": "beautyhub.hairstyle",
+    "pk": 39,
+    "fields": {
+        "name": "Invisible Braids",
+        "description": "Micro braids with invisible roots. Looks like natural flowing hair. Very detailed work. Professional finish. Lasts 6-8 weeks.",
+        "image": "hairstyles/Invisible_Braids_BRAIDS .jpg",
+        "price_ksh": "1150.00",
+        "price_usd": "9.00",
+        "price": "9.00",
+        "duration_minutes": 420,
+        "duration": "7-8 hours",
+        "difficulty": "complex",
+        "available": true,
+        "featured": false,
+        "created_at": "2025-11-08T15:10:23.792Z"
+    }
+},
+{
+    "model": "beautyhub.hairstyle",
+    "pk": 40,
+    "fields": {
+        "name": "Triangle Box Braids",
+        "description": "Box braids with unique triangle parts instead of squares. Artistic twist on classic style. Medium length. Lasts 6-8 weeks.",
+        "image": "hairstyles/normal_braids_.jpg",
+        "price_ksh": "900.00",
+        "price_usd": "7.00",
+        "price": "7.00",
+        "duration_minutes": 240,
+        "duration": "4-5 hours",
+        "difficulty": "medium",
+        "available": true,
+        "featured": false,
+        "created_at": "2025-11-08T15:10:23.813Z"
+    }
+},
+{
+    "model": "beautyhub.hairstyle",
+    "pk": 41,
+    "fields": {
+        "name": "Faux Locs Bob",
+        "description": "Short faux locs in bob style. Chic and manageable. Perfect for professional settings. Low maintenance. Lasts 3-4 weeks.",
+        "image": "hairstyles/Faux_Locs_Bob_CORNROWS.jpg",
+        "price_ksh": "750.00",
+        "price_usd": "6.00",
+        "price": "6.00",
+        "duration_minutes": 180,
+        "duration": "3-4 hours",
+        "difficulty": "medium",
+        "available": true,
+        "featured": false,
+        "created_at": "2025-11-08T15:10:23.831Z"
+    }
+},
+{
+    "model": "beautyhub.perfume",
+    "pk": 1,
+    "fields": {
+        "name": "Midnight Rose",
+        "brand": "Her Beauty Hub Signature",
+        "description": "Elegant evening fragrance inspired by iconic scents. Rich floral blend with rose, jasmine and sweet vanilla. Perfect for dates and special occasions.",
+        "image": "perfumes/1_DUNHILL.jpg",
+        "scent_type": "floral",
+        "price_ksh": "700.00",
+        "price_usd": "5.00",
+        "price": "5.00",
+        "volume": "50ml",
+        "stock_quantity": 2,
+        "available": true,
+        "featured": true,
+        "created_at": "2025-11-08T15:16:16.666Z"
+    }
+},
+{
+    "model": "beautyhub.perfume",
+    "pk": 2,
+    "fields": {
+        "name": "Golden Amber",
+        "brand": "Luxe Collection",
+        "description": "Sophisticated masculine-inspired fragrance with warm amber, woody notes and subtle spice. Perfect for confident women who love bold scents. Long-lasting all-day wear.",
+        "image": "perfumes/2_PURE_SEDUCTION.jpg",
+        "scent_type": "oriental",
+        "price_ksh": "650.00",
+        "price_usd": "5.00",
+        "price": "5.00",
+        "volume": "50ml",
+        "stock_quantity": 4,
+        "available": true,
+        "featured": true,
+        "created_at": "2025-11-08T15:16:16.691Z"
+    }
+},
+{
+    "model": "beautyhub.perfume",
+    "pk": 3,
+    "fields": {
+        "name": "Citrus Breeze",
+        "brand": "Fresh & Clean",
+        "description": "Light and refreshing citrus fragrance. Perfect for daily wear - clean, fresh, energizing. Ideal for classes and casual days.",
+        "image": "perfumes/3_PERFUME_5.jpg",
+        "scent_type": "citrus",
+        "price_ksh": "350.00",
+        "price_usd": "3.00",
+        "price": "3.00",
+        "volume": "75ml",
+        "stock_quantity": 2,
+        "available": true,
+        "featured": false,
+        "created_at": "2025-11-08T15:16:16.703Z"
+    }
+},
+{
+    "model": "beautyhub.perfume",
+    "pk": 4,
+    "fields": {
+        "name": "Vanilla Dream",
+        "brand": "Sweet Essence",
+        "description": "Sweet and seductive fragrance with vanilla, red plum and creamy notes. Irresistibly feminine and playful. Perfect for everyday wear.",
+        "image": "perfumes/4_SMART_COLLECTION.jpg",
+        "scent_type": "gourmand",
+        "price_ksh": "450.00",
+        "price_usd": "3.00",
+        "price": "3.00",
+        "volume": "75ml",
+        "stock_quantity": 3,
+        "available": true,
+        "featured": false,
+        "created_at": "2025-11-08T15:16:16.722Z"
+    }
+},
+{
+    "model": "beautyhub.perfume",
+    "pk": 5,
+    "fields": {
+        "name": "Ocean Mist",
+        "brand": "Aqua Fresh",
+        "description": "Clean aquatic fragrance with sea salt and water lily. Fresh as morning breeze. Light and refreshing daily wear.",
+        "image": "perfumes/5_PERFUME_1.jpg",
+        "scent_type": "aquatic",
+        "price_ksh": "400.00",
+        "price_usd": "3.00",
+        "price": "3.00",
+        "volume": "75ml",
+        "stock_quantity": 5,
+        "available": true,
+        "featured": false,
+        "created_at": "2025-11-08T15:16:16.735Z"
+    }
+},
+{
+    "model": "beautyhub.perfume",
+    "pk": 6,
+    "fields": {
+        "name": "Black Orchid",
+        "brand": "Luxe Collection",
+        "description": "Bold and mysterious unisex fragrance. Exotic blend of bergamot, pepper and sensual notes. For the woman who stands out. Premium quality.",
+        "image": "perfumes/6_Good_girl.jpg",
+        "scent_type": "floral",
+        "price_ksh": "700.00",
+        "price_usd": "5.00",
+        "price": "5.00",
+        "volume": "50ml",
+        "stock_quantity": 3,
+        "available": true,
+        "featured": true,
+        "created_at": "2025-11-08T15:16:16.756Z"
+    }
+},
+{
+    "model": "beautyhub.perfume",
+    "pk": 7,
+    "fields": {
+        "name": "Peach Blossom",
+        "brand": "Sweet Essence",
+        "description": "Fruity floral with juicy peach and cherry blossom. Fresh, young and cheerful. Perfect spring/summer scent.",
+        "image": "perfumes/7_PERFUME_2.jpg",
+        "scent_type": "fruity",
+        "price_ksh": "420.00",
+        "price_usd": "3.00",
+        "price": "3.00",
+        "volume": "50ml",
+        "stock_quantity": 4,
+        "available": true,
+        "featured": false,
+        "created_at": "2025-11-08T15:16:16.782Z"
+    }
+},
+{
+    "model": "beautyhub.perfume",
+    "pk": 8,
+    "fields": {
+        "name": "Lavender Fields",
+        "brand": "Natural Botanics",
+        "description": "Calming lavender with chamomile. Relaxing stress-relief fragrance. Perfect for study sessions and bedtime.",
+        "image": "perfumes/8_WhatsApp_Image_2025-11-08_at_10.47.51_82fd3808.jpg",
+        "scent_type": "herbal",
+        "price_ksh": "450.00",
+        "price_usd": "3.00",
+        "price": "3.00",
+        "volume": "100ml",
+        "stock_quantity": 5,
+        "available": true,
+        "featured": false,
+        "created_at": "2025-11-08T15:16:16.799Z"
+    }
+},
+{
+    "model": "beautyhub.perfume",
+    "pk": 9,
+    "fields": {
+        "name": "Cherry Kiss",
+        "brand": "Sweet Essence",
+        "description": "Sweet cherry fragrance with almond and creamy vanilla. Fun and flirty scent perfect for dates.",
+        "image": "perfumes/9_PERFUME_3.jpg",
+        "scent_type": "Fruity",
+        "price_ksh": "680.00",
+        "price_usd": "5.00",
+        "price": "5.00",
+        "volume": "50ml",
+        "stock_quantity": 2,
+        "available": true,
+        "featured": false,
+        "created_at": "2025-11-08T15:16:16.817Z"
+    }
+},
+{
+    "model": "beautyhub.perfume",
+    "pk": 10,
+    "fields": {
+        "name": "White Tea & Ginger",
+        "brand": "Fresh & Clean",
+        "description": "Crisp white tea with spicy ginger and jasmine. Clean, sophisticated everyday fragrance.",
+        "image": "perfumes/10_WhatsApp_Image_2025-11-08_at_10.47.52_130c4a82.jpg",
+        "scent_type": "Fresh",
+        "price_ksh": "720.00",
+        "price_usd": "6.00",
+        "price": "6.00",
+        "volume": "75ml",
+        "stock_quantity": 3,
+        "available": true,
+        "featured": false,
+        "created_at": "2025-11-08T15:16:16.835Z"
+    }
+},
+{
+    "model": "beautyhub.perfume",
+    "pk": 11,
+    "fields": {
+        "name": "Rose Petal Mist",
+        "brand": "Natural Botanics",
+        "description": "Classic rose fragrance with soft pink pepper. Timeless and feminine. A must-have in every girl's collection.",
+        "image": "perfumes/11_PERFUME.jpg",
+        "scent_type": "floral",
+        "price_ksh": "500.00",
+        "price_usd": "4.00",
+        "price": "4.00",
+        "volume": "50ml",
+        "stock_quantity": 5,
+        "available": true,
+        "featured": false,
+        "created_at": "2025-11-08T15:16:16.849Z"
+    }
+},
+{
+    "model": "beautyhub.perfume",
+    "pk": 12,
+    "fields": {
+        "name": "Coconut Paradise",
+        "brand": "Tropical Dreams",
+        "description": "Tropical vacation scent with pineapple, coconut and vanilla. Refill bottle - eco-friendly and economical. Sweet summer vibes all year!",
+        "image": "perfumes/12_PERFUME_6.jpg",
+        "scent_type": "gourmand",
+        "price_ksh": "350.00",
+        "price_usd": "3.00",
+        "price": "3.00",
+        "volume": "100ml",
+        "stock_quantity": 3,
+        "available": true,
+        "featured": false,
+        "created_at": "2025-11-08T15:16:16.866Z"
+    }
+},
+{
+    "model": "beautyhub.perfume",
+    "pk": 13,
+    "fields": {
+        "name": "Jasmine Night",
+        "brand": "Her Beauty Hub Signature",
+        "description": "Exotic white floral fragrance with jasmine and tuberose. Elegant and romantic. Perfect for evening events and dates.",
+        "image": "perfumes/13_SMART_COLLECTION.jpg",
+        "scent_type": "floral",
+        "price_ksh": "550.00",
+        "price_usd": "4.00",
+        "price": "4.00",
+        "volume": "50ml",
+        "stock_quantity": 4,
+        "available": true,
+        "featured": false,
+        "created_at": "2025-11-08T15:16:16.882Z"
+    }
+},
+{
+    "model": "beautyhub.perfume",
+    "pk": 14,
+    "fields": {
+        "name": "Strawberry Champagne",
+        "brand": "Celebration",
+        "description": "Sparkling strawberry with champagne bubbles. Festive and fun fragrance for special moments. Sweet and bubbly!",
+        "image": "perfumes/14_SAUVAGE_DIOR.jpg",
+        "scent_type": "fruity",
+        "price_ksh": "480.00",
+        "price_usd": "4.00",
+        "price": "4.00",
+        "volume": "75ml",
+        "stock_quantity": 2,
+        "available": true,
+        "featured": false,
+        "created_at": "2025-11-08T15:16:16.916Z"
+    }
+},
+{
+    "model": "beautyhub.perfume",
+    "pk": 15,
+    "fields": {
+        "name": "Sandalwood Silk",
+        "brand": "Oriental Luxe",
+        "description": "Creamy sandalwood with silk musk and amber. Sensual and warm.",
+        "image": "perfumes/15_PINAAPLE_REFIL.jpg",
+        "scent_type": "Woody",
+        "price_ksh": "700.00",
+        "price_usd": "5.40",
+        "price": "5.40",
+        "volume": "50ml",
+        "stock_quantity": 5,
+        "available": true,
+        "featured": true,
+        "created_at": "2025-11-08T15:16:16.935Z"
+    }
+},
+{
+    "model": "beautyhub.perfume",
+    "pk": 16,
+    "fields": {
+        "name": "Pear & Freesia",
+        "brand": "Fresh & Clean",
+        "description": "Crisp pear with white freesia and rose. Light and airy daytime fragrance.",
+        "image": "perfumes/16_PERFUME_3.jpg",
+        "scent_type": "Fruity",
+        "price_ksh": "680.00",
+        "price_usd": "5.20",
+        "price": "5.20",
+        "volume": "50ml",
+        "stock_quantity": 2,
+        "available": true,
+        "featured": true,
+        "created_at": "2025-11-08T15:16:16.952Z"
+    }
+},
+{
+    "model": "beautyhub.perfume",
+    "pk": 17,
+    "fields": {
+        "name": "Caramel Macchiato",
+        "brand": "Sweet Essence",
+        "description": "Rich coffee with caramel and cream. Delicious gourmand for coffee lovers.",
+        "image": "perfumes/17_PERFUME_1.jpg",
+        "scent_type": "Gourmand",
+        "price_ksh": "650.00",
+        "price_usd": "5.00",
+        "price": "5.00",
+        "volume": "50ml",
+        "stock_quantity": 3,
+        "available": true,
+        "featured": true,
+        "created_at": "2025-11-08T15:16:16.968Z"
+    }
+},
+{
+    "model": "beautyhub.perfume",
+    "pk": 18,
+    "fields": {
+        "name": "Lily of the Valley",
+        "brand": "Natural Botanics",
+        "description": "Delicate lily with green leaves and white musk. Fresh spring morning scent.",
+        "image": "perfumes/18_WhatsApp_Image_2025-11-08_at_10.47.52_130c4a82.jpg",
+        "scent_type": "Floral",
+        "price_ksh": "620.00",
+        "price_usd": "4.80",
+        "price": "4.80",
+        "volume": "75ml",
+        "stock_quantity": 5,
+        "available": true,
+        "featured": true,
+        "created_at": "2025-11-08T15:16:17.000Z"
+    }
+},
+{
+    "model": "beautyhub.perfume",
+    "pk": 19,
+    "fields": {
+        "name": "Spiced Plum",
+        "brand": "Oriental Luxe",
+        "description": "Dark plum with cinnamon and clove. Mysterious and exotic evening scent.",
+        "image": "perfumes/19_PURE_SEDUCTION.jpg",
+        "scent_type": "Oriental",
+        "price_ksh": "580.00",
+        "price_usd": "4.50",
+        "price": "4.50",
+        "volume": "50ml",
+        "stock_quantity": 3,
+        "available": true,
+        "featured": false,
+        "created_at": "2025-11-08T15:16:17.058Z"
+    }
+},
+{
+    "model": "beautyhub.perfume",
+    "pk": 20,
+    "fields": {
+        "name": "Cotton Candy Cloud",
+        "brand": "Sweet Essence",
+        "description": "Sweet cotton candy with raspberry and marshmallow. Playful and fun.",
+        "image": "perfumes/20_PERFUME.jpg",
+        "scent_type": "Gourmand",
+        "price_ksh": "550.00",
+        "price_usd": "4.20",
+        "price": "4.20",
+        "volume": "50ml",
+        "stock_quantity": 2,
+        "available": true,
+        "featured": false,
+        "created_at": "2025-11-08T15:16:17.091Z"
+    }
+},
+{
+    "model": "beautyhub.perfume",
+    "pk": 21,
+    "fields": {
+        "name": "Violet Dream",
+        "brand": "Her Beauty Hub Signature",
+        "description": "Soft violet with iris and powdery musk. Elegant and refined.",
+        "image": "perfumes/21_WhatsApp_Image_2025-11-08_at_10.47.51_82fd3808.jpg",
+        "scent_type": "Floral",
+        "price_ksh": "520.00",
+        "price_usd": "4.00",
+        "price": "4.00",
+        "volume": "50ml",
+        "stock_quantity": 3,
+        "available": true,
+        "featured": false,
+        "created_at": "2025-11-08T15:16:17.105Z"
+    }
+},
+{
+    "model": "beautyhub.perfume",
+    "pk": 22,
+    "fields": {
+        "name": "Mandarin Blossom",
+        "brand": "Citrus Collection",
+        "description": "Bright mandarin with orange blossom and neroli. Uplifting and energizing.",
+        "image": "perfumes/22_WhatsApp_Image_2025-11-08_at_10.47.53_c65f1484.jpg",
+        "scent_type": "Citrus",
+        "price_ksh": "480.00",
+        "price_usd": "3.70",
+        "price": "3.70",
+        "volume": "75ml",
+        "stock_quantity": 4,
+        "available": true,
+        "featured": false,
+        "created_at": "2025-11-08T15:16:17.124Z"
+    }
+},
+{
+    "model": "beautyhub.perfume",
+    "pk": 23,
+    "fields": {
+        "name": "Honey Almond",
+        "brand": "Natural Botanics",
+        "description": "Warm honey with sweet almond and oat milk. Comforting and nurturing.",
+        "image": "perfumes/23_SAUVAGE_DIOR.jpg",
+        "scent_type": "Gourmand",
+        "price_ksh": "450.00",
+        "price_usd": "3.50",
+        "price": "3.50",
+        "volume": "100ml",
+        "stock_quantity": 2,
+        "available": true,
+        "featured": false,
+        "created_at": "2025-11-08T15:16:17.150Z"
+    }
+},
+{
+    "model": "beautyhub.perfume",
+    "pk": 24,
+    "fields": {
+        "name": "Mystic Musk",
+        "brand": "Luxe Collection",
+        "description": "Sensual clean musk fragrance. Skin-scent that adapts to your body chemistry. Sophisticated and alluring. Long-lasting formula.",
+        "image": "perfumes/24_Good_girl.jpg",
+        "scent_type": "musky",
+        "price_ksh": "600.00",
+        "price_usd": "5.00",
+        "price": "5.00",
+        "volume": "50ml",
+        "stock_quantity": 3,
+        "available": true,
+        "featured": true,
+        "created_at": "2025-11-08T15:16:17.166Z"
+    }
+},
+{
+    "model": "beautyhub.perfume",
+    "pk": 25,
+    "fields": {
+        "name": "Raspberry Rose",
+        "brand": "Sweet Essence",
+        "description": "Tart raspberry with Bulgarian rose and praline. Sweet and romantic.",
+        "image": "perfumes/25_PERFUME_6.jpg",
+        "scent_type": "Fruity",
+        "price_ksh": "420.00",
+        "price_usd": "3.20",
+        "price": "3.20",
+        "volume": "50ml",
+        "stock_quantity": 2,
+        "available": true,
+        "featured": false,
+        "created_at": "2025-11-08T15:16:17.197Z"
+    }
+},
+{
+    "model": "beautyhub.perfume",
+    "pk": 26,
+    "fields": {
+        "name": "Gardenia Nights",
+        "brand": "Tropical Dreams",
+        "description": "Exotic gardenia with tiare flower and coconut. Tropical luxury.",
+        "image": "perfumes/26_PINAAPLE_REFIL.jpg",
+        "scent_type": "Floral",
+        "price_ksh": "380.00",
+        "price_usd": "2.90",
+        "price": "2.90",
+        "volume": "75ml",
+        "stock_quantity": 3,
+        "available": true,
+        "featured": false,
+        "created_at": "2025-11-08T15:16:17.214Z"
+    }
+},
+{
+    "model": "beautyhub.perfume",
+    "pk": 27,
+    "fields": {
+        "name": "Apple Spice",
+        "brand": "Autumn Collection",
+        "description": "Crisp apple with cinnamon and nutmeg. Cozy autumn fragrance.",
+        "image": "perfumes/27_DUNHILL.jpg",
+        "scent_type": "Fruity",
+        "price_ksh": "320.00",
+        "price_usd": "2.50",
+        "price": "2.50",
+        "volume": "50ml",
+        "stock_quantity": 5,
+        "available": true,
+        "featured": false,
+        "created_at": "2025-11-08T15:16:17.230Z"
+    }
+},
+{
+    "model": "beautyhub.perfume",
+    "pk": 28,
+    "fields": {
+        "name": "Pink Sugar",
+        "brand": "Sweet Essence",
+        "description": "Youthful sweet perfume with cotton candy, caramel and vanilla. Fun and playful scent loved by students. Budget-friendly treat!",
+        "image": "perfumes/28_PERFUME_5.jpg",
+        "scent_type": "gourmand",
+        "price_ksh": "400.00",
+        "price_usd": "3.00",
+        "price": "3.00",
+        "volume": "100ml",
+        "stock_quantity": 3,
+        "available": true,
+        "featured": false,
+        "created_at": "2025-11-08T15:16:17.251Z"
+    }
+},
+{
+    "model": "beautyhub.perfume",
+    "pk": 29,
+    "fields": {
+        "name": "Wild Berries",
+        "brand": "Natural Botanics",
+        "description": "Mixed berries with blackcurrant and musk. Fresh and fruity.",
+        "image": "perfumes/29_WhatsApp_Image_2025-11-08_at_10.47.53_c65f1484.jpg",
+        "scent_type": "Fruity",
+        "price_ksh": "280.00",
+        "price_usd": "2.20",
+        "price": "2.20",
+        "volume": "50ml",
+        "stock_quantity": 5,
+        "available": true,
+        "featured": false,
+        "created_at": "2025-11-08T15:16:17.269Z"
+    }
+},
+{
+    "model": "beautyhub.perfume",
+    "pk": 30,
+    "fields": {
+        "name": "Champagne Mist",
+        "brand": "Celebration",
+        "description": "Affordable luxury fragrance collection. Sparkling fruity notes with elegant floral heart. High quality at student-friendly price. Great value!",
+        "image": "perfumes/30_PERFUME_2.jpg",
+        "scent_type": "fresh",
+        "price_ksh": "300.00",
+        "price_usd": "2.00",
+        "price": "2.00",
+        "volume": "100ml",
+        "stock_quantity": 4,
+        "available": true,
+        "featured": false,
+        "created_at": "2025-11-08T15:16:17.282Z"
+    }
+},
+{
+    "model": "beautyhub.clothingitem",
+    "pk": 2,
+    "fields": {
+        "name": "High-Waisted Wide Leg Trousers",
+        "description": "Classic wide-leg trousers in black. High-waisted design elongates legs. Professional and chic.",
+        "image": "clothing/WhatsApp Image 2025-11-09 at 03.26.59_50aa36ce.jpg",
+        "category": "Bottoms",
+        "available_sizes": "S, M, L, XL",
+        "price_ksh": "900.00",
+        "price_usd": "7.00",
+        "price": "7.00",
+        "stock_quantity": 2,
+        "available": true,
+        "featured": true,
+        "created_at": "2025-11-08T15:16:17.315Z"
+    }
+},
+{
+    "model": "beautyhub.clothingitem",
+    "pk": 3,
+    "fields": {
+        "name": "Floral Maxi Dress - Summer Collection",
+        "description": "Flowing floral maxi dress perfect for summer. Lightweight fabric, adjustable straps, flattering waist tie.",
+        "image": "clothing/WhatsApp Image 2025-11-09 at 03.26.58_4d360e44.jpg",
+        "category": "Dresses",
+        "available_sizes": "S, M, L",
+        "price_ksh": "1000.00",
+        "price_usd": "8.00",
+        "price": "8.00",
+        "stock_quantity": 4,
+        "available": true,
+        "featured": true,
+        "created_at": "2025-11-08T15:16:17.335Z"
+    }
+},
+{
+    "model": "beautyhub.clothingitem",
+    "pk": 5,
+    "fields": {
+        "name": "Bodycon Midi Dress - Black",
+        "description": "Figure-hugging midi dress in classic black. Perfect for evening events. Stretchy fabric, elegant silhouette.",
+        "image": "clothing/WhatsApp Image 2025-11-09 at 03.25.42_8bc87426.jpg",
+        "category": "Dresses",
+        "available_sizes": "XS, S, M, L",
+        "price_ksh": "850.00",
+        "price_usd": "7.00",
+        "price": "7.00",
+        "stock_quantity": 5,
+        "available": true,
+        "featured": true,
+        "created_at": "2025-11-08T15:16:17.363Z"
+    }
+},
+{
+    "model": "beautyhub.clothingitem",
+    "pk": 26,
+    "fields": {
+        "name": "Chiffon Maxi Dress - Floral Print",
+        "description": "Dreamy chiffon maxi in vibrant floral print. Flowy, feminine, photo-ready.",
+        "image": "clothing/WhatsApp Image 2025-11-09 at 03.25.42_c0c3beee.jpg",
+        "category": "Dresses",
+        "available_sizes": "S, M, L",
+        "price_ksh": "950.00",
+        "price_usd": "7.00",
+        "price": "7.00",
+        "stock_quantity": 4,
+        "available": true,
+        "featured": true,
+        "created_at": "2025-11-08T15:16:17.748Z"
+    }
+},
+{
+    "model": "beautyhub.clothingitem",
+    "pk": 30,
+    "fields": {
+        "name": "Cocktail Dress - Little Black Dress",
+        "description": "Classic LBD with modern twist. Sweetheart neckline, fitted bodice. Every woman needs one.",
+        "image": "clothing/WhatsApp Image 2025-11-09 at 03.26.58_2841f3ba.jpg",
+        "category": "Dresses",
+        "available_sizes": "XS, S, M, L",
+        "price_ksh": "1100.00",
+        "price_usd": "8.00",
+        "price": "8.00",
+        "stock_quantity": 3,
+        "available": true,
+        "featured": true,
+        "created_at": "2025-11-08T15:16:17.815Z"
+    }
+},
+{
+    "model": "beautyhub.clothingitem",
+    "pk": 31,
+    "fields": {
+        "name": "sun dress",
+        "description": "sun dress",
+        "image": "clothing/traca_6.jpeg",
+        "category": "dress",
+        "available_sizes": "small",
+        "price_ksh": "400.00",
+        "price_usd": "3.90",
+        "price": "400.00",
+        "stock_quantity": 5,
+        "available": true,
+        "featured": true,
+        "created_at": "2025-11-08T15:37:52.014Z"
+    }
+},
+{
+    "model": "beautyhub.ordermessage",
+    "pk": 1,
+    "fields": {
+        "name": "Benson Kang'ethe maina",
+        "email": "momanyidennis077@gmail.com",
+        "phone": "0796465104",
+        "product_type": "Clothing",
+        "product_name": "sun dress",
+        "product_price_ksh": "400.00",
+        "quantity": 1,
+        "total_amount_ksh": "400.00",
+        "message": "cdsf",
+        "status": "completed",
+        "order_number": "HBH23142088",
+        "created_at": "2025-11-08T15:39:15.226Z"
+    }
+},
+{
+    "model": "beautyhub.ordermessage",
+    "pk": 2,
+    "fields": {
+        "name": "Benson Kang'ethe maina",
+        "email": "bennnymaish01@gmail.com",
+        "phone": "254796465104",
+        "product_type": "Hairstyle",
+        "product_name": "Triangle Box Braids",
+        "product_price_ksh": "900.00",
+        "quantity": 1,
+        "total_amount_ksh": "900.00",
+        "message": "ddsdsds",
+        "status": "pending",
+        "order_number": "HBH54179705",
+        "created_at": "2025-11-09T13:46:03.390Z"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 1,
+    "fields": {
+        "action_time": "2025-11-08T15:37:52.018Z",
+        "user": [
+            "admin"
+        ],
+        "content_type": [
+            "beautyhub",
+            "clothingitem"
+        ],
+        "object_id": "31",
+        "object_repr": "sun dress - KSH 400",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 2,
+    "fields": {
+        "action_time": "2025-11-09T09:23:06.024Z",
+        "user": [
+            "admin"
+        ],
+        "content_type": [
+            "beautyhub",
+            "hairstyle"
+        ],
+        "object_id": "34",
+        "object_repr": "Box Braids Medium Length - KSH 850.00",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"Image\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 3,
+    "fields": {
+        "action_time": "2025-11-09T09:23:35.574Z",
+        "user": [
+            "admin"
+        ],
+        "content_type": [
+            "beautyhub",
+            "hairstyle"
+        ],
+        "object_id": "36",
+        "object_repr": "Feed-In Cornrows Straight Back - KSH 600.00",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"Image\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 4,
+    "fields": {
+        "action_time": "2025-11-09T09:47:13.027Z",
+        "user": [
+            "admin"
+        ],
+        "content_type": [
+            "beautyhub",
+            "video"
+        ],
+        "object_id": "1",
+        "object_repr": "TOP CLASSS BRAIDS",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 5,
+    "fields": {
+        "action_time": "2025-11-09T17:27:25.485Z",
+        "user": [
+            "admin"
+        ],
+        "content_type": [
+            "beautyhub",
+            "ordermessage"
+        ],
+        "object_id": "1",
+        "object_repr": "#HBH23142088 - Benson Kang'ethe maina - Clothing: sun dress",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"Status\"]}}]"
+    }
+}
+]
