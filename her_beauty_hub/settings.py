@@ -15,7 +15,13 @@ SECRET_KEY = 'django-insecure-change-this-in-production-xyz123abc456def789'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+ALLOWED_HOSTS = [
+    '127.0.0.1', 
+    'localhost',
+    '.railway.app',  # Allow all Railway subdomains
+    'yamanote.proxy.rlwy.net',
+    '*'  # Allow all hosts (for Railway auto-generated domains)
+]
 
 
 # Application definition
@@ -33,6 +39,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # Static files for production
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -77,16 +84,29 @@ WSGI_APPLICATION = 'her_beauty_hub.wsgi.application'
 #     }
 # }
 
-# PostgreSQL (Production - ACTIVE NOW!)
+# PostgreSQL - LOCAL (for development)
+LOCAL_DB = {
+    'ENGINE': 'django.db.backends.postgresql',
+    'NAME': 'shiku_db',
+    'USER': 'postgres',
+    'PASSWORD': '7457@Benson',
+    'HOST': 'localhost',
+    'PORT': '5432',
+}
+
+# PostgreSQL - RAILWAY (for production hosting)
+RAILWAY_DB = {
+    'ENGINE': 'django.db.backends.postgresql',
+    'NAME': 'railway',
+    'USER': 'postgres',
+    'PASSWORD': 'UExYLWxaerRFXJtjSNScCTrQRgJQBQZJ',
+    'HOST': 'yamanote.proxy.rlwy.net',
+    'PORT': '27057',
+}
+
+# Active database (switch as needed)
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'shiku_db',                  # Your database name
-        'USER': 'postgres',                  # Your PostgreSQL username
-        'PASSWORD': '7457@Benson',           # Your PostgreSQL password
-        'HOST': 'localhost',                 # Database host (localhost for local)
-        'PORT': '5432',                      # PostgreSQL default port
-    }
+    'default': RAILWAY_DB  # 🚀 NOW USING RAILWAY!
 }
 
 
