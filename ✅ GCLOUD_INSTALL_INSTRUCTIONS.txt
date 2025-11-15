@@ -1,0 +1,67 @@
+📥 INSTALL GOOGLE CLOUD SDK - QUICK GUIDE
+═══════════════════════════════════════════════════════════════
+
+✅ CURRENT STATUS:
+───────────────────────────────────────────────────────────────
+❌ Google Cloud SDK is NOT installed
+✅ Download page opened in your browser
+
+📋 INSTALLATION STEPS:
+───────────────────────────────────────────────────────────────
+
+1️⃣ DOWNLOAD:
+   • Browser should have opened automatically
+   • Click "Download Google Cloud SDK"
+   • Choose "Windows 64-bit"
+   • Download the .exe installer
+
+2️⃣ INSTALL:
+   • Double-click the downloaded .exe file
+   • Follow the installation wizard
+   • ✅ IMPORTANT: Check "Run gcloud init" at the end
+   • Let it complete (takes 2-3 minutes)
+
+3️⃣ VERIFY:
+   • Close and reopen your terminal
+   • Run: gcloud --version
+   • Should show version information ✅
+
+4️⃣ INITIALIZE:
+   • Run: gcloud auth login
+   • Login with your Google account
+   • Run: gcloud config set project shiku-beuty-hub
+
+═══════════════════════════════════════════════════════════════
+
+🚀 AFTER INSTALLATION:
+───────────────────────────────────────────────────────────────
+
+Run these commands to set up:
+
+gcloud auth login
+gcloud config set project shiku-beuty-hub
+gcloud services enable run.googleapis.com
+
+Then continue with deployment:
+🚀 QUICK_DEPLOY.bat
+
+═══════════════════════════════════════════════════════════════
+
+📖 DETAILED GUIDE:
+───────────────────────────────────────────────────────────────
+
+See: INSTALL_GOOGLE_CLOUD_SDK.md
+
+═══════════════════════════════════════════════════════════════
+
+🆘 TROUBLESHOOTING:
+───────────────────────────────────────────────────────────────
+
+"gcloud not recognized" after install?
+→ Close and reopen terminal
+→ If still not working, restart computer
+
+Download link: https://cloud.google.com/sdk/docs/install
+
+═══════════════════════════════════════════════════════════════
+

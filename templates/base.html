@@ -485,22 +485,62 @@
         }
     </style>
     
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-storage-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics-compat.js"></script>
+    
+    <!-- Firebase Configuration -->
+    <script>
+        // Firebase Configuration for Shiku Beauty Hub
+        const firebaseConfig = {
+            apiKey: "AIzaSyBGJL9q7lCmSxI1JlL4NZ6ZqNehfGYxoaY",
+            authDomain: "shiku-beuty-hub.firebaseapp.com",
+            projectId: "shiku-beuty-hub",
+            storageBucket: "shiku-beuty-hub.firebasestorage.app",
+            messagingSenderId: "140804076783",
+            appId: "1:140804076783:web:caaac8f29154cebda3571a",
+            measurementId: "G-QQZ7R2QPV5"
+        };
+        
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        
+        // Make Firebase services globally available
+        const firebaseAuth = firebase.auth();
+        const firebaseStorage = firebase.storage();
+        const firebaseFirestore = firebase.firestore();
+        const firebaseAnalytics = firebase.analytics();
+        
+        // Firebase Analytics - Track page views
+        firebaseAnalytics.logEvent('page_view', {
+            page_title: document.title,
+            page_location: window.location.href
+        });
+        
+        console.log('🔥 Firebase initialized successfully!');
+    </script>
+    
     <!-- Mobile Menu Toggle Script -->
     <script>
         const mobileMenuButton = document.getElementById('mobile-menu-button');
         const mobileMenu = document.getElementById('mobile-menu');
         
-        mobileMenuButton.addEventListener('click', () => {
-            mobileMenu.classList.toggle('active');
-            const icon = mobileMenuButton.querySelector('i');
-            if (mobileMenu.classList.contains('active')) {
-                icon.classList.remove('fa-bars');
-                icon.classList.add('fa-times');
-            } else {
-                icon.classList.remove('fa-times');
-                icon.classList.add('fa-bars');
-            }
-        });
+        if (mobileMenuButton && mobileMenu) {
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('active');
+                const icon = mobileMenuButton.querySelector('i');
+                if (mobileMenu.classList.contains('active')) {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-times');
+                } else {
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
+            });
+        }
     </script>
     
     {% block extra_js %}{% endblock %}

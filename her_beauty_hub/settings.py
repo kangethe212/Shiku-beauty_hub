@@ -3,24 +3,39 @@ Django settings for Shiku Beauty Hub project.
 """
 
 from pathlib import Path
-import os
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-change-this-in-production-xyz123abc456def789')
+# Loads from .env file or environment variable
+SECRET_KEY = config('SECRET_KEY', default='django-insecure-change-this-in-production-xyz123abc456def789')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG', 'True') == 'True'
+# Loads from .env file or environment variable
+DEBUG = config('DEBUG', default=True, cast=bool)
 
 ALLOWED_HOSTS = [
     '127.0.0.1', 
     'localhost',
     '.railway.app',  # Allow all Railway subdomains
     'yamanote.proxy.rlwy.net',
-    '*'  # Allow all hosts (for Railway auto-generated domains)
+    '.web.app',  # Firebase Hosting default domain
+    '.firebaseapp.com',  # Firebase Hosting default domain
+    '*.run.app',  # Google Cloud Run domains
+    '*'  # Allow all hosts (for Railway and Firebase auto-generated domains)
+]
+
+# CSRF trusted origins for Firebase Hosting and Cloud Run
+CSRF_TRUSTED_ORIGINS = [
+    'https://*.web.app',
+    'https://*.firebaseapp.com',
+    'https://shiku-beuty-hub.web.app',  # Your Firebase domain
+    'https://shiku-beuty-hub.firebaseapp.com',  # Your Firebase domain
+    'https://*.run.app',
+    'https://*.railway.app',
 ]
 
 
@@ -88,11 +103,14 @@ WSGI_APPLICATION = 'her_beauty_hub.wsgi.application'
 import dj_database_url
 
 # Check if running on Railway (it sets DATABASE_URL env variable)
-if 'DATABASE_URL' in os.environ:
-    # Use Railway's DATABASE_URL with SSL and optimized settings
+# Also check .env file for DATABASE_URL
+DATABASE_URL = config('DATABASE_URL', default=None)
+
+if DATABASE_URL:
+    # Use DATABASE_URL with SSL and optimized settings
     DATABASES = {
         'default': dj_database_url.config(
-            default=os.environ.get('DATABASE_URL'),
+            default=DATABASE_URL,
             conn_max_age=60,  # Reduced from 600 to prevent stale connections
             conn_health_checks=True,
             ssl_require=True,
@@ -185,14 +203,14 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'bennymaish01@gmail.com'
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASSWORD', '')  # Safe fallback
+EMAIL_HOST_PASSWORD = config('EMAIL_PASSWORD', default='')  # Safe fallback
 DEFAULT_FROM_EMAIL = 'Shiku Beauty Hub <bennymaish01@gmail.com>'
 
 # Admin email for notifications
 ADMIN_EMAIL = 'bennymaish01@gmail.com'
 
 # Site URL for notifications
-SITE_URL = os.environ.get('SITE_URL', 'http://localhost:3000')
+SITE_URL = config('SITE_URL', default='http://localhost:3000')
 
 # ============================================================
 # INSTANT NOTIFICATION SETTINGS
@@ -204,21 +222,21 @@ OWNER_EMAIL = 'bennymaish01@gmail.com'  # Owner's email for notifications
 
 # Telegram Bot (RECOMMENDED - Free & Instant!)
 # Setup: Chat with @BotFather on Telegram to create bot
-TELEGRAM_BOT_TOKEN = os.environ.get('TELEGRAM_BOT_TOKEN', '')
-TELEGRAM_CHAT_ID = os.environ.get('TELEGRAM_CHAT_ID', '')
+TELEGRAM_BOT_TOKEN = config('TELEGRAM_BOT_TOKEN', default='')
+TELEGRAM_CHAT_ID = config('TELEGRAM_CHAT_ID', default='')
 
 # WhatsApp Business API (Optional - Requires paid service)
 # Option 1: Twilio (https://twilio.com/)
-TWILIO_ACCOUNT_SID = os.environ.get('TWILIO_ACCOUNT_SID', '')
-TWILIO_AUTH_TOKEN = os.environ.get('TWILIO_AUTH_TOKEN', '')
+TWILIO_ACCOUNT_SID = config('TWILIO_ACCOUNT_SID', default='')
+TWILIO_AUTH_TOKEN = config('TWILIO_AUTH_TOKEN', default='')
 TWILIO_WHATSAPP_NUMBER = 'whatsapp:+14155238886'
 
 # Option 2: Africa's Talking (Popular in Kenya)
-AFRICASTALKING_USERNAME = os.environ.get('AFRICASTALKING_USERNAME', '')
-AFRICASTALKING_API_KEY = os.environ.get('AFRICASTALKING_API_KEY', '')
+AFRICASTALKING_USERNAME = config('AFRICASTALKING_USERNAME', default='')
+AFRICASTALKING_API_KEY = config('AFRICASTALKING_API_KEY', default='')
 
 # Discord Webhook (Optional - Free!)
-DISCORD_WEBHOOK_URL = os.environ.get('DISCORD_WEBHOOK_URL', '')
+DISCORD_WEBHOOK_URL = config('DISCORD_WEBHOOK_URL', default='')
 
 # Date input format for booking
 DATE_INPUT_FORMATS = ['%Y-%m-%d', '%d/%m/%Y', '%d-%m-%Y']
