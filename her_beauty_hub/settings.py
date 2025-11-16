@@ -46,7 +46,7 @@ CSRF_TRUSTED_ORIGINS = [
 # Application definition
 
 INSTALLED_APPS = [
-    # 'jazzmin',  # Temporarily disabled for Railway deployment
+    'jazzmin',  # Beautiful admin interface
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -267,20 +267,120 @@ DATE_INPUT_FORMATS = ['%Y-%m-%d', '%d/%m/%Y', '%d-%m-%Y']
 # You can re-enable Jazzmin later once deployment is stable
 
 # JAZZMIN_SETTINGS = {
-#     # Title & Logo
-#     "site_title": "Shiku Beauty Hub",
-#     "site_header": "Shiku Beauty Hub 💎",
-#     "site_brand": "Shiku Beauty Hub",
-#     "site_logo": "logo-icon.svg",
-#     "login_logo": "logo.svg",
-#     "login_logo_dark": None,
-#     "site_logo_classes": "img-circle",
-#     "site_icon": "favicon.svg",
-#     # ... (all other settings)
-# }
+# ============================================================
+# JAZZMIN ADMIN INTERFACE CONFIGURATION
+# Beautiful admin panel matching website color theme
+# ============================================================
 
-# JAZZMIN_UI_TWEAKS = {
-#     "navbar_small_text": False,
-#     # ... (all other settings)
-# }
+JAZZMIN_SETTINGS = {
+    # Site title and branding
+    "site_title": "Shiku Beauty Hub",
+    "site_header": "Shiku Beauty Hub 💎",
+    "site_brand": "Shiku Beauty Hub",
+    "site_logo": "logo-icon.svg",
+    "login_logo": "logo.svg",
+    "login_logo_dark": None,
+    "site_logo_classes": "img-circle",
+    "site_icon": "favicon.svg",
+    
+    # Welcome message
+    "welcome_sign": "Welcome to Shiku Beauty Hub Admin",
+    "copyright": "Shiku Beauty Hub",
+    
+    # Theme colors - matching website color scheme
+    "theme": "default",  # We'll customize with CSS
+    "color_scheme": "light",
+    
+    # Top menu customization
+    "topmenu_links": [
+        {"name": "Home", "url": "admin:index", "permissions": ["auth.view_user"]},
+        {"name": "View Site", "url": "/", "new_window": True},
+    ],
+    
+    # Sidebar customization
+    "show_sidebar": True,
+    "navigation_expanded": True,
+    "hide_apps": [],
+    "hide_models": [],
+    
+    # Icons for models
+    "icons": {
+        "auth": "fas fa-users-cog",
+        "auth.user": "fas fa-user",
+        "auth.Group": "fas fa-users",
+        "beautyhub.BusinessInfo": "fas fa-building",
+        "beautyhub.Hairstyle": "fas fa-cut",
+        "beautyhub.Perfume": "fas fa-spray-can",
+        "beautyhub.ClothingItem": "fas fa-tshirt",
+        "beautyhub.GalleryItem": "fas fa-images",
+        "beautyhub.Testimonial": "fas fa-star",
+        "beautyhub.Video": "fas fa-video",
+        "beautyhub.Service": "fas fa-spa",
+        "beautyhub.Booking": "fas fa-calendar-check",
+        "beautyhub.ContactMessage": "fas fa-envelope",
+        "beautyhub.OrderMessage": "fas fa-shopping-cart",
+    },
+    
+    # Custom CSS for color theme
+    "custom_css": "admin/custom_admin.css",
+    "custom_js": None,
+    
+    # UI tweaks
+    "use_google_fonts_cdn": True,
+    "show_ui_builder": False,
+    
+    # Change view settings
+    "changeform_format": "horizontal_tabs",
+    "changeform_format_overrides": {
+        "auth.user": "collapsible",
+        "auth.group": "vertical_tabs",
+    },
+    
+    # Related modal
+    "related_modal_active": True,
+    
+    # Custom links
+    "custom_links": {
+        "beautyhub": [{
+            "name": "View Website",
+            "url": "/",
+            "icon": "fas fa-external-link-alt",
+            "new_window": True,
+        }]
+    },
+}
+
+# Jazzmin UI Tweaks - Custom styling
+JAZZMIN_UI_TWEAKS = {
+    "navbar_small_text": False,
+    "footer_small_text": False,
+    "body_small_text": False,
+    "brand_small_text": False,
+    "brand_colour": "navbar-pink",  # Custom color
+    "accent": "accent-pink",  # Custom accent
+    "navbar": "navbar-pink navbar-dark",  # Pink navbar
+    "no_navbar_border": False,
+    "navbar_fixed": True,
+    "layout_boxed": False,
+    "footer_fixed": False,
+    "sidebar_fixed": True,
+    "sidebar": "sidebar-dark-pink",  # Custom sidebar
+    "sidebar_nav_small_text": False,
+    "sidebar_disable_expand": False,
+    "sidebar_nav_child_indent": True,
+    "sidebar_nav_compact_style": False,
+    "sidebar_nav_legacy_style": False,
+    "sidebar_nav_flat_style": False,
+    "theme": "default",
+    "dark_mode_theme": None,
+    "button_classes": {
+        "primary": "btn-primary",
+        "secondary": "btn-secondary",
+        "info": "btn-info",
+        "warning": "btn-warning",
+        "danger": "btn-danger",
+        "success": "btn-success"
+    },
+    "actions_sticky_top": True
+}
 
