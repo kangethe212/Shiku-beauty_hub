@@ -35,6 +35,40 @@ else:
 # Collect static files
 run_command("python manage.py collectstatic --noinput", "Collecting static files")
 
+# Setup Maina as superadmin
+print("=" * 50)
+print("Setting up Maina superadmin...")
+print("=" * 50)
+try:
+    import django
+    django.setup()
+    from django.contrib.auth.models import User
+    
+    maina, created = User.objects.get_or_create(
+        username='Maina',
+        defaults={
+            'email': 'bennymaish01@gmail.com',
+            'is_superuser': True,
+            'is_staff': True,
+            'is_active': True,
+        }
+    )
+    maina.email = 'bennymaish01@gmail.com'
+    maina.is_superuser = True
+    maina.is_staff = True
+    maina.is_active = True
+    maina.set_password('Benny@123')
+    maina.save()
+    
+    if created:
+        print("✓ Created Maina superadmin")
+    else:
+        print("✓ Updated Maina superadmin")
+    print("  Username: Maina")
+    print("  Password: Benny@123")
+except Exception as e:
+    print(f"⚠ Warning: Could not setup Maina admin: {e}")
+
 print("=" * 50)
 print("Starting Gunicorn server...")
 print("=" * 50)
