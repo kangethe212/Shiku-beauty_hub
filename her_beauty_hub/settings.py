@@ -3,7 +3,9 @@ Django settings for Shiku Beauty Hub project.
 """
 
 from pathlib import Path
+import os
 from decouple import config
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -100,47 +102,11 @@ WSGI_APPLICATION = 'her_beauty_hub.wsgi.application'
 # }
 
 # Database configuration with Railway support
-import dj_database_url
+# dj_database_url already imported at top
 
-# Check if running on Railway (it sets DATABASE_URL env variable)
-# Also check .env file for DATABASE_URL
-DATABASE_URL = config('DATABASE_URL', default=None)
-
-if DATABASE_URL:
-    # Use DATABASE_URL with SSL and optimized settings
-    DATABASES = {
-        'default': dj_database_url.config(
-            default=DATABASE_URL,
-            conn_max_age=60,  # Reduced from 600 to prevent stale connections
-            conn_health_checks=True,
-            ssl_require=True,
-        )
-    }
-    # Add SSL and connection options for Railway PostgreSQL
-    DATABASES['default']['OPTIONS'] = {
-        'sslmode': 'require',
-        'connect_timeout': 10,
-        'options': '-c statement_timeout=30000'  # 30 second timeout
-    }
-    DATABASES['default']['CONN_MAX_AGE'] = 60
-else:
-    # Use Railway database directly (fallback)
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'railway',
-            'USER': 'postgres',
-            'PASSWORD': 'UExYLWxaerRFXJtjSNScCTrQRgJQBQZJ',
-            'HOST': 'yamanote.proxy.rlwy.net',
-            'PORT': '27057',
-            'CONN_MAX_AGE': 60,
-            'OPTIONS': {
-                'sslmode': 'require',
-                'connect_timeout': 10,
-                'options': '-c statement_timeout=30000'
-            }
-        }
-    }
+DATABASES = {
+    'default': dj_database_url.config(default=os.environ.get('DATABASE_URL'))
+}
 
 
 # Password validation
