@@ -104,13 +104,37 @@ WSGI_APPLICATION = 'her_beauty_hub.wsgi.application'
 # Database configuration with Railway support
 # dj_database_url already imported at top
 
-DATABASE_URL = os.environ.get('DATABASE_URL')
+# Railway sets DATABASE_URL automatically when PostgreSQL is added
+# Also check for PGDATABASE, PGHOST, etc. (Railway sometimes uses these)
+DATABASE_URL = (
+    os.environ.get('DATABASE_URL') or
+    os.environ.get('PGDATABASE') or
+    os.environ.get('POSTGRES_URL')
+)
 
+# Try to use PostgreSQL if DATABASE_URL is set
 if DATABASE_URL:
-    # Use PostgreSQL from Railway or environment variable
-    DATABASES = {
-        'default': dj_database_url.config(default=DATABASE_URL)
-    }
+    try:
+        # Use PostgreSQL from Railway or environment variable
+        DATABASES = {
+            'default': dj_database_url.config(
+                default=DATABASE_URL,
+                conn_max_age=600,
+                ssl_require=True
+            )
+        }
+        # Ensure we're using PostgreSQL
+        if 'postgres' not in DATABASES['default'].get('ENGINE', '').lower():
+            # If not PostgreSQL, fall back to SQLite
+            raise ValueError("Not a PostgreSQL database")
+    except Exception:
+        # If PostgreSQL config fails, use SQLite fallback
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.sqlite3',
+                'NAME': BASE_DIR / 'db.sqlite3',
+            }
+        }
 else:
     # Fallback to SQLite for local development
     DATABASES = {
