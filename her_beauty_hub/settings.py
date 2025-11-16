@@ -23,6 +23,7 @@ ALLOWED_HOSTS = [
     '127.0.0.1', 
     'localhost',
     '.railway.app',  # Allow all Railway subdomains
+    'shiku-beautyhub-production.up.railway.app',  # Your specific Railway domain
     'yamanote.proxy.rlwy.net',
     '.web.app',  # Firebase Hosting default domain
     '.firebaseapp.com',  # Firebase Hosting default domain
@@ -38,6 +39,7 @@ CSRF_TRUSTED_ORIGINS = [
     'https://shiku-beuty-hub.firebaseapp.com',  # Your Firebase domain
     'https://*.run.app',
     'https://*.railway.app',
+    'https://shiku-beautyhub-production.up.railway.app',  # Your specific Railway domain
 ]
 
 
