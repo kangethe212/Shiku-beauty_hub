@@ -188,19 +188,13 @@ STATICFILES_DIRS = [
 ]
 
 # WhiteNoise configuration for Railway
-# Use CompressedManifestStaticFilesStorage for production (Railway)
-# This provides compression and cache busting
-# If manifest file issues occur, fall back to CompressedStaticFilesStorage
-if os.path.exists(BASE_DIR / 'staticfiles' / 'staticfiles.json'):
-    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-else:
-    # Fallback if manifest doesn't exist yet
-    STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+# Use CompressedStaticFilesStorage to avoid manifest file issues
+# This provides compression without strict manifest checking for missing .map files
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
 # WhiteNoise settings for better static file serving
 WHITENOISE_USE_FINDERS = False  # Don't use finders in production
 WHITENOISE_AUTOREFRESH = False  # Don't auto-refresh in production (faster)
-WHITENOISE_MANIFEST_STRICT = False  # Don't fail if manifest file is missing
 WHITENOISE_ROOT = BASE_DIR / 'staticfiles'  # Explicitly set static root for WhiteNoise
 
 # Media files (User uploaded content)
