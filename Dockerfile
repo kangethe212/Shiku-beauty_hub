@@ -38,5 +38,5 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
     CMD python -c "import urllib.request; urllib.request.urlopen('http://localhost:$PORT/health/')"
 
 # Run Gunicorn
-CMD exec gunicorn her_beauty_hub.wsgi:application --bind 0.0.0.0:$PORT --workers 2 --threads 2 --timeout 60 --max-requests 1000 --max-requests-jitter 50
+CMD sh -c "gunicorn her_beauty_hub.wsgi:application --bind 0.0.0.0:$PORT"
 
