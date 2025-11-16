@@ -12,8 +12,10 @@ urlpatterns = [
 ]
 
 # Serve media files in development
+# Note: WhiteNoise handles static files in production, so we only add this in DEBUG mode
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    # Static files are handled by WhiteNoise in production, but we add this for local dev
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 # Customize admin site
