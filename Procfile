@@ -1,1 +1,1 @@
-web: gunicorn her_beauty_hub.wsgi:application --bind 0.0.0.0:$PORT
+web: gunicorn shiku_salon.wsgi --bind 0.0.0.0:$PORT
