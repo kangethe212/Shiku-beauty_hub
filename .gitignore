@@ -24,6 +24,12 @@ wheels/
 local_settings.py
 db.sqlite3
 db.sqlite3-journal
+/media
+/staticfiles
+
+# Data exports
+railway_data_export.json
+*_data_export.json
 
 
 
