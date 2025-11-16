@@ -7,6 +7,6 @@
     "numReplicas": 1,
     "restartPolicyType": "ON_FAILURE",
     "restartPolicyMaxRetries": 10,
-    "startCommand": "gunicorn her_beauty_hub.wsgi:application --bind 0.0.0.0:$PORT"
+    "startCommand": "python start.py"
   }
 }
