@@ -108,8 +108,10 @@ WSGI_APPLICATION = 'her_beauty_hub.wsgi.application'
 
 # Railway sets DATABASE_URL automatically when PostgreSQL is added
 # Also check for PGDATABASE, PGHOST, etc. (Railway sometimes uses these)
+# Railway provides DATABASE_URL for services linked to PostgreSQL
 DATABASE_URL = (
     os.environ.get('DATABASE_URL') or
+    os.environ.get('DATABASE_PUBLIC_URL') or  # Railway public URL
     os.environ.get('PGDATABASE') or
     os.environ.get('POSTGRES_URL')
 )
@@ -118,19 +120,25 @@ DATABASE_URL = (
 if DATABASE_URL:
     try:
         # Use PostgreSQL from Railway or environment variable
+        # Railway internal connections don't require SSL, external ones do
+        db_config = dj_database_url.config(
+            default=DATABASE_URL,
+            conn_max_age=600
+        )
+        # Only require SSL for external connections (not Railway internal)
+        if 'railway.internal' not in DATABASE_URL:
+            db_config['OPTIONS'] = {'sslmode': 'require'}
+        
         DATABASES = {
-            'default': dj_database_url.config(
-                default=DATABASE_URL,
-                conn_max_age=600,
-                ssl_require=True
-            )
+            'default': db_config
         }
         # Ensure we're using PostgreSQL
         if 'postgres' not in DATABASES['default'].get('ENGINE', '').lower():
             # If not PostgreSQL, fall back to SQLite
             raise ValueError("Not a PostgreSQL database")
-    except Exception:
+    except Exception as e:
         # If PostgreSQL config fails, use SQLite fallback
+        print(f"Warning: PostgreSQL config failed ({e}), using SQLite fallback")
         DATABASES = {
             'default': {
                 'ENGINE': 'django.db.backends.sqlite3',
