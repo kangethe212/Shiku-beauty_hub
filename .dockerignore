@@ -28,8 +28,7 @@ wheels/
 local_settings.py
 db.sqlite3
 db.sqlite3-journal
-/media
-/staticfiles
+
 
 # IDE
 .vscode/
@@ -67,7 +66,7 @@ runtime.txt
 
 # Temporary files
 *.bat
-*.html
+
 *.txt
 !requirements.txt
 

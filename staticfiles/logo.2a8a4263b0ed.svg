@@ -1,0 +1,53 @@
+<svg width="200" height="80" viewBox="0 0 200 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Beautiful gradient definitions -->
+  <defs>
+    <linearGradient id="brandGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FF6B9D;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#C77DFF;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FFD700;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="goldShine" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#FFD700;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#FFE44D;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FFD700;stop-opacity:1" />
+    </linearGradient>
+    
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Decorative circle elements -->
+  <circle cx="20" cy="15" r="8" fill="url(#brandGradient)" opacity="0.6"/>
+  <circle cx="180" cy="65" r="6" fill="#FFD700" opacity="0.5"/>
+  <circle cx="185" cy="20" r="5" fill="#FF6B9D" opacity="0.4"/>
+  
+  <!-- Elegant S monogram in decorative circle -->
+  <circle cx="25" cy="40" r="22" fill="url(#brandGradient)" filter="url(#glow)"/>
+  <text x="25" y="50" font-family="'Playfair Display', serif" font-size="32" font-weight="700" fill="white" text-anchor="middle">S</text>
+  
+  <!-- Brand name with elegant typography -->
+  <text x="55" y="35" font-family="'Playfair Display', serif" font-size="24" font-weight="700" fill="url(#brandGradient)">
+    Shiku
+  </text>
+  
+  <text x="55" y="55" font-family="'Inter', sans-serif" font-size="16" font-weight="600" fill="#6B7280" letter-spacing="2">
+    BEAUTY HUB
+  </text>
+  
+  <!-- Decorative sparkles -->
+  <circle cx="115" cy="25" r="2" fill="#FFD700"/>
+  <circle cx="120" cy="22" r="1.5" fill="#FF6B9D"/>
+  <circle cx="110" cy="28" r="1" fill="#C77DFF"/>
+  
+  <!-- Tagline -->
+  <text x="55" y="70" font-family="'Inter', sans-serif" font-size="9" font-weight="400" fill="#9CA3AF" font-style="italic">
+    Glow • Style • Confidence
+  </text>
+</svg>
+
