@@ -189,7 +189,6 @@ STATICFILES_DIRS = [
 # Use CompressedManifestStaticFilesStorage for production (Railway)
 # This provides compression and cache busting
 # If manifest file issues occur, fall back to CompressedStaticFilesStorage
-import os
 if os.path.exists(BASE_DIR / 'staticfiles' / 'staticfiles.json'):
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 else:
