@@ -11,11 +11,14 @@ urlpatterns = [
     path('', include('beautyhub.urls')),
 ]
 
-# Serve media files in development
-# Note: WhiteNoise handles static files in production, so we only add this in DEBUG mode
+# Serve media files (user uploaded content)
+# Always serve media files - needed for production on Railway
+# Note: For high-traffic sites, consider using cloud storage (AWS S3, Cloudinary, etc.)
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+# Serve static files in development only
+# WhiteNoise handles static files in production
 if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-    # Static files are handled by WhiteNoise in production, but we add this for local dev
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 # Customize admin site
