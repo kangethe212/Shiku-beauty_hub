@@ -41,6 +41,7 @@ print("Setting up Maina superadmin...")
 print("=" * 50)
 try:
     import django
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'her_beauty_hub.settings')
     django.setup()
     from django.contrib.auth.models import User
     
