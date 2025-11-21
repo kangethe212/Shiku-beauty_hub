@@ -75,15 +75,25 @@ print("Starting Gunicorn server...")
 print("=" * 50)
 
 # Start Gunicorn
+# Optimized for Railway free tier - using minimal resources
 port = os.environ.get('PORT', '8000')
-cmd = [
+# Use 1 worker for free tier (reduces memory usage)
+# Use threads for better concurrency with less memory
+workers = int(os.environ.get('WEB_CONCURRENCY', '1'))
+threads = int(os.environ.get('THREADS', '2'))
+gunicorn_cmd = [
     'gunicorn',
     'her_beauty_hub.wsgi:application',
     '--bind', f'0.0.0.0:{port}',
-    '--workers', '2',
-    '--threads', '2',
-    '--timeout', '60'
+    '--workers', str(workers),
+    '--threads', str(threads),
+    '--timeout', '60',
+    '--worker-class', 'gthread',  # Use threads instead of processes (less memory)
+    '--worker-connections', '1000',
+    '--max-requests', '1000',  # Restart workers after 1000 requests (prevent memory leaks)
+    '--max-requests-jitter', '50',
+    '--preload'  # Preload app for faster startup
 ]
 
-sys.exit(subprocess.call(cmd))
+sys.exit(subprocess.call(gunicorn_cmd))
 
